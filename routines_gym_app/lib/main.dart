@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
-import 'package:routines_gym_app/presentation/screens/login_screen.dart';
 import 'package:routines_gym_app/presentation/screens/welcome_screen.dart';
 
 void main() => runApp(const MyApp());
