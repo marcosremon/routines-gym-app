@@ -1,7 +1,7 @@
 import 'package:routines_gym_app/application/data_transfer_object/entities/split_day_dto.dart';
-import 'package:routines_gym_app/transversal/common/base_response_json.dart';
+import 'package:routines_gym_app/transversal/common/base_response.dart';
 
-class GetAllUserSplitsResponse extends BaseResponseJson {
+class GetAllUserSplitsResponse extends BaseResponse {
   List<SplitDayDTO> splitDays;
 
   GetAllUserSplitsResponse({

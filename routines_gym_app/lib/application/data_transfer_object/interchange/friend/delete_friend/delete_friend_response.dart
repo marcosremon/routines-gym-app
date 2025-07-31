@@ -1,6 +1,6 @@
-import 'package:routines_gym_app/transversal/common/base_response_json.dart';
+import 'package:routines_gym_app/transversal/common/base_response.dart';
 
-class DeleteFriendResponse extends BaseResponseJson {
+class DeleteFriendResponse extends BaseResponse {
   DeleteFriendResponse({
     required bool success,
     required String message,

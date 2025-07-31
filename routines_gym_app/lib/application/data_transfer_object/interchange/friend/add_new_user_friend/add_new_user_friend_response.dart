@@ -1,6 +1,6 @@
-import 'package:routines_gym_app/transversal/common/base_response_json.dart';
+import 'package:routines_gym_app/transversal/common/base_response.dart';
 
-class AddNewUserFriendResponse extends BaseResponseJson {
+class AddNewUserFriendResponse extends BaseResponse {
   int friendId;
 
   AddNewUserFriendResponse({

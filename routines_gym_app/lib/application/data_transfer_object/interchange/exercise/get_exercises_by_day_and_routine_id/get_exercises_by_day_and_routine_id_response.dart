@@ -1,15 +1,15 @@
 import 'package:routines_gym_app/application/data_transfer_object/entities/exercise_dto.dart';
-import 'package:routines_gym_app/transversal/common/base_response_json.dart';
-import 'package:routines_gym_app/transversal/common/response_codes_json.dart';
+import 'package:routines_gym_app/transversal/common/base_response.dart';
+import 'package:routines_gym_app/transversal/common/response_codes.dart';
 
-class GetExercisesByDayAndRoutineIdResponse extends BaseResponseJson {
+class GetExercisesByDayAndRoutineIdResponse extends BaseResponse {
   List<ExerciseDTO> exercises;
   Map<int, List<String>> pastProgress;
 
   GetExercisesByDayAndRoutineIdResponse({
     this.exercises = const [],
     this.pastProgress = const {},
-    super.responseCodeJson,
+    super.responseCode,
     super.isSuccess,
     super.message,
   });
@@ -27,8 +27,8 @@ class GetExercisesByDayAndRoutineIdResponse extends BaseResponseJson {
             ),
           ) ??
           {},
-      responseCodeJson: json['responseCodeJson'] != null
-          ? ResponseCodesJson.fromValue(json['responseCodeJson'])
+      responseCode: json['responseCode'] != null
+          ? ResponseCodes.fromValue(json['responseCode'])
           : null,
       isSuccess: json['isSuccess'] ?? false,
       message: json['message'],
@@ -41,7 +41,7 @@ class GetExercisesByDayAndRoutineIdResponse extends BaseResponseJson {
         'pastProgress': pastProgress.map(
           (key, value) => MapEntry(key.toString(), value),
         ),
-        'responseCodeJson': responseCodeJson?.value,
+        'responseCode': responseCode?.value,
         'isSuccess': isSuccess,
         'message': message,
       };

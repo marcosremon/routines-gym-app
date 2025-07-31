@@ -1,7 +1,7 @@
 import 'package:routines_gym_app/application/data_transfer_object/entities/user_dto.dart';
-import 'package:routines_gym_app/transversal/common/base_response_json.dart';
+import 'package:routines_gym_app/transversal/common/base_response.dart';
 
-class UpdateUserResponse extends BaseResponseJson {
+class UpdateUserResponse extends BaseResponse {
   UserDTO? userDTO;
 
   UpdateUserResponse({

@@ -1,13 +1,13 @@
 import 'package:routines_gym_app/application/data_transfer_object/entities/user_dto.dart';
-import 'package:routines_gym_app/transversal/common/base_response_json.dart';
-import 'package:routines_gym_app/transversal/common/response_codes_json.dart';
+import 'package:routines_gym_app/transversal/common/base_response.dart';
+import 'package:routines_gym_app/transversal/common/response_codes.dart';
 
-class AddExerciseAddExerciseProgressResponse extends BaseResponseJson {
+class AddExerciseAddExerciseProgressResponse extends BaseResponse {
   UserDTO? userDTO;
 
   AddExerciseAddExerciseProgressResponse({
     this.userDTO,
-    super.responseCodeJson,
+    super.responseCode,
     super.isSuccess,
     super.message,
   });
@@ -17,8 +17,8 @@ class AddExerciseAddExerciseProgressResponse extends BaseResponseJson {
       userDTO: json['userDTO'] != null
           ? UserDTO.fromJson(json['userDTO'])
           : null,
-      responseCodeJson: json['responseCodeJson'] != null
-          ? ResponseCodesJson.fromValue(json['responseCodeJson'])
+      responseCode: json['responseCode'] != null
+          ? ResponseCodes.fromValue(json['responseCode'])
           : null,
       isSuccess: json['isSuccess'] ?? false,
       message: json['message'],
@@ -28,7 +28,7 @@ class AddExerciseAddExerciseProgressResponse extends BaseResponseJson {
   @override
   Map<String, dynamic> toJson() => {
         'userDTO': userDTO?.toJson(),
-        'responseCodeJson': responseCodeJson?.value,
+        'responseCode': responseCode?.value,
         'isSuccess': isSuccess,
         'message': message,
       };

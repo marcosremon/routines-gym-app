@@ -1,6 +1,6 @@
-import 'package:routines_gym_app/transversal/common/base_response_json.dart';
+import 'package:routines_gym_app/transversal/common/base_response.dart';
 
-class CreateNewPasswordResponse extends BaseResponseJson {
+class CreateNewPasswordResponse extends BaseResponse {
   int userId;
 
   CreateNewPasswordResponse({

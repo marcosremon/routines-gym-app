@@ -1,6 +1,6 @@
-import 'package:routines_gym_app/transversal/common/base_response_json.dart';
+import 'package:routines_gym_app/transversal/common/base_response.dart';
 
-class DeleteUserResponse extends BaseResponseJson {
+class DeleteUserResponse extends BaseResponse {
   int userId;
 
   DeleteUserResponse({

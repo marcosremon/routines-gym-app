@@ -1,6 +1,6 @@
-import 'package:routines_gym_app/transversal/common/base_response_json.dart';
+import 'package:routines_gym_app/transversal/common/base_response.dart';
 
-class CreateAdminResponse extends BaseResponseJson {
+class CreateAdminResponse extends BaseResponse {
   CreateAdminResponse({
     required super.isSuccess,
     required String super.message,

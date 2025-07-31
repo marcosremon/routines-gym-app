@@ -1,7 +1,7 @@
 import 'package:routines_gym_app/application/data_transfer_object/entities/routine_dto.dart';
-import 'package:routines_gym_app/transversal/common/base_response_json.dart';
+import 'package:routines_gym_app/transversal/common/base_response.dart';
 
-class GetAllUserRoutinesResponse extends BaseResponseJson {
+class GetAllUserRoutinesResponse extends BaseResponse {
   List<RoutineDTO> routines;
 
   GetAllUserRoutinesResponse({
