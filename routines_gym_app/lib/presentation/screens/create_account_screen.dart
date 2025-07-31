@@ -31,16 +31,14 @@ class CreateAccountScreen extends StatelessWidget {
       backgroundColor: colorThemes[9], // white
       body: Stack(
         children: [
-
           const TopRightCircle(),
           const BottomLeftCircle(),
-          
           Center(
             child: SizedBox(
               width: 390,
               child: Column(
                 children: [
-                  const SizedBox(height: 105),
+                  const SizedBox(height: 105), // Placeholder for logo or image
                   Expanded(
                     child: SingleChildScrollView(
                       child: Padding(
