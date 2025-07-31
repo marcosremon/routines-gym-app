@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     //     ),
     //   ],
       return MaterialApp(
-        title: 'yes no app',
+        title: 'Routines Gym App',
         debugShowCheckedModeBanner: false,
         theme: AppTheme(selectedColor: 7).theme(),
         home: Scaffold(
