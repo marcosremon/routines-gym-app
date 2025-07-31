@@ -1,3 +1,4 @@
+import 'package:routines_gym_app/application/data_transfer_object/entities/day_info_dto.dart';
 import 'package:routines_gym_app/transversal/common/base_response_json.dart';
 
 class GetRoutineSplitsResponseJson extends BaseResponseJson {

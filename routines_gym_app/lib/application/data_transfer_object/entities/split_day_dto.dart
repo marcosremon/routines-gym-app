@@ -1,4 +1,4 @@
-import 'package:routines_gym_app/application/data_transfer_object/exercise_dto.dart';
+import 'package:routines_gym_app/application/data_transfer_object/entities/exercise_dto.dart';
 import 'package:routines_gym_app/domain/model/enums/week_day.dart';
 
 class SplitDayDTO {

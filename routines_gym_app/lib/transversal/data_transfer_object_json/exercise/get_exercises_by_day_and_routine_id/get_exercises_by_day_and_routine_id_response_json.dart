@@ -1,4 +1,4 @@
-import 'package:routines_gym_app/application/data_transfer_object/exercise_dto.dart';
+import 'package:routines_gym_app/application/data_transfer_object/entities/exercise_dto.dart';
 import 'package:routines_gym_app/transversal/common/base_response_json.dart';
 import 'package:routines_gym_app/transversal/common/response_codes_json.dart';
 

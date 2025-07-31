@@ -1,4 +1,4 @@
-import 'package:routines_gym_app/application/data_transfer_object/split_day_dto.dart';
+import 'package:routines_gym_app/application/data_transfer_object/entities/split_day_dto.dart';
 
 class UpdateRoutineRequestJson {
   int? routineId;
