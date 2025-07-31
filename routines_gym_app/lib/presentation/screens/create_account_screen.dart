@@ -18,8 +18,10 @@ class CreateAccountScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
+
           const TopRightCircle(),
           const BottomLeftCircle(),
+          
           Center(
             child: SizedBox(
               width: 390,
@@ -47,32 +49,9 @@ class CreateAccountScreen extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 25),
-                            CustomTextField(
-                              hintText: 'DNI',
-                              icon: Icons.email_outlined,
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                            const SizedBox(height: 12),
-                            CustomTextField(
-                              hintText: 'Username',
-                              icon: Icons.email_outlined,
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                            const SizedBox(height: 12),
-                            CustomTextField(
-                              hintText: 'Email',
-                              icon: Icons.email_outlined,
-                              keyboardType: TextInputType.emailAddress,
-                            ),
-                            const SizedBox(height: 12),
-                            CustomPasswordField(
-                              hintText: 'Password',
-                            ),
-                            const SizedBox(height: 12),
-                            CustomPasswordField(
-                              hintText: 'Confirm Password',
-                            ),
-                            const SizedBox(height: 25),
+
+                            _TextFields(),
+
                             PrimaryButton(
                               text: 'Sing Up',
                               onPressed: () {
@@ -84,6 +63,7 @@ class CreateAccountScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  
                   _AlreadyHaveAccount(primaryColor: primaryColor),
                 ],
               ),
@@ -91,6 +71,46 @@ class CreateAccountScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _TextFields extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomTextField(
+          hintText: 'DNI',
+          icon: Icons.email_outlined,
+          keyboardType: TextInputType.emailAddress,
+        ),
+        const SizedBox(height: 12),
+        
+        CustomTextField(
+          hintText: 'Username',
+          icon: Icons.email_outlined,
+          keyboardType: TextInputType.emailAddress,
+        ),
+        const SizedBox(height: 12),
+        
+        CustomTextField(
+          hintText: 'Email',
+          icon: Icons.email_outlined,
+          keyboardType: TextInputType.emailAddress,
+        ),
+        const SizedBox(height: 12),
+    
+        CustomPasswordField(
+          hintText: 'Password',
+        ),
+        const SizedBox(height: 12),
+    
+        CustomPasswordField(
+          hintText: 'Confirm Password',
+        ),
+        const SizedBox(height: 25),
+      ],
     );
   }
 }
