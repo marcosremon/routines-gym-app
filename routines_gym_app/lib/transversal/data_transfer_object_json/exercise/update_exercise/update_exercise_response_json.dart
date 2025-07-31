@@ -1,20 +1,16 @@
+import 'package:routines_gym_app/application/data_transfer_object/user_dto.dart';
 import 'package:routines_gym_app/transversal/common/base_response_json.dart';
 import 'package:routines_gym_app/transversal/common/response_codes_json.dart';
-import 'package:routines_gym_app/application/data_transfer_object/entity/user_dto.dart';
 
 class UpdateExerciseResponseJson extends BaseResponseJson {
   UserDTO? userDTO;
 
   UpdateExerciseResponseJson({
     this.userDTO,
-    ResponseCodesJson? responseCodeJson,
-    bool isSuccess = false,
-    String? message,
-  }) : super(
-          responseCodeJson: responseCodeJson,
-          isSuccess: isSuccess,
-          message: message,
-        );
+    super.responseCodeJson,
+    super.isSuccess,
+    super.message,
+  });
 
   factory UpdateExerciseResponseJson.fromJson(Map<String, dynamic> json) {
     return UpdateExerciseResponseJson(
