@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/screens/create_account_screen.dart';
 import 'package:routines_gym_app/presentation/screens/login_screen.dart';
 import 'package:routines_gym_app/presentation/widgets/buttons/primary_button.dart';
-import 'package:routines_gym_app/presentation/widgets/login_circles/top_right_circle.dart';
+import 'package:routines_gym_app/presentation/widgets/decoration_background_circles/top_right_circle.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -12,7 +13,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color primaryColor = Theme.of(context).colorScheme.primary;
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: colorThemes[15], // grey 100
       body: Center(
         child: Stack(
           children: [
@@ -32,10 +33,10 @@ class WelcomeScreen extends StatelessWidget {
                         child: Text(
                           'Welcome!',
                           style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
+                            textStyle: TextStyle(
                               fontSize: 40,
                               fontWeight: FontWeight.w800,
-                              color: Colors.black,
+                              color: colorThemes[10], // black
                             ),
                           ),
                         ),
@@ -64,7 +65,7 @@ class WelcomeScreen extends StatelessWidget {
                               textAlign: TextAlign.center,
                               text: TextSpan(
                                 text: 'Already have an account? ',
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(color: colorThemes[13]), // grey
                                 children: [
                                   TextSpan(
                                     text: 'Sign in',

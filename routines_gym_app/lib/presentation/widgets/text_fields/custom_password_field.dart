@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 
 class CustomPasswordField extends StatefulWidget {
   final TextEditingController? controller;
@@ -32,7 +33,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
       obscureText: _obscureText,
       keyboardType: TextInputType.visiblePassword,
        style: TextStyle(
-        color: Colors.grey[700],
+        color: colorThemes[14], // grey 700
         fontWeight: FontWeight.w500,
       ),
       decoration: InputDecoration(
@@ -41,24 +42,24 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
         suffixIcon: IconButton(
           icon: Icon(
             _obscureText ? Icons.visibility_off : Icons.visibility,
-            color: Colors.grey[600],
+            color: colorThemes[11], // grey 600
           ),
           onPressed: _toggleVisibility,
         ),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: colorThemes[9], // white
         contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(
-            color: Color(0xFFCCCCCC),
+          borderSide: BorderSide(
+            color: colorThemes[12], // grey 400
             width: 1.5,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(
-            color: Color(0xFFCCCCCC),
+          borderSide: BorderSide(
+            color: colorThemes[12], // grey 400
             width: 1.5,
           ),
         ),

@@ -5,8 +5,8 @@ class CreateUserResponseJson extends BaseResponseJson {
   UserDTO? userDTO;
 
   CreateUserResponseJson({
-    required super.isSuccess,
-    required String super.message,
+    super.isSuccess,
+    super.message,
     this.userDTO,
   });
 

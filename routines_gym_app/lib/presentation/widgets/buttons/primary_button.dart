@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;
@@ -33,11 +34,11 @@ class PrimaryButton extends StatelessWidget {
           curve: Curves.easeInOut,
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15, // slightly smaller
               fontWeight: FontWeight.w600,
               letterSpacing: 1.1,
-              color: Colors.white,
+              color: colorThemes[9], // white
             ),
           ),
         ),

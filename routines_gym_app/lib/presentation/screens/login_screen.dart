@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/screens/create_account_screen.dart';
 import 'package:routines_gym_app/presentation/widgets/buttons/primary_button.dart';
-import 'package:routines_gym_app/presentation/widgets/login_circles/bottom_left_circle.dart';
-import 'package:routines_gym_app/presentation/widgets/login_circles/top_right_circle.dart';
+import 'package:routines_gym_app/presentation/widgets/decoration_background_circles/bottom_left_circle.dart';
+import 'package:routines_gym_app/presentation/widgets/decoration_background_circles/top_right_circle.dart';
 import 'package:routines_gym_app/presentation/widgets/text_fields/custom_password_field.dart';
 import 'package:routines_gym_app/presentation/widgets/text_fields/custom_text_field.dart';
 
@@ -18,7 +19,7 @@ class LoginScreen extends StatelessWidget {
     final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorThemes[9], // white background
       body: Stack(
         children: [
           const TopRightCircle(),
@@ -46,7 +47,7 @@ class LoginScreen extends StatelessWidget {
                                     style: GoogleFonts.poppins(
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+                                      color: colorThemes[10], // black
                                     ),
                                   ),
                                   const SizedBox(height: 10),
@@ -55,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                                     'Please sign in to continue.',
                                     style: GoogleFonts.poppins(
                                       fontSize: 14,
-                                      color: Colors.grey[600],
+                                      color: colorThemes[11], // grey 600
                                     ),
                                   ),
                                 ],
@@ -143,7 +144,7 @@ class _AlreadyHaveAccount extends StatelessWidget {
             "¿No tienes cuenta? ",
             style: GoogleFonts.poppins(
               fontSize: 14,
-              color: Colors.grey[600],
+              color: colorThemes[11], // grey 600
             ),
           ),
           GestureDetector(
@@ -177,7 +178,7 @@ class _DividerOrBar extends StatelessWidget {
         children: [
           Expanded(
             child: Divider(
-              color: Colors.grey[400],
+              color: colorThemes[12], // grey 400
               thickness: 1,
             ),
           ),
@@ -186,14 +187,14 @@ class _DividerOrBar extends StatelessWidget {
             child: Text(
               'OR',
               style: GoogleFonts.poppins(
-                color: Colors.grey[600],
+                color: colorThemes[11], // grey 600
                 fontSize: 14,
               ),
             ),
           ),
           Expanded(
             child: Divider(
-              color: Colors.grey[400],
+              color: colorThemes[12], // grey 400
               thickness: 1,
             ),
           ),
@@ -220,11 +221,11 @@ class _SocialLoginButton extends StatelessWidget {
         width: 50,
         height: 50,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: colorThemes[9], // white
           borderRadius: BorderRadius.circular(25),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
+              color: colorThemes[13].withOpacity(0.3), // grey 300
               spreadRadius: 1,
               blurRadius: 5,
               offset: const Offset(0, 2),

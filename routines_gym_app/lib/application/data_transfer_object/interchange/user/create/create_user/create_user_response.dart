@@ -5,8 +5,8 @@ class CreateUserResponse extends BaseResponse {
   UserDTO? userDTO;
 
   CreateUserResponse({
-    required super.isSuccess,
-    required String super.message,
+    super.isSuccess,
+    super.message,
     this.userDTO,
   });
 
