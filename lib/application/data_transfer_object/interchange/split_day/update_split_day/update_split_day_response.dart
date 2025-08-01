@@ -5,10 +5,10 @@ class UpdateSplitDayResponse extends BaseResponse {
   UserDTO? userDTO;
 
   UpdateSplitDayResponse({
-    required bool success,
-    required String message,
+    success,
+    message,
     this.userDTO,
-  }) : super(isSuccess: success, message: message);
+  }) : super(isSuccess: success);
 
   factory UpdateSplitDayResponse.fromJson(Map<String, dynamic> json) {
     return UpdateSplitDayResponse(

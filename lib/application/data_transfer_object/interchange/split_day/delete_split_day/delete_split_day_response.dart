@@ -2,9 +2,9 @@ import 'package:routines_gym_app/transversal/common/base_response.dart';
 
 class DeleteSplitDayResponse extends BaseResponse {
   DeleteSplitDayResponse({
-    required bool success,
-    required String message,
-  }) : super(isSuccess: success, message: message);
+    success,
+    message,
+  }) : super(isSuccess: success);
 
   factory DeleteSplitDayResponse.fromJson(Map<String, dynamic> json) {
     return DeleteSplitDayResponse(
