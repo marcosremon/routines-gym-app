@@ -77,7 +77,27 @@ class LoginScreen extends StatelessWidget {
                               hintText: 'Password',
                               controller: passwordController, 
                             ),
-                            const SizedBox(height: 40),
+                            const SizedBox(height: 10), 
+
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  
+                                  print('Ir a pantalla de recuperación de contraseña');
+                                },
+                                child: Text(
+                                  '¿Olvidaste tu contraseña?',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 14,
+                                    color: primaryColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 40), 
 
                             PrimaryButton(
                               text: 'Login',
@@ -85,12 +105,12 @@ class LoginScreen extends StatelessWidget {
                                 String email = emailController.text;
                                 String password = passwordController.text;
 
-                                // to_do: Implement login logic
-
                                 print('Email: $email');
                                 print('Password: $password'); 
                               },
                             ),
+
+
                             _DividerOrBar(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -103,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 20),
                                 _SocialLoginButton(
-                                  assetPath: 'assets/icons/apple-icon.png',
+                                  assetPath: 'assets/icons/apple-icon.ico',
                                   onPressed: () {
                                     // to_do ir al home con apple
                                   },
@@ -222,23 +242,41 @@ class _SocialLoginButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 50,
-        height: 50,
+        width: 130,
+        height: 45,
         decoration: BoxDecoration(
-          color: colorThemes[9], // white
-          borderRadius: BorderRadius.circular(25),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.black.withOpacity(0.3),
+          ),
           boxShadow: [
             BoxShadow(
-              color: colorThemes[13].withOpacity(0.3), // grey 300
-              spreadRadius: 1,
-              blurRadius: 5,
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 4,
               offset: const Offset(0, 2),
             ),
           ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Image.asset(assetPath),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              assetPath,
+              width: 20,
+              height: 20,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(width: 10),
+            Text(
+              'Continuar',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black.withOpacity(0.8),
+              ),
+            ),
+          ],
         ),
       ),
     );
