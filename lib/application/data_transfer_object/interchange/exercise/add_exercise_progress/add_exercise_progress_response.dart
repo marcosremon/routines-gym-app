@@ -2,18 +2,18 @@ import 'package:routines_gym_app/application/data_transfer_object/entities/user_
 import 'package:routines_gym_app/transversal/common/base_response.dart';
 import 'package:routines_gym_app/transversal/common/response_codes.dart';
 
-class AddExerciseAddExerciseProgressResponse extends BaseResponse {
+class AddExerciseProgressResponse extends BaseResponse {
   UserDTO? userDTO;
 
-  AddExerciseAddExerciseProgressResponse({
+  AddExerciseProgressResponse({
     this.userDTO,
     super.responseCode,
     super.isSuccess,
     super.message,
   });
 
-  factory AddExerciseAddExerciseProgressResponse.fromJson(Map<String, dynamic> json) {
-    return AddExerciseAddExerciseProgressResponse(
+  factory AddExerciseProgressResponse.fromJson(Map<String, dynamic> json) {
+    return AddExerciseProgressResponse(
       userDTO: json['userDTO'] != null
           ? UserDTO.fromJson(json['userDTO'])
           : null,

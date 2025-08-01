@@ -1,18 +1,18 @@
-class AddExerciseAddExerciseProgressRequest {
+class AddExerciseProgressRequest {
   List<String> progressList;
   String userEmail;
   int? routineId;
   String dayName;
 
-  AddExerciseAddExerciseProgressRequest({
+  AddExerciseProgressRequest({
     this.progressList = const [],
     this.userEmail = '',
     this.routineId,
     this.dayName = '',
   });
 
-  factory AddExerciseAddExerciseProgressRequest.fromJson(Map<String, dynamic> json) {
-    return AddExerciseAddExerciseProgressRequest(
+  factory AddExerciseProgressRequest.fromJson(Map<String, dynamic> json) {
+    return AddExerciseProgressRequest(
       progressList: (json['progressList'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
