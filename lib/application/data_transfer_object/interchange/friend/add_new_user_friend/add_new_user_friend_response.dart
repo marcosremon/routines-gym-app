@@ -1,13 +1,13 @@
 import 'package:routines_gym_app/transversal/common/base_response.dart';
 
 class AddNewUserFriendResponse extends BaseResponse {
-  int friendId;
+  int? friendId;
 
   AddNewUserFriendResponse({
-    required bool success,
-    required String message,
-    required this.friendId,
-  }) : super(isSuccess: success, message: message);
+    success,
+    message,
+    this.friendId,
+  }) : super(isSuccess: success);
 
   factory AddNewUserFriendResponse.fromJson(Map<String, dynamic> json) {
     return AddNewUserFriendResponse(
