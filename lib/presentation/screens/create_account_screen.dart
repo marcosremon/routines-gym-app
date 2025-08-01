@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
@@ -51,7 +50,8 @@ class CreateAccountScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   'Create Account',
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
                                     fontSize: 40,
                                     fontWeight: FontWeight.bold,
                                     color: colorThemes[10], // black
@@ -175,7 +175,8 @@ class _AlreadyHaveAccount extends StatelessWidget {
         children: [
           Text(
             "Already have an account? ",
-            style: GoogleFonts.poppins(
+            style: TextStyle(
+              fontFamily: 'Poppins',
               fontSize: 14,
               color: colorThemes[11], // grey 600
             ),
@@ -189,7 +190,8 @@ class _AlreadyHaveAccount extends StatelessWidget {
             },
             child: Text(
               "Sign in",
-              style: GoogleFonts.poppins(
+              style: TextStyle(
+                fontFamily: 'Poppins',
                 fontSize: 14,
                 color: primaryColor,
                 fontWeight: FontWeight.w600,

@@ -29,10 +29,7 @@ class UserDTO {
       email: json['email'] ?? '',
       friendCode: json['friendCode'] ?? '',
       password: json['password'] ?? '',
-      role: Role.values.firstWhere(
-        (r) => r.name.toLowerCase() == (json['role'] ?? '').toLowerCase(),
-        orElse: () => Role.user,
-      ),
+      role: json['role'] == 0 ? Role.user : Role.admin,
       inscriptionDate: json['inscriptionDate'] ?? '',
     );
   }

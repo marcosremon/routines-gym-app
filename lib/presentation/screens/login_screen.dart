@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/screens/create_account_screen.dart';
 import 'package:routines_gym_app/presentation/widgets/buttons/primary_button.dart';
@@ -44,7 +43,8 @@ class LoginScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                     'Login',
-                                    style: GoogleFonts.poppins(
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,
                                       color: colorThemes[10], // black
@@ -54,7 +54,8 @@ class LoginScreen extends StatelessWidget {
 
                                   Text(
                                     'Please sign in to continue.',
-                                    style: GoogleFonts.poppins(
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
                                       fontSize: 14,
                                       color: colorThemes[11], // grey 600
                                     ),
@@ -142,7 +143,8 @@ class _AlreadyHaveAccount extends StatelessWidget {
         children: [
           Text(
             "¿No tienes cuenta? ",
-            style: GoogleFonts.poppins(
+            style: TextStyle(
+              fontFamily: 'Poppins',
               fontSize: 14,
               color: colorThemes[11], // grey 600
             ),
@@ -156,7 +158,8 @@ class _AlreadyHaveAccount extends StatelessWidget {
             },
             child: Text(
               "Regístrate",
-              style: GoogleFonts.poppins(
+              style: TextStyle(
+                fontFamily: 'Poppins',
                 fontSize: 14,
                 color: primaryColor,
                 fontWeight: FontWeight.w600,
@@ -186,7 +189,8 @@ class _DividerOrBar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               'OR',
-              style: GoogleFonts.poppins(
+              style: TextStyle(
+                fontFamily: 'Poppins',
                 color: colorThemes[11], // grey 600
                 fontSize: 14,
               ),

@@ -2,17 +2,19 @@ import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/auth/login/login_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/auth/login/login_response.dart';
+// import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_google_user/create_google_user_request.dart';
+// import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_request.dart';
+// import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_response.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
 import 'package:routines_gym_app/infraestructure/datasource/user_datasource.dart';
 import 'package:routines_gym_app/transversal/common/response_codes.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class AuthDatasource {
-
   final Dio dio = Dio();
-  late final GoogleSignIn googleSignIn;
-  final UserDatasource userDatasource =UserDatasource();
-  
+  final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+  final UserDatasource userDatasource = UserDatasource();
+
   Future<LoginResponse> login(LoginRequest request) async {
     LoginResponse response = LoginResponse();
     try {
@@ -44,30 +46,32 @@ class AuthDatasource {
 
   // Future<Object> signInWithGoogle() async {
   //   try {
-  //     await googleSignIn.signOut(); 
+  //     await googleSignIn.signOut();
   //     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      
+
   //     if (googleUser == null) {
   //       ToastMessage.showToast('No se seleccionó ninguna cuenta de Google.');
   //       return false;
   //     }
 
-  //     bool userCreated = false;
-
   //     String dni = "";
   //     String username = googleUser.displayName ?? 'Usuario Google';
   //     String surname = "";
   //     String email = googleUser.email;
-  //     String password = googleUser.email;
-  //     String confirmPassword = googleUser.email;
+  //     String password = googleUser.id; // Usar el id como password temporal
+  //     String confirmPassword = googleUser.id;
 
+  //     // Intentar login con email y password temporal
   //     LoginRequest loginRequest = LoginRequest(
-  //       userPassword: googleUser.password, 
-  //       userEmail: googleUser.email
+  //       userEmail: email,
+  //       userPassword: password,
   //     );
 
-  //     LoginResponse loginResult = await login(loginRequest); 
-  //     if (loginResult is bool) {
+  //     LoginResponse loginResult = await login(loginRequest);
+  //     bool userCreated = false;
+
+  //     // Si el login falla, crear el usuario y volver a intentar login
+  //     if (!loginResult.isSuccess) {
   //       CreateGoogleUserRequest createGoogleUserRequest = CreateGoogleUserRequest(
   //         dni: dni,
   //         username: username,
@@ -76,49 +80,30 @@ class AuthDatasource {
   //         password: password,
   //         confirmPassword: confirmPassword,
   //       );
-
   //       await userDatasource.createGoolgeUser(createGoogleUserRequest);
   //       userCreated = true;
   //       loginResult = await login(loginRequest);
   //     }
 
-  //     if (loginResult is Map<String, dynamic> && loginResult.isSuccess) {
-  //       GetUserByEmailRequest getUserByEmailRequest = GetUserByEmailRequest(
-  //         email: email
-  //       );
-
-  //       GetUserByEmailResponse getUserByEmailResponse = await userDatasource.getUserByEmail(getUserByEmailRequest);
-  //       if (getUserByEmailResponse != null) {
-  //         if (userCreated) {
-  //           ToastMessage.showToast(
-  //             'Se te ha enviado un correo a tu Gmail. Por su seguridad, siga las instrucciones.'
-  //           );
-  //         }
-
-  //         loginResult["user"] = user.toJson(); 
-  //         return loginResult;
+  //     if (loginResult.isSuccess) {
+  //       // Obtener el usuario por email
+  //       GetUserByEmailRequest getUserByEmailRequest = GetUserByEmailRequest(email: email);
+  //       GetUserByEmailResponse? getUserByEmailResponse = await userDatasource.getUserByEmail(getUserByEmailRequest);
+  //       if (userCreated) {
+  //         ToastMessage.showToast(
+  //           'Se te ha enviado un correo a tu Gmail. Por su seguridad, siga las instrucciones.'
+  //         );
   //       }
-  //       return loginResult;
+  //       // Retornar loginResult y el usuario
+  //       return {
+  //         "loginResult": loginResult,
+  //         "user": getUserByEmailResponse.userDTO?.toJson(),
+  //       };
   //     }
 
   //     return loginResult;
   //   } catch (_) {
   //     ToastMessage.showToast('No se pudo iniciar sesión con Google.');
-  //     return false;
-  //   }
-  // }
-
-  // Future<bool> isValidToken(IsValidTokenRequest isValidTokenRequest) async {
-  //   try {
-  //     var response = await dio.post(
-  //       '${ApiConstants.baseUrl}${ApiConstants.authEndpoint}/check-token-status',
-  //       data: {
-  //         'token': isValidTokenRequest.token
-  //       },
-  //     );
-  //     return response.data['isValid'] == true;
-  //   } catch (_) {
-  //     ToastMessage.showToast('No se pudo validar la sesión.');
   //     return false;
   //   }
   // }

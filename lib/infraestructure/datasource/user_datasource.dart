@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:routines_gym_app/application/data_transfer_object/entities/user_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/change_password_with_password_and_email/change_password_with_password_and_email_reqeust.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/change_password_with_password_and_email/change_password_with_password_and_email_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_admin/create_admin_request.dart';
@@ -92,6 +93,12 @@ class UserDatasource {
     CreateUserResponse createUserResponse = CreateUserResponse();
     try 
     {
+      createUserRequest.dni = "12345678A";
+      createUserRequest.username = "a";
+      createUserRequest.email = "a@a.a";
+      createUserRequest.password = "123456Aa!";
+      createUserRequest.confirmPassword = "123456Aa!";
+
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/create-user',
         data: {
@@ -104,17 +111,16 @@ class UserDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {        
         createUserResponse.isSuccess = data['isSuccess'];
         createUserResponse.message = data['message'];
-        createUserResponse.userDTO = data['userDTO'];
+        createUserResponse.userDTO = UserDTO.fromJson(data['userDTO']);
       } else {
         createUserResponse.isSuccess = false;
         createUserResponse.message = 'Error: ${response.statusMessage}';
       }      
     }
-    catch (ex) 
-    {
+    catch (ex) {
       createUserResponse.isSuccess = false;
       createUserResponse.message = 'unexpected error on UserDatasource -> createUser: ${ex.toString()}';
       ToastMessage.showToast("unexpected error");
