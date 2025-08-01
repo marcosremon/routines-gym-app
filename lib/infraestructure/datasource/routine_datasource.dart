@@ -12,7 +12,6 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/ro
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/update_routine/update_routine_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/update_routine/update_routine_response.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
-import 'package:routines_gym_app/transversal/common/response_codes.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class RoutineDatasource {
@@ -36,7 +35,7 @@ class RoutineDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         createRoutineResponse.isSuccess = data['isSuccess'];
         createRoutineResponse.message = data['message'];
         createRoutineResponse.routineDTO = data['routineDTO'];
@@ -67,7 +66,7 @@ class RoutineDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         updateRoutineResponse.isSuccess = data['isSuccess'];
         updateRoutineResponse.message = data['message'];
         updateRoutineResponse.routineDTO = data['routineDTO'];
@@ -96,7 +95,7 @@ class RoutineDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         deleteRoutineResponse.isSuccess = data['isSuccess'];
         deleteRoutineResponse.message = data['message'];
         deleteRoutineResponse.userId = data['userId'];
@@ -124,7 +123,7 @@ class RoutineDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         getAllUserRoutinesResponse.isSuccess = data['isSuccess'];
         getAllUserRoutinesResponse.message = data['message'];
         getAllUserRoutinesResponse.routines = data['routines'];
@@ -152,7 +151,7 @@ class RoutineDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         getRoutineStatsResponse.isSuccess = data['isSuccess'];
         getRoutineStatsResponse.message = data['message'];
         getRoutineStatsResponse.routinesCount = data['routinesCount'];
@@ -182,7 +181,7 @@ class RoutineDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         getRoutineByIdResponse.isSuccess = data['isSuccess'];
         getRoutineByIdResponse.message = data['message'];
         getRoutineByIdResponse.routineDTO = data['routineDTO'];

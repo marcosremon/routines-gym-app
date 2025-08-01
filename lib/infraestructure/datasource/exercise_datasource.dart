@@ -10,7 +10,6 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/ex
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/update_exercise/update_exercise_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/update_exercise/update_exercise_response.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
-import 'package:routines_gym_app/transversal/common/response_codes.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class ExerciseDatasource {
@@ -31,7 +30,7 @@ class ExerciseDatasource {
       );
 
       Map<String, dynamic> data = apiResponse.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         response.isSuccess = data['isSuccess'];
         response.message = data['message'];
         response.userDTO = data['userDTO'];
@@ -64,7 +63,7 @@ class ExerciseDatasource {
       );
 
       Map<String, dynamic> data = apiResponse.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         response.isSuccess = data['isSuccess'];
         response.message = data['message'];
         response.userDTO = data['userDTO'];
@@ -94,7 +93,7 @@ class ExerciseDatasource {
       );
 
       Map<String, dynamic> data = apiResponse.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         response.isSuccess = data['isSuccess'];
         response.message = data['message'];
         response.userDTO = data['userDTO'];
@@ -124,7 +123,7 @@ class ExerciseDatasource {
       );
 
       Map<String, dynamic> data = apiResponse.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         response.isSuccess = data['isSuccess'];
         response.message = data['message'];
         response.userDTO = data['userDTO'];
@@ -152,7 +151,7 @@ class ExerciseDatasource {
       );
 
       Map<String, dynamic> data = apiResponse.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         response.isSuccess = data['isSuccess'];
         response.message = data['message'];
         response.exercises = data['exercises'];

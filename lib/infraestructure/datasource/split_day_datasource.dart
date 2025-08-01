@@ -4,7 +4,6 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/sp
 import 'package:routines_gym_app/application/data_transfer_object/interchange/split_day/update_split_day/update_split_day_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/split_day/update_split_day/update_split_day_response.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
-import 'package:routines_gym_app/transversal/common/response_codes.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class SplitDayDatasource {
@@ -25,7 +24,7 @@ class SplitDayDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         updateSplitDayResponse.isSuccess = data['isSuccess'];
         updateSplitDayResponse.message = data['message'];
         updateSplitDayResponse.userDTO = data['userDTO'];
@@ -55,7 +54,7 @@ class SplitDayDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         deleteSplitDayResponse.isSuccess = data['isSuccess'];
         deleteSplitDayResponse.message = data['message'];
       } else {

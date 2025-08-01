@@ -6,7 +6,6 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/fr
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_response.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
-import 'package:routines_gym_app/transversal/common/response_codes.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class FriendDatasource {
@@ -25,7 +24,7 @@ class FriendDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
          getAllUserFriendsResponse.isSuccess = data['isSuccess'];
          getAllUserFriendsResponse.message = data['message'];
          getAllUserFriendsResponse.friends = data['friends'];
@@ -57,7 +56,7 @@ class FriendDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
          addNewUserFriendResponse.isSuccess = data['isSuccess'];
          addNewUserFriendResponse.message = data['message'];
          addNewUserFriendResponse.friendId = data['friendId'];
@@ -89,7 +88,7 @@ class FriendDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         deleteFriendResponse.isSuccess = data['isSuccess'];
         deleteFriendResponse.message = data['message'];
       } else {

@@ -18,7 +18,6 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/us
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_response.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
-import 'package:routines_gym_app/transversal/common/response_codes.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class UserDatasource {
@@ -35,7 +34,7 @@ class UserDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
         getUsersResponse.isSuccess = data['isSuccess'];
         getUsersResponse.message = data['message'];
         getUsersResponse.usersDTO = data['usersDTO'];
@@ -67,7 +66,7 @@ class UserDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
          getUserByEmailResponse.isSuccess = data['isSuccess'];
          getUserByEmailResponse.message = data['message'];
          getUserByEmailResponse.userDTO = data['userDTO'];
@@ -147,7 +146,7 @@ class UserDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
          createGoogleUserResponse.isSuccess = data['isSuccess'];
          createGoogleUserResponse.message = data['message'];
          createGoogleUserResponse.userDTO = data['userDTO'];
@@ -184,7 +183,7 @@ class UserDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
          createAdminResponse.isSuccess = data['isSuccess'];
          createAdminResponse.message = data['message'];
       } else {
@@ -219,7 +218,7 @@ class UserDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
          updateUserResponse.isSuccess = data['isSuccess'];
          updateUserResponse.message = data['message'];
          updateUserResponse.userDTO = data['userDTO'];
@@ -251,7 +250,7 @@ class UserDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
          deleteUserResponse.isSuccess = data['isSuccess'];
          deleteUserResponse.message = data['message'];
          deleteUserResponse.userId = data['userId'];
@@ -283,7 +282,7 @@ class UserDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
          createNewPasswordResponse.isSuccess = data['isSuccess'];
          createNewPasswordResponse.message = data['message'];
          createNewPasswordResponse.userId = data['userId'];
@@ -318,7 +317,7 @@ class UserDatasource {
       );
 
       Map<String, dynamic> data = response.data as Map<String, dynamic>;
-      if (data['responseCode'] == ResponseCodes.ok) {
+      if (data['responseCodeJson'] == 200) {
          changePasswordWithPasswordAndEmailResponse.isSuccess = data['isSuccess'];
          changePasswordWithPasswordAndEmailResponse.message = data['message'];
          changePasswordWithPasswordAndEmailResponse.userId = data['userId'];
