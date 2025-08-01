@@ -5,8 +5,8 @@ class GetUsersResponse extends BaseResponse {
   List<UserDTO>? usersDTO;
 
   GetUsersResponse({
-    required super.isSuccess,
-    required String super.message,
+    super.isSuccess,
+    super.message,
     this.usersDTO,
   });
 

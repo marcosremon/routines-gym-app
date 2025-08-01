@@ -1,12 +1,12 @@
 import 'package:routines_gym_app/transversal/common/base_response.dart';
 
 class ChangePasswordWithPasswordAndEmailResponse extends BaseResponse {
-  int userId;
+  int? userId;
 
   ChangePasswordWithPasswordAndEmailResponse({
-    required super.isSuccess,
-    required String super.message,
-    required this.userId,
+    super.isSuccess,
+    super.message,
+    this.userId,
   });
 
   factory ChangePasswordWithPasswordAndEmailResponse.fromJson(Map<String, dynamic> json) {

@@ -2,8 +2,6 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/us
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_response.dart';
 import 'package:routines_gym_app/infraestructure/datasource/user_datasource.dart';
 import 'package:routines_gym_app/transversal/common/response_codes.dart';
-import 'package:routines_gym_app/transversal/data_transfer_object_json/user/create/create_user/create_user_request_json.dart';
-import 'package:routines_gym_app/transversal/data_transfer_object_json/user/create/create_user/create_user_response_json.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class UserRepository {
@@ -14,20 +12,11 @@ class UserRepository {
     CreateUserResponse createUserResponse = CreateUserResponse();
     try 
     {
-      CreateUserRequestJson createUserRequestJson = CreateUserRequestJson(
-        dni: createUserRequest.dni,
-        username: createUserRequest.username,
-        surname: createUserRequest.surname,
-        email: createUserRequest.email,
-        password: createUserRequest.password,
-        confirmPassword: createUserRequest.confirmPassword,
-      );
-
-      CreateUserResponseJson createUserResponseJson = await userDatasource.createUser(createUserRequestJson);
+      CreateUserResponse createUserResponseJson = await userDatasource.createUser(createUserRequest);
       createUserResponse.isSuccess = createUserResponseJson.isSuccess;
       createUserResponse.message = createUserResponseJson.message;  
       createUserResponse.userDTO = createUserResponseJson.userDTO;
-      createUserResponse.responseCode = ResponseCodes.fromValue(createUserResponseJson.responseCodeJson!.value);
+      createUserResponse.responseCode = ResponseCodes.fromValue(createUserResponseJson.responseCode!.value);
     }
     catch (ex) 
     {

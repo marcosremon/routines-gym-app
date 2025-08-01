@@ -5,8 +5,8 @@ class UpdateUserResponse extends BaseResponse {
   UserDTO? userDTO;
 
   UpdateUserResponse({
-    required super.isSuccess,
-    required String super.message,
+    super.isSuccess,
+    super.message,
     this.userDTO,
   });
 

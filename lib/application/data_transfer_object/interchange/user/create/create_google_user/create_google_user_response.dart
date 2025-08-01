@@ -5,8 +5,8 @@ class CreateGoogleUserResponse extends BaseResponse {
   UserDTO? userDTO;
 
   CreateGoogleUserResponse({
-    required super.isSuccess,
-    required String super.message,
+    super.isSuccess,
+    super.message,
     this.userDTO,
   });
 

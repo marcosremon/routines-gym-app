@@ -3,15 +3,15 @@ import 'package:routines_gym_app/transversal/common/base_response.dart';
 
 class GetUserByEmailResponse extends BaseResponse {
   UserDTO? userDTO;
-  int routinesCount;
-  int friendsCount;
+  int? routinesCount;
+  int? friendsCount;
 
   GetUserByEmailResponse({
-    required super.isSuccess,
-    required String super.message,
+    super.isSuccess,
+    super.message,
     this.userDTO,
-    required this.routinesCount,
-    required this.friendsCount,
+    this.routinesCount,
+    this.friendsCount,
   });
 
   factory GetUserByEmailResponse.fromJson(Map<String, dynamic> json) {
