@@ -16,6 +16,7 @@ import 'package:routines_gym_app/transversal/common/response_codes.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class RoutineDatasource {
+
   final Dio dio = Dio();
 
   Future<CreateRoutineResponse> createRoutine(CreateRoutineRequest createRoutineRequest) async {

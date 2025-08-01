@@ -35,14 +35,14 @@ class UserRepository {
       getUsersResponse.message = 'Unexpected error on UserRepository -> getUsers: ${ex.toString()}';
       ToastMessage.showToast("Unexpected error");
     }
-    
+
     return getUsersResponse;
   }
 
   Future<GetUserByEmailResponse> getUsersByEmail(GetUserByEmailRequest getUserByEmailRequest) async {
     GetUserByEmailResponse getUserByEmailResponse = GetUserByEmailResponse();
     try {
-      GetUserByEmailResponse getUserByEmailResponseJson = await userDatasource.getUsersByEmail(getUserByEmailRequest);
+      GetUserByEmailResponse getUserByEmailResponseJson = await userDatasource.getUserByEmail(getUserByEmailRequest);
       getUserByEmailResponse.isSuccess = getUserByEmailResponseJson.isSuccess;
       getUserByEmailResponse.message = getUserByEmailResponseJson.message;
       getUserByEmailResponse.userDTO = getUserByEmailResponseJson.userDTO;

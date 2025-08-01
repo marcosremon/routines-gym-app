@@ -3,11 +3,11 @@ import 'package:routines_gym_app/transversal/common/response_codes.dart';
 
 class LoginResponse extends BaseResponse {
   String bearerToken;
-  bool isAdmin;
+  bool? isAdmin;
 
   LoginResponse({
     this.bearerToken = '',
-    required this.isAdmin,
+    this.isAdmin,
     super.responseCode,
     super.isSuccess,
     super.message,

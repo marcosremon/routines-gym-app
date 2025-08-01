@@ -53,7 +53,7 @@ class UserDatasource {
     return getUsersResponse;
   }
 
-  Future<GetUserByEmailResponse> getUsersByEmail(GetUserByEmailRequest getUserByEmailRequest) async 
+  Future<GetUserByEmailResponse> getUserByEmail(GetUserByEmailRequest getUserByEmailRequest) async 
   {
     GetUserByEmailResponse getUserByEmailResponse = GetUserByEmailResponse();
     try 

@@ -8,6 +8,7 @@ import 'package:routines_gym_app/transversal/common/response_codes.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class SplitDayDatasource {
+  
   final Dio dio = Dio();
 
   Future<UpdateSplitDayResponse> updateSplitDay(UpdateSplitDayRequest updateSplitDayRequest) async {

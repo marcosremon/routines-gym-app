@@ -14,6 +14,7 @@ import 'package:routines_gym_app/transversal/common/response_codes.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class ExerciseDatasource {
+ 
   final Dio dio = Dio();
 
   Future<AddExerciseProgressResponse> addExerciseProgress(AddExerciseProgressRequest request) async {
