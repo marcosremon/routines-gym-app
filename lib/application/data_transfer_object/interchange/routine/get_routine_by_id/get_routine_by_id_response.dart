@@ -5,10 +5,10 @@ class GetRoutineByIdResponse extends BaseResponse {
   RoutineDTO? routineDTO;
 
   GetRoutineByIdResponse({
-    required bool success,
-    required String message,
+    success,
+    message,
     this.routineDTO,
-  }) : super(isSuccess: success, message: message);
+  }) : super(isSuccess: success);
 
   factory GetRoutineByIdResponse.fromJson(Map<String, dynamic> json) {
     return GetRoutineByIdResponse(

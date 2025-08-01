@@ -1,17 +1,17 @@
 import 'package:routines_gym_app/transversal/common/base_response.dart';
 
 class GetRoutineStatsResponse extends BaseResponse {
-  int routinesCount;
-  int exercisesCount;
-  int splitsCount;
+  int? routinesCount;
+  int? exercisesCount;
+  int? splitsCount;
 
   GetRoutineStatsResponse({
-    required bool success,
-    required String message,
-    required this.routinesCount,
-    required this.exercisesCount,
-    required this.splitsCount,
-  }) : super(isSuccess: success, message: message);
+    success,
+    message,
+    this.routinesCount,
+    this.exercisesCount,
+    this.splitsCount,
+  }) : super(isSuccess: success);
 
   factory GetRoutineStatsResponse.fromJson(Map<String, dynamic> json) {
     return GetRoutineStatsResponse(

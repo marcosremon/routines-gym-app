@@ -5,10 +5,10 @@ class UpdateRoutineResponse extends BaseResponse {
   RoutineDTO? routineDTO;
 
   UpdateRoutineResponse({
-    required bool success,
-    required String message,
+    success,
+    message,
     this.routineDTO,
-  }) : super(isSuccess: success, message: message);
+  }) : super(isSuccess: success);
 
   factory UpdateRoutineResponse.fromJson(Map<String, dynamic> json) {
     return UpdateRoutineResponse(

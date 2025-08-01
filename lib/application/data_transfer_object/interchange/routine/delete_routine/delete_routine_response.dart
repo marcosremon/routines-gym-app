@@ -1,13 +1,13 @@
 import 'package:routines_gym_app/transversal/common/base_response.dart';
 
 class DeleteRoutineResponse extends BaseResponse {
-  int userId;
+  int? userId;
 
   DeleteRoutineResponse({
-    required bool success,
-    required String message,
-    required this.userId,
-  }) : super(isSuccess: success, message: message);
+    success,
+    message,
+    this.userId,
+  }) : super(isSuccess: success);
 
   factory DeleteRoutineResponse.fromJson(Map<String, dynamic> json) {
     return DeleteRoutineResponse(

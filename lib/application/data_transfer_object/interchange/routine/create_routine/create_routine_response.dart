@@ -5,10 +5,10 @@ class CreateRoutineResponse extends BaseResponse {
   RoutineDTO? routineDTO;
 
   CreateRoutineResponse({
-    required bool success,
-    required String message,
+    success,
+    message,
     this.routineDTO,
-  }) : super(isSuccess: success, message: message);
+  }) : super(isSuccess: success);
 
   factory CreateRoutineResponse.fromJson(Map<String, dynamic> json) {
     return CreateRoutineResponse(
