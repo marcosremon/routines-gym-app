@@ -1,11 +1,18 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/auth/login/login_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/auth/login/login_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
-import 'package:routines_gym_app/presentation/screens/create_account_screen.dart';
+import 'package:routines_gym_app/presentation/screens/create_account/create_account_screen.dart';
+import 'package:routines_gym_app/presentation/screens/home/home_screen.dart';
 import 'package:routines_gym_app/presentation/widgets/buttons/primary_button.dart';
 import 'package:routines_gym_app/presentation/widgets/decoration_background_circles/bottom_left_circle.dart';
 import 'package:routines_gym_app/presentation/widgets/decoration_background_circles/top_right_circle.dart';
 import 'package:routines_gym_app/presentation/widgets/text_fields/custom_password_field.dart';
 import 'package:routines_gym_app/presentation/widgets/text_fields/custom_text_field.dart';
+import 'package:routines_gym_app/provider/auth/auth_provider.dart';
+import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -14,6 +21,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color primaryColor = Theme.of(context).colorScheme.primary;
 
+    final AuthProvider authProvider = AuthProvider();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
@@ -83,8 +91,7 @@ class LoginScreen extends StatelessWidget {
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () {
-                                  
-                                  print('Ir a pantalla de recuperación de contraseña');
+                                  // to_do: Implement forgot password functionality
                                 },
                                 child: Text(
                                   '¿Olvidaste tu contraseña?',
@@ -101,15 +108,19 @@ class LoginScreen extends StatelessWidget {
 
                             PrimaryButton(
                               text: 'Login',
-                              onPressed: () {
-                                String email = emailController.text;
-                                String password = passwordController.text;
+                              onPressed: () async {
+                                LoginRequest loginRequest = LoginRequest(
+                                  userEmail: emailController.text,
+                                  userPassword: passwordController.text,
+                                );
 
-                                print('Email: $email');
-                                print('Password: $password'); 
+                                LoginResponse loginResponse = await authProvider.login(loginRequest);
+                                ToastMessage.showToast(loginResponse.message!);
+                                if (loginResponse.isSuccess) {
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                                }  
                               },
                             ),
-
 
                             _DividerOrBar(),
                             Row(

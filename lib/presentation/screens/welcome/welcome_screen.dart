@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
-import 'package:routines_gym_app/presentation/screens/create_account_screen.dart';
-import 'package:routines_gym_app/presentation/screens/login_screen.dart';
+import 'package:routines_gym_app/presentation/screens/create_account/create_account_screen.dart';
+import 'package:routines_gym_app/presentation/screens/login/login_screen.dart';
 import 'package:routines_gym_app/presentation/widgets/buttons/primary_button.dart';
 import 'package:routines_gym_app/presentation/widgets/decoration_background_circles/top_right_circle.dart';
 

@@ -1,22 +1,21 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/auth/check_token_status/check_token_status_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/auth/login/login_request.dart';
-import 'package:routines_gym_app/application/data_transfer_object/interchange/auth/login/login_response.dart';
-// import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_google_user/create_google_user_request.dart';
-// import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_request.dart';
-// import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_response.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
 import 'package:routines_gym_app/infraestructure/datasource/user_datasource.dart';
-import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class AuthDatasource {
   final Dio dio = Dio();
   final GoogleSignIn googleSignIn = GoogleSignIn.instance;
   final UserDatasource userDatasource = UserDatasource();
 
-  Future<LoginResponse> login(LoginRequest request) async {
-    LoginResponse response = LoginResponse();
-    try {
+  Future<Map<String, dynamic>> login(LoginRequest request) async {
+    Map<String, dynamic> data = {};
+    try
+    {
       dynamic apiResponse = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.authEndpoint}/login',
         data: {
@@ -25,22 +24,36 @@ class AuthDatasource {
         },
       );
 
-      Map<String, dynamic> data = apiResponse.data as Map<String, dynamic>;
-      if (data['responseCodeJson'] == 200) {
-        response.isSuccess = data['isSuccess'];
-        response.message = data['message'];
-        response.bearerToken = data['bearerToken'];
-        response.isAdmin = data['isAdmin'] ?? false;
-      } else {
-        response.isSuccess = false;
-        response.message = data['message'] ?? 'Error: ${apiResponse.statusMessage}';
-      }
-    } catch (ex) {
-      response.isSuccess = false;
-      response.message = 'unexpected error on AuthDatasource -> login: ${ex.toString()}';
-      ToastMessage.showToast("Error during login");
+      data = apiResponse.data as Map<String, dynamic>;
     }
-    return response;
+    catch (ex)
+    {
+      print('unexpected error on AuthDatasource -> login: ${ex.toString()}');
+    }
+
+    return data;
+  }
+
+  Future<Map<String, dynamic>> checkTokenStatus(CheckTokenStatusRequest checkTokenStatusRequest) async 
+  {
+    Map<String, dynamic> data = {};
+    try
+    {
+      dynamic apiResponse = await dio.post(
+        '${ApiConstants.baseUrl}${ApiConstants.authEndpoint}/check-token-status',
+        data: {
+          'token': checkTokenStatusRequest.token,
+        },
+      );
+
+      data = apiResponse.data as Map<String, dynamic>;
+    }
+    catch (ex)
+    {
+      print('unexpected error on AuthDatasource -> checkTokenStatus: ${ex.toString()}');
+    }
+
+    return data;
   }
 
   // Future<Object> signInWithGoogle() async {
