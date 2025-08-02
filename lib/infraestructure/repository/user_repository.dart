@@ -18,7 +18,6 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/us
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_response.dart';
 import 'package:routines_gym_app/infraestructure/datasource/user_datasource.dart';
 import 'package:routines_gym_app/transversal/common/response_codes.dart';
-import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class UserRepository {
   final UserDatasource userDatasource = UserDatasource();
@@ -38,8 +37,7 @@ class UserRepository {
       getUsersResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       getUsersResponse.isSuccess = false;
-      getUsersResponse.message = 'Unexpected error on UserRepository -> getUsers: ${ex.toString()}';
-      ToastMessage.showToast("Unexpected error");
+      getUsersResponse.message = 'Unexpected error on UserRepository -> getUsers';
     }
     return getUsersResponse;
   }
@@ -61,8 +59,7 @@ class UserRepository {
       getUserByEmailResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       getUserByEmailResponse.isSuccess = false;
-      getUserByEmailResponse.message = 'Unexpected error on UserRepository -> createUser: ${ex.toString()}';
-      ToastMessage.showToast("Unexpected error");
+      getUserByEmailResponse.message = 'Unexpected error on UserRepository -> createUser';
     }
     
     return getUserByEmailResponse;
@@ -83,8 +80,7 @@ class UserRepository {
       createUserResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       createUserResponse.isSuccess = false;
-      createUserResponse.message = 'Unexpected error on UserRepository -> createUser: ${ex.toString()}';
-      ToastMessage.showToast("Unexpected error");
+      createUserResponse.message = 'Unexpected error on UserRepository -> createUser';
     }
     return createUserResponse;
   }
@@ -104,8 +100,7 @@ class UserRepository {
       createGoogleUserResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       createGoogleUserResponse.isSuccess = false;
-      createGoogleUserResponse.message = 'Unexpected error on UserRepository -> createGoogleUser: ${ex.toString()}';
-      ToastMessage.showToast("Unexpected error");
+      createGoogleUserResponse.message = 'Unexpected error on UserRepository -> createGoogleUser';
     }
     return createGoogleUserResponse;
   }
@@ -124,8 +119,7 @@ class UserRepository {
       createAdminResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       createAdminResponse.isSuccess = false;
-      createAdminResponse.message = 'Unexpected error on UserRepository -> createAdmin: ${ex.toString()}';
-      ToastMessage.showToast("Unexpected error");
+      createAdminResponse.message = 'Unexpected error on UserRepository -> createAdmin';
     }
     return createAdminResponse;
   }
@@ -145,8 +139,7 @@ class UserRepository {
       updateUserResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       updateUserResponse.isSuccess = false;
-      updateUserResponse.message = 'Unexpected error on UserRepository -> updateUser: ${ex.toString()}';
-      ToastMessage.showToast("Unexpected error");
+      updateUserResponse.message = 'Unexpected error on UserRepository -> updateUser';
     }
     return updateUserResponse;
   }
@@ -166,8 +159,7 @@ class UserRepository {
       deleteUserResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       deleteUserResponse.isSuccess = false;
-      deleteUserResponse.message = 'Unexpected error on UserRepository -> deleteUser: ${ex.toString()}';
-      ToastMessage.showToast("Unexpected error");
+      deleteUserResponse.message = 'Unexpected error on UserRepository -> deleteUser';
     }
     return deleteUserResponse;
   }
@@ -187,8 +179,7 @@ class UserRepository {
       createNewPasswordResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       createNewPasswordResponse.isSuccess = false;
-      createNewPasswordResponse.message = 'Unexpected error on UserRepository -> createNewPassword: ${ex.toString()}';
-      ToastMessage.showToast("Unexpected error");
+      createNewPasswordResponse.message = 'Unexpected error on UserRepository -> createNewPassword';
     }
     return createNewPasswordResponse;
   }
@@ -208,8 +199,7 @@ class UserRepository {
       changePasswordWithPasswordAndEmailResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       changePasswordWithPasswordAndEmailResponse.isSuccess = false;
-      changePasswordWithPasswordAndEmailResponse.message = 'Unexpected error on UserRepository -> changePasswordWithPasswordAndEmail: ${ex.toString()}';
-      ToastMessage.showToast("Unexpected error");
+      changePasswordWithPasswordAndEmailResponse.message = 'Unexpected error on UserRepository -> changePasswordWithPasswordAndEmail';
     }
     return changePasswordWithPasswordAndEmailResponse;
   }

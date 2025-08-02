@@ -28,7 +28,7 @@ class AuthRepository {
     catch (ex) 
     {
       loginResponse.isSuccess = false;
-      loginResponse.message = 'unexpected error on AuthRepository -> login: ${ex.toString()}';
+      loginResponse.message = 'unexpected error on AuthRepository -> login';
     }
 
     return loginResponse;
@@ -53,7 +53,7 @@ class AuthRepository {
     catch (ex) 
     {
       checkTokenStatusResponse.isSuccess = false;
-      checkTokenStatusResponse.message = 'unexpected error on AuthRepository -> checkTokenStatus: ${ex.toString()}';
+      checkTokenStatusResponse.message = 'unexpected error on AuthRepository -> checkTokenStatus';
     }
 
     return checkTokenStatusResponse;
