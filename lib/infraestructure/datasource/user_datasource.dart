@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/change_password_with_password_and_email/change_password_with_password_and_email_reqeust.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_admin/create_admin_request.dart';
@@ -8,7 +10,6 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/us
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_request.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
-import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class UserDatasource {
   final Dio dio = Dio();
@@ -21,7 +22,7 @@ class UserDatasource {
       );
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
     return data;
   }
@@ -38,7 +39,7 @@ class UserDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
@@ -66,7 +67,7 @@ class UserDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
@@ -89,7 +90,7 @@ class UserDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
@@ -112,7 +113,7 @@ class UserDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
@@ -134,7 +135,7 @@ class UserDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
@@ -152,7 +153,7 @@ class UserDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
@@ -170,7 +171,7 @@ class UserDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
@@ -191,7 +192,7 @@ class UserDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
     
     return data;

@@ -1,9 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/delete_friend/delete_friend_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_request.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
-import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class FriendDatasource {
   final Dio dio = Dio();
@@ -20,7 +21,7 @@ class FriendDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
@@ -39,7 +40,7 @@ class FriendDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
@@ -58,7 +59,7 @@ class FriendDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;

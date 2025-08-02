@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/delete_routine/delete_routine_request.dart';
@@ -6,14 +8,14 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/ro
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_stats/get_routine_stats_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/update_routine/update_routine_request.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
-import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class RoutineDatasource {
   final Dio dio = Dio();
 
   Future<Map<String, dynamic>> createRoutine(CreateRoutineRequest request) async {
+    Map<String, dynamic> data = {};
     try {
-      final response = await dio.post(
+      dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/create-routine',
         data: {
           'userEmail': request.userEmail,
@@ -25,19 +27,18 @@ class RoutineDatasource {
           'weight': request.weight,
         },
       );
-      return response.data as Map<String, dynamic>;
+      data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
-      return {
-        'isSuccess': false,
-        'message': 'unexpected error on RoutineDatasource -> createRoutine: ${ex.toString()}',
-      };
+      print("unexpected error");
     }
+
+    return data;
   }
 
   Future<Map<String, dynamic>> updateRoutine(UpdateRoutineRequest request) async {
+    Map<String, dynamic> data = {};
     try {
-      final response = await dio.post(
+      dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/update-routine',
         data: {
           'routineId': request.routineId,
@@ -46,86 +47,85 @@ class RoutineDatasource {
           'splitDays': request.splitDays,
         },
       );
-      return response.data as Map<String, dynamic>;
+
+      data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
-      return {
-        'isSuccess': false,
-        'message': 'unexpected error on RoutineDatasource -> updateRoutine: ${ex.toString()}',
-      };
+      print("unexpected error");
     }
+    
+    return data;
   }
 
   Future<Map<String, dynamic>> deleteRoutine(DeleteRoutineRequest request) async {
+    Map<String, dynamic> data = {};
     try {
-      final response = await dio.post(
+      dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/delete-routine',
         data: {
           'userEmail': request.userEmail,
           'routineId': request.routineId,
         },
       );
-      return response.data as Map<String, dynamic>;
+    
+      data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
-      return {
-        'isSuccess': false,
-        'message': 'unexpected error on RoutineDatasource -> deleteRoutine: ${ex.toString()}',
-      };
+      print("unexpected error");
     }
+    
+    return data;
   }
 
   Future<Map<String, dynamic>> getAllUserRoutines(GetAllUserRoutinesRequest request) async {
+    Map<String, dynamic> data = {};
     try {
-      final response = await dio.post(
+      dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/get-all-user-routines',
         data: {
           'userEmail': request.userEmail,
         },
       );
-      return response.data as Map<String, dynamic>;
+      
+      data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
-      return {
-        'isSuccess': false,
-        'message': 'unexpected error on RoutineDatasource -> getAllUserRoutines: ${ex.toString()}',
-      };
+      print("unexpected error");
     }
+    
+    return data;
   }
 
   Future<Map<String, dynamic>> getRoutineStats(GetRoutineStatsRequest request) async {
+    Map<String, dynamic> data = {};
     try {
-      final response = await dio.post(
+      dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/get-routine-stats',
         data: {
           'userEmail': request.userEmail,
         },
       );
-      return response.data as Map<String, dynamic>;
+      
+      data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
-      return {
-        'isSuccess': false,
-        'message': 'unexpected error on RoutineDatasource -> getRoutineStats: ${ex.toString()}',
-      };
+      print("unexpected error");
     }
+    
+    return data;
   }
 
   Future<Map<String, dynamic>> getRoutineById(GetRoutineByIdRequest request) async {
+    Map<String, dynamic> data = {};
     try {
-      final response = await dio.post(
+      dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/get-routine-by-id',
         data: {
           'routineId': request.routineId,
         },
       );
-      return response.data as Map<String, dynamic>;
+      
+      data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
-      return {
-        'isSuccess': false,
-        'message': 'unexpected error on RoutineDatasource -> getRoutineById: ${ex.toString()}',
-      };
+      print("unexpected error");
     }
+    
+    return data;
   }
 }

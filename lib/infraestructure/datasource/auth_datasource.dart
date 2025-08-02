@@ -16,7 +16,7 @@ class AuthDatasource {
     Map<String, dynamic> data = {};
     try
     {
-      dynamic apiResponse = await dio.post(
+      dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.authEndpoint}/login',
         data: {
           'userEmail': loginRequest.userEmail,
@@ -24,7 +24,7 @@ class AuthDatasource {
         },
       );
 
-      data = apiResponse.data as Map<String, dynamic>;
+      data = response.data as Map<String, dynamic>;
     }
     catch (ex)
     {
@@ -39,14 +39,14 @@ class AuthDatasource {
     Map<String, dynamic> data = {};
     try
     {
-      dynamic apiResponse = await dio.post(
+      dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.authEndpoint}/check-token-status',
         data: {
           'token': checkTokenStatusRequest.token,
         },
       );
 
-      data = apiResponse.data as Map<String, dynamic>;
+      data = response.data as Map<String, dynamic>;
     }
     catch (ex)
     {

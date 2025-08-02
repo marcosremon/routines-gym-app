@@ -1,8 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/split_day/delete_split_day/delete_split_day_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/split_day/update_split_day/update_split_day_request.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
-import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class SplitDayDatasource {
   final Dio dio = Dio();
@@ -22,7 +23,7 @@ class SplitDayDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
@@ -42,7 +43,7 @@ class SplitDayDatasource {
 
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
-      ToastMessage.showToast("unexpected error");
+      print("unexpected error");
     }
 
     return data;
