@@ -26,13 +26,13 @@ class UserDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> getUserByEmail(GetUserByEmailRequest request) async {
+  Future<Map<String, dynamic>> getUserByEmail(GetUserByEmailRequest getUserByEmailRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/get-user-by-email',
         data: {
-          'email': request.email,
+          'email': getUserByEmailRequest.email,
         },
       );
 
@@ -44,23 +44,23 @@ class UserDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> createUser(CreateUserRequest request) async {
+  Future<Map<String, dynamic>> createUser(CreateUserRequest createUserRequest) async {
     Map<String, dynamic> data = {};
     try {
-      request.dni = "12345678A";
-      request.username = "a";
-      request.email = "a@a.a";
-      request.password = "123456Aa!";
-      request.confirmPassword = "123456Aa!";
+      createUserRequest.dni = "12345678A";
+      createUserRequest.username = "a";
+      createUserRequest.email = "a@a.a";
+      createUserRequest.password = "123456Aa!";
+      createUserRequest.confirmPassword = "123456Aa!";
 
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/create-user',
         data: {
-          'dni': request.dni,
-          'username': request.username,
-          'email': request.email,
-          'password': request.password,
-          'confirmPassword': request.confirmPassword,
+          'dni': createUserRequest.dni,
+          'username': createUserRequest.username,
+          'email': createUserRequest.email,
+          'password': createUserRequest.password,
+          'confirmPassword': createUserRequest.confirmPassword,
         },
       );
 
@@ -72,18 +72,18 @@ class UserDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> createGoolgeUser(CreateGoogleUserRequest request) async {
+  Future<Map<String, dynamic>> createGoolgeUser(CreateGoogleUserRequest createGoogleUserRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/create-google-user',
         data: {
-          'dni': request.dni,
-          'username': request.username,
-          'surname': request.surname,
-          'email': request.email,
-          'password': request.password,
-          'confirmPassword': request.confirmPassword,
+          'dni': createGoogleUserRequest.dni,
+          'username': createGoogleUserRequest.username,
+          'surname': createGoogleUserRequest.surname,
+          'email': createGoogleUserRequest.email,
+          'password': createGoogleUserRequest.password,
+          'confirmPassword': createGoogleUserRequest.confirmPassword,
         },
       );
 
@@ -95,18 +95,18 @@ class UserDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> createAdmin(CreateAdminRequest request) async {
+  Future<Map<String, dynamic>> createAdmin(CreateAdminRequest createAdminRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/create-admin',
         data: {
-          'dni': request.dni,
-          'username': request.username,
-          'surname': request.surname,
-          'email': request.email,
-          'password': request.password,
-          'confirmPassword': request.confirmPassword,
+          'dni': createAdminRequest.dni,
+          'username': createAdminRequest.username,
+          'surname': createAdminRequest.surname,
+          'email': createAdminRequest.email,
+          'password': createAdminRequest.password,
+          'confirmPassword': createAdminRequest.confirmPassword,
         },
       );
 
@@ -118,17 +118,17 @@ class UserDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> updateUser(UpdateUserRequest request) async {
+  Future<Map<String, dynamic>> updateUser(UpdateUserRequest updateUserRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/update-user',
         data: {
-          'originalEmail': request.originalEmail,
-          'dniToBeFound': request.dniToBeFound,
-          'username': request.username,
-          'surname': request.surname,
-          'email': request.email,
+          'originalEmail': updateUserRequest.originalEmail,
+          'dniToBeFound': updateUserRequest.dniToBeFound,
+          'username': updateUserRequest.username,
+          'surname': updateUserRequest.surname,
+          'email': updateUserRequest.email,
         },
       );
 
@@ -140,13 +140,13 @@ class UserDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> deleteUser(DeleteUserRequest request) async {
+  Future<Map<String, dynamic>> deleteUser(DeleteUserRequest deleteUserRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/delete-user',
         data: {
-          'email': request.email,
+          'email': deleteUserRequest.email,
         },
       );
 
@@ -158,13 +158,13 @@ class UserDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> createNewPassword(CreateNewPasswordRequest request) async {
+  Future<Map<String, dynamic>> createNewPassword(CreateNewPasswordRequest createNewPasswordRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/create-new-password',
         data: {
-          'userEmail': request.userEmail,
+          'userEmail': createNewPasswordRequest.userEmail,
         },
       );
 
@@ -176,16 +176,16 @@ class UserDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> changePasswordWithPasswordAndEmail(ChangePasswordWithPasswordAndEmailRequest request) async {
+  Future<Map<String, dynamic>> changePasswordWithPasswordAndEmail(ChangePasswordWithPasswordAndEmailRequest changePasswordWithPasswordAndEmailRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/change-password-with-password-and-email',
         data: {
-          'userEmail': request.userEmail,
-          'oldPassword': request.oldPassword,
-          'newPassword': request.newPassword,
-          'confirmNewPassword': request.confirmNewPassword,
+          'userEmail': changePasswordWithPasswordAndEmailRequest.userEmail,
+          'oldPassword': changePasswordWithPasswordAndEmailRequest.oldPassword,
+          'newPassword': changePasswordWithPasswordAndEmailRequest.newPassword,
+          'confirmNewPassword': changePasswordWithPasswordAndEmailRequest.confirmNewPassword,
         },
       );
 

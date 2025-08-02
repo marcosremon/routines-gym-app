@@ -68,10 +68,10 @@ class UserRepository {
     return getUserByEmailResponse;
   }
 
-  Future<CreateUserResponse> createUser(CreateUserRequest request) async {
+  Future<CreateUserResponse> createUser(CreateUserRequest createUserRequest) async {
     CreateUserResponse createUserResponse = CreateUserResponse();
     try {
-      Map<String, dynamic> data = await userDatasource.createUser(request);
+      Map<String, dynamic> data = await userDatasource.createUser(createUserRequest);
       if (data['responseCodeJson'] == 200) {
         createUserResponse.isSuccess = data['isSuccess'];
         createUserResponse.message = data['message'];
@@ -89,10 +89,10 @@ class UserRepository {
     return createUserResponse;
   }
 
-  Future<CreateGoogleUserResponse> createGoogleUser(CreateGoogleUserRequest request) async {
+  Future<CreateGoogleUserResponse> createGoogleUser(CreateGoogleUserRequest createGoogleUserRequest) async {
     CreateGoogleUserResponse createGoogleUserResponse = CreateGoogleUserResponse();
     try {
-      Map<String, dynamic> data = await userDatasource.createGoolgeUser(request);
+      Map<String, dynamic> data = await userDatasource.createGoolgeUser(createGoogleUserRequest);
       if (data['responseCodeJson'] == 200) {
         createGoogleUserResponse.isSuccess = data['isSuccess'];
         createGoogleUserResponse.message = data['message'];
@@ -110,10 +110,10 @@ class UserRepository {
     return createGoogleUserResponse;
   }
 
-  Future<CreateAdminResponse> createAdmin(CreateAdminRequest request) async {
+  Future<CreateAdminResponse> createAdmin(CreateAdminRequest createAdminRequest) async {
     CreateAdminResponse createAdminResponse = CreateAdminResponse();
     try {
-      Map<String, dynamic> data = await userDatasource.createAdmin(request);
+      Map<String, dynamic> data = await userDatasource.createAdmin(createAdminRequest);
       if (data['responseCodeJson'] == 200) {
         createAdminResponse.isSuccess = data['isSuccess'];
         createAdminResponse.message = data['message'];
@@ -130,10 +130,10 @@ class UserRepository {
     return createAdminResponse;
   }
 
-  Future<UpdateUserResponse> updateUser(UpdateUserRequest request) async {
+  Future<UpdateUserResponse> updateUser(UpdateUserRequest updateUserRequest) async {
     UpdateUserResponse updateUserResponse = UpdateUserResponse();
     try {
-      Map<String, dynamic> data = await userDatasource.updateUser(request);
+      Map<String, dynamic> data = await userDatasource.updateUser(updateUserRequest);
       if (data['responseCodeJson'] == 200) {
         updateUserResponse.isSuccess = data['isSuccess'];
         updateUserResponse.message = data['message'];
@@ -151,10 +151,10 @@ class UserRepository {
     return updateUserResponse;
   }
 
-  Future<DeleteUserResponse> deleteUser(DeleteUserRequest request) async {
+  Future<DeleteUserResponse> deleteUser(DeleteUserRequest deleteUserRequest) async {
     DeleteUserResponse deleteUserResponse = DeleteUserResponse();
     try {
-      Map<String, dynamic> data = await userDatasource.deleteUser(request);
+      Map<String, dynamic> data = await userDatasource.deleteUser(deleteUserRequest);
       if (data['responseCodeJson'] == 200) {
         deleteUserResponse.isSuccess = data['isSuccess'];
         deleteUserResponse.message = data['message'];
@@ -172,10 +172,10 @@ class UserRepository {
     return deleteUserResponse;
   }
 
-  Future<CreateNewPasswordResponse> createNewPassword(CreateNewPasswordRequest request) async {
+  Future<CreateNewPasswordResponse> createNewPassword(CreateNewPasswordRequest createNewPasswordRequest) async {
     CreateNewPasswordResponse createNewPasswordResponse = CreateNewPasswordResponse();
     try {
-      Map<String, dynamic> data = await userDatasource.createNewPassword(request);
+      Map<String, dynamic> data = await userDatasource.createNewPassword(createNewPasswordRequest);
       if (data['responseCodeJson'] == 200) {
         createNewPasswordResponse.isSuccess = data['isSuccess'];
         createNewPasswordResponse.message = data['message'];
@@ -193,10 +193,10 @@ class UserRepository {
     return createNewPasswordResponse;
   }
 
-  Future<ChangePasswordWithPasswordAndEmailResponse> changePasswordWithPasswordAndEmail(ChangePasswordWithPasswordAndEmailRequest request) async {
+  Future<ChangePasswordWithPasswordAndEmailResponse> changePasswordWithPasswordAndEmail(ChangePasswordWithPasswordAndEmailRequest changePasswordWithPasswordAndEmailRequest) async {
     ChangePasswordWithPasswordAndEmailResponse changePasswordWithPasswordAndEmailResponse = ChangePasswordWithPasswordAndEmailResponse();
     try {
-      Map<String, dynamic> data = await userDatasource.changePasswordWithPasswordAndEmail(request);
+      Map<String, dynamic> data = await userDatasource.changePasswordWithPasswordAndEmail(changePasswordWithPasswordAndEmailRequest);
       if (data['responseCodeJson'] == 200) {
         changePasswordWithPasswordAndEmailResponse.isSuccess = data['isSuccess'];
         changePasswordWithPasswordAndEmailResponse.message = data['message'];

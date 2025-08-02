@@ -12,15 +12,15 @@ class AuthDatasource {
   final GoogleSignIn googleSignIn = GoogleSignIn.instance;
   final UserDatasource userDatasource = UserDatasource();
 
-  Future<Map<String, dynamic>> login(LoginRequest request) async {
+  Future<Map<String, dynamic>> login(LoginRequest loginRequest) async {
     Map<String, dynamic> data = {};
     try
     {
       dynamic apiResponse = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.authEndpoint}/login',
         data: {
-          'userEmail': request.userEmail,
-          'userPassword': request.userPassword,
+          'userEmail': loginRequest.userEmail,
+          'userPassword': loginRequest.userPassword,
         },
       );
 
