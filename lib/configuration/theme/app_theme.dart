@@ -17,6 +17,7 @@ List<Color> colorThemes = [
   Colors.grey, // 13
   Colors.grey.shade700, // 14
   Colors.grey.shade100, // 15
+  Color(0xFF90A4AE), // 16
 ];
 
 class AppTheme {
@@ -33,6 +34,11 @@ class AppTheme {
       useMaterial3: true,
       colorSchemeSeed: colorThemes[selectedColor],
       brightness: Brightness.dark,
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+        bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+        titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+      ),
     );
   }
 }

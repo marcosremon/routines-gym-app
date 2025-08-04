@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             theme: AppTheme(selectedColor: 7).theme(),
             home: authProvider.isLoggedIn
                 ? const HomeScreen()
-                : const WelcomeScreen(),
+                : const HomeScreen(),
           );
         },
       ),

@@ -51,7 +51,6 @@ class CreateAccountScreen extends StatelessWidget {
                                 Text(
                                   'Create Account',
                                   style: TextStyle(
-                                    fontFamily: 'Poppins',
                                     fontSize: 40,
                                     fontWeight: FontWeight.bold,
                                     color: colorThemes[10], // black
@@ -176,7 +175,6 @@ class _AlreadyHaveAccount extends StatelessWidget {
           Text(
             "Already have an account? ",
             style: TextStyle(
-              fontFamily: 'Poppins',
               fontSize: 14,
               color: colorThemes[11], // grey 600
             ),
@@ -191,7 +189,6 @@ class _AlreadyHaveAccount extends StatelessWidget {
             child: Text(
               "Sign in",
               style: TextStyle(
-                fontFamily: 'Poppins',
                 fontSize: 14,
                 color: primaryColor,
                 fontWeight: FontWeight.w600,

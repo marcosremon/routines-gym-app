@@ -52,7 +52,6 @@ class LoginScreen extends StatelessWidget {
                                   Text(
                                     'Login',
                                     style: TextStyle(
-                                      fontFamily: 'Poppins',
                                       fontSize: 40,
                                       fontWeight: FontWeight.bold,
                                       color: colorThemes[10], // black
@@ -63,7 +62,6 @@ class LoginScreen extends StatelessWidget {
                                   Text(
                                     'Please sign in to continue.',
                                     style: TextStyle(
-                                      fontFamily: 'Poppins',
                                       fontSize: 14,
                                       color: colorThemes[11], // grey 600
                                     ),
@@ -96,7 +94,6 @@ class LoginScreen extends StatelessWidget {
                                 child: Text(
                                   '¿Olvidaste tu contraseña?',
                                   style: TextStyle(
-                                    fontFamily: 'Poppins',
                                     fontSize: 14,
                                     color: primaryColor,
                                     fontWeight: FontWeight.w500,
@@ -127,14 +124,14 @@ class LoginScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 _SocialLoginButton(
-                                  assetPath: 'assets/icons/google-icon.png',
+                                  assetPath: 'assets/icons/google_icon.png',
                                   onPressed: () {
                                     // to_do ir al home con google
                                   },
                                 ),
                                 const SizedBox(width: 20),
                                 _SocialLoginButton(
-                                  assetPath: 'assets/icons/apple-icon.ico',
+                                  assetPath: 'assets/icons/apple_icon.ico',
                                   onPressed: () {
                                     // to_do ir al home con apple
                                   },
@@ -175,7 +172,6 @@ class _AlreadyHaveAccount extends StatelessWidget {
           Text(
             "¿No tienes cuenta? ",
             style: TextStyle(
-              fontFamily: 'Poppins',
               fontSize: 14,
               color: colorThemes[11], // grey 600
             ),
@@ -190,7 +186,6 @@ class _AlreadyHaveAccount extends StatelessWidget {
             child: Text(
               "Regístrate",
               style: TextStyle(
-                fontFamily: 'Poppins',
                 fontSize: 14,
                 color: primaryColor,
                 fontWeight: FontWeight.w600,
@@ -221,7 +216,6 @@ class _DividerOrBar extends StatelessWidget {
             child: Text(
               'OR',
               style: TextStyle(
-                fontFamily: 'Poppins',
                 color: colorThemes[11], // grey 600
                 fontSize: 14,
               ),

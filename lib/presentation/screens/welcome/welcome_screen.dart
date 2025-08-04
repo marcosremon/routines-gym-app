@@ -32,7 +32,6 @@ class WelcomeScreen extends StatelessWidget {
                         child: Text(
                           'Welcome!',
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             fontSize: 40,
                             fontWeight: FontWeight.w800,
                             color: colorThemes[10], // black
