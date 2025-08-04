@@ -27,7 +27,7 @@ class CreateAccountScreen extends StatelessWidget {
     final Color primaryColor = Theme.of(context).colorScheme.primary;
 
     return Scaffold(
-      backgroundColor: colorThemes[9], // white
+      backgroundColor: colorThemes[17], 
       body: Stack(
         children: [
           const TopRightCircle(),

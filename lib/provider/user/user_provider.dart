@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_new_password/create_new_password_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_response.dart';
 import 'package:routines_gym_app/infraestructure/repository/user_repository.dart';
@@ -23,6 +24,8 @@ class UserProvider extends ChangeNotifier {
 
     return createUserResponse;
   }
+
+  Future<void> resetPassword(CreateNewPasswordRequest createNewPasswordRequest) async {}
 
   
 }

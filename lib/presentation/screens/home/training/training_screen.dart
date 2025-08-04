@@ -1,12 +1,10 @@
-// ignore_for_file: deprecated_member_use, camel_case_types, avoid_print
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_stats/get_routine_stats_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
+import 'package:routines_gym_app/presentation/screens/home/training/add_routine_screen.dart';
 import 'package:routines_gym_app/presentation/widgets/buttons/custom_filled_button.dart';
 import 'package:routines_gym_app/presentation/widgets/cards/training_stats/training_stats_card.dart';
-import 'package:routines_gym_app/provider/training/training_provider.dart';
+import 'package:routines_gym_app/provider/routine/routine_provider.dart';
 
 class TrainingScreen extends StatelessWidget {
   TrainingScreen({super.key});
@@ -14,21 +12,24 @@ class TrainingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorThemes[9],
+      backgroundColor: colorThemes[17],
       appBar: _appBar(),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(24),
           children: [
-            _decorationInitialIconBox(),
+            _DecorationInitialIconBox(),
             const SizedBox(height: 25),
 
             _ScrollCards(trainingStats: _trainingStats),
             const SizedBox(height: 25),
 
             CustomFilledButton(
-              onPressed: () {
-                // to_do add new routine action
+              onPressed: () async {
+                Navigator.pushReplacement(
+                  context, 
+                  MaterialPageRoute(builder: (context) => const AddRoutineScreen())
+                );
               }, 
               backgroundColor: colorThemes[16], 
               textColor: colorThemes[9], // white color
@@ -36,7 +37,7 @@ class TrainingScreen extends StatelessWidget {
             ),
             const SizedBox(height: 25),
             
-            _decorationEndIconBox(),
+            _DecorationEndIconBox(),
           ],
         ),        
       ),
@@ -51,7 +52,7 @@ class TrainingScreen extends StatelessWidget {
         fontSize: 27,
         fontWeight: FontWeight.bold,
       ),
-      backgroundColor: colorThemes[9],
+      backgroundColor: colorThemes[17],
       elevation: 0,
     );
   }
@@ -59,7 +60,7 @@ class TrainingScreen extends StatelessWidget {
   final List<Map<String, dynamic>> _trainingStats = [
     {
       'iconPath': 'assets/icons/routine_calendar_icon.png',
-      'label': 'Routines',
+      'label': 'Routines Counter',
     },
     {
       'iconPath': 'assets/icons/exercise_icon.png',
@@ -72,7 +73,7 @@ class TrainingScreen extends StatelessWidget {
   ];
 }
 
-class _decorationInitialIconBox extends StatelessWidget {
+class _DecorationInitialIconBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -110,7 +111,7 @@ class _ScrollCards extends StatefulWidget {
 }
 
 class _ScrollCardsState extends State<_ScrollCards> {
-  final TrainingProvider trainingProvider = TrainingProvider();
+  final RoutineProvider routineProvider = RoutineProvider();
   List<int> counts = [];
 
   @override
@@ -121,20 +122,19 @@ class _ScrollCardsState extends State<_ScrollCards> {
 
   Future<void> _fetchCounts() async {
     try {
-      final response = await trainingProvider.trainingStats();
-
-      if (response.statusCode == 200) {
-        List<int> data = [response.routineCount, response.exerciseCount, response.splitDayCount];
-        setState(() {
-          counts = List<int>.from(data);
-        });
-      } else {
-        throw Exception('Error al obtener datos');
-      }
-    } catch (e) {
-      print('Error: $e');
+      GetRoutineStatsResponse getRoutineStatsResponse = await routineProvider.getRoutineStats();
+      
+      int routineCounte = getRoutineStatsResponse.routinesCount ?? 0; 
+      int exerciseCount = getRoutineStatsResponse.exercisesCount ?? 0; 
+      int splitsCount = getRoutineStatsResponse.splitsCount ?? 0; 
+      
       setState(() {
-        counts = List.filled(widget.trainingStats.length, 0); // fallback
+          counts = List<int>.from([routineCounte, exerciseCount, splitsCount]);
+      });
+    } catch (ex) {
+      print('Error: $ex');
+      setState(() {
+        counts = List.filled(widget.trainingStats.length, 0);
       });
     }
   }
@@ -154,7 +154,7 @@ class _ScrollCardsState extends State<_ScrollCards> {
           return Padding(
             padding: const EdgeInsets.fromLTRB(1.5, 0, 1.5, 0),
             child: SizedBox(
-              width: 200,
+              width: 225,
               child: TrainingStatCard(
                 icon: ImageIcon(
                   AssetImage(stat['iconPath']),
@@ -172,7 +172,7 @@ class _ScrollCardsState extends State<_ScrollCards> {
   }
 }
 
-class _decorationEndIconBox extends StatelessWidget {
+class _DecorationEndIconBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -190,7 +190,7 @@ class _decorationEndIconBox extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            '¿Sabías que puedes personalizar tus rutinas y añadir tus propios ejercicios?',
+            'Did you know that you can customize your routines and add your own exercises?',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16, color: colorThemes[9]),
           ),

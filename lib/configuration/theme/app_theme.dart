@@ -18,6 +18,7 @@ List<Color> colorThemes = [
   Colors.grey.shade700, // 14
   Colors.grey.shade100, // 15
   Color(0xFF90A4AE), // 16
+  Color(0xFFFAFAFA), //17
 ];
 
 class AppTheme {
