@@ -64,7 +64,7 @@ class ResetPasswordBottomSheet extends StatelessWidget {
                       userEmail: email
                     );
 
-                    await context.read<UserProvider>().resetPassword(createNewPasswordRequest);
+                    await context.read<UserProvider>().createNewPassword(createNewPasswordRequest);
                     Navigator.of(context).pop();
                   },
                 ),
