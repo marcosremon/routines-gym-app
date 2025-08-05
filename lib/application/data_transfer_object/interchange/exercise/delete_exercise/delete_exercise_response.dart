@@ -1,12 +1,9 @@
-import 'package:routines_gym_app/application/data_transfer_object/entities/user_dto.dart';
 import 'package:routines_gym_app/transversal/common/base_response.dart';
 import 'package:routines_gym_app/transversal/common/response_codes.dart';
 
 class DeleteExerciseResponse extends BaseResponse {
-  UserDTO? userDTO;
 
   DeleteExerciseResponse({
-    this.userDTO,
     super.responseCode,
     super.isSuccess,
     super.message,
@@ -14,9 +11,6 @@ class DeleteExerciseResponse extends BaseResponse {
 
   factory DeleteExerciseResponse.fromJson(Map<String, dynamic> json) {
     return DeleteExerciseResponse(
-      userDTO: json['userDTO'] != null
-          ? UserDTO.fromJson(json['userDTO'])
-          : null,
       responseCode: json['responseCode'] != null
           ? ResponseCodes.fromValue(json['responseCode'])
           : null,
@@ -27,7 +21,6 @@ class DeleteExerciseResponse extends BaseResponse {
 
   @override
   Map<String, dynamic> toJson() => {
-        'userDTO': userDTO?.toJson(),
         'responseCode': responseCode?.value,
         'isSuccess': isSuccess,
         'message': message,

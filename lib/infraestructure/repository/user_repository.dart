@@ -72,7 +72,6 @@ class UserRepository {
       if (data['responseCodeJson'] == 200) {
         createUserResponse.isSuccess = data['isSuccess'];
         createUserResponse.message = data['message'];
-        createUserResponse.userDTO = UserDTO.fromJson(data['userDTO']);
       } else {
         createUserResponse.isSuccess = false;
         createUserResponse.message = 'Error: ${data['message']}';
@@ -92,7 +91,6 @@ class UserRepository {
       if (data['responseCodeJson'] == 200) {
         createGoogleUserResponse.isSuccess = data['isSuccess'];
         createGoogleUserResponse.message = data['message'];
-        createGoogleUserResponse.userDTO = UserDTO.fromJson(data['userDTO']);
       } else {
         createGoogleUserResponse.isSuccess = false;
         createGoogleUserResponse.message = 'Error: ${data['message']}';
@@ -151,7 +149,6 @@ class UserRepository {
       if (data['responseCodeJson'] == 200) {
         deleteUserResponse.isSuccess = data['isSuccess'];
         deleteUserResponse.message = data['message'];
-        deleteUserResponse.userId = data['userId'];
       } else {
         deleteUserResponse.isSuccess = false;
         deleteUserResponse.message = 'Error: ${data['message']}';
@@ -171,7 +168,6 @@ class UserRepository {
       if (data['responseCodeJson'] == 200) {
         createNewPasswordResponse.isSuccess = data['isSuccess'];
         createNewPasswordResponse.message = data['message'];
-        createNewPasswordResponse.userId = data['userId'];
       } else {
         createNewPasswordResponse.isSuccess = false;
         createNewPasswordResponse.message = 'Error: ${data['message']}';
@@ -191,7 +187,6 @@ class UserRepository {
       if (data['responseCodeJson'] == 200) {
         changePasswordWithPasswordAndEmailResponse.isSuccess = data['isSuccess'];
         changePasswordWithPasswordAndEmailResponse.message = data['message'];
-        changePasswordWithPasswordAndEmailResponse.userId = data['userId'];
       } else {
         changePasswordWithPasswordAndEmailResponse.isSuccess = false;
         changePasswordWithPasswordAndEmailResponse.message = 'Error: ${data['message']}';
