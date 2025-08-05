@@ -26,7 +26,7 @@ class TrainingScreen extends StatelessWidget {
 
             CustomFilledButton(
               onPressed: () async {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context, 
                   MaterialPageRoute(builder: (context) => const AddRoutineScreen())
                 );

@@ -14,7 +14,7 @@ class RoutineController extends ChangeNotifier {
   final Map<int, List<Map<String, TextEditingController>>> exercisesByDay = {};
 
   final List<String> weekDays = [
-    'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'
+    'Monday', 'Thuesday', 'Wednes', 'Thursday', 'Friday', 'Saturday', 'Sunday'
   ];
 
   void addDay(int day) {

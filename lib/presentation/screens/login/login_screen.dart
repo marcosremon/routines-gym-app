@@ -164,49 +164,6 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class _DontYouHaveAnAccount extends StatelessWidget {
-  final Color primaryColor;
-
-  const _DontYouHaveAnAccount({
-    required this.primaryColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(75, 0, 0, 40),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Don't you have an account?",
-            style: TextStyle(
-              fontSize: 14,
-              color: colorThemes[11], // grey 600
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
-              );
-            },
-            child: Text(
-              "Regístrate",
-              style: TextStyle(
-                fontSize: 14,
-                color: primaryColor,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _DividerOrBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -292,6 +249,52 @@ class _SocialLoginButton extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _DontYouHaveAnAccount extends StatelessWidget {
+  final Color primaryColor;
+
+  const _DontYouHaveAnAccount({
+    required this.primaryColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(75, 0, 0, 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Don't you have an account?",
+            style: TextStyle(
+              fontSize: 14,
+              color: colorThemes[11], // grey 600
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CreateAccountScreen()),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 7),
+              child: Text(
+                "Sing up",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

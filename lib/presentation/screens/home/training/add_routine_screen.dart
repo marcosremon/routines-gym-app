@@ -65,7 +65,7 @@ class AddRoutineScreen extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 4,
-      childAspectRatio: 2.2, // Aumentado de 2.0 a 2.2 para más ancho
+      childAspectRatio: 2.6,
       mainAxisSpacing: 8,
       crossAxisSpacing: 8,
       children: List.generate(7, (day) => _buildDayChip(controller, day)),
@@ -75,7 +75,7 @@ class AddRoutineScreen extends StatelessWidget {
   Widget _buildDayChip(RoutineController controller, int day) {
     final isSelected = controller.selectedDays.contains(day);
     return SizedBox(
-      width: 110, 
+      width: 120, 
       height: 48,
       child: FilterChip(
         label: SizedBox(
@@ -84,7 +84,7 @@ class AddRoutineScreen extends StatelessWidget {
             controller.weekDays[day],
             style: TextStyle(
               color: isSelected ? colorThemes[9] : Colors.black87,
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,
