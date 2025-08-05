@@ -41,38 +41,7 @@ class ExerciseCard extends StatelessWidget {
                     onPressed: onRemove,
                   ),
               ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomTextField(
-                    controller: ctrls["sets"]!,
-                    hintText: 'Sets',
-                    icon: Icons.repeat,
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: CustomTextField(
-                    controller: ctrls["reps"]!,
-                    hintText: 'Reps',
-                    icon: Icons.repeat_one,
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: CustomTextField(
-                    controller: ctrls["weight"]!,
-                    hintText: 'Weight',
-                    icon: Icons.monitor_weight,
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-              ],
-            ),
+            ),            
           ],
         ),
       ),

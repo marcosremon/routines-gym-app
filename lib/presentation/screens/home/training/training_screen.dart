@@ -68,7 +68,7 @@ class TrainingScreen extends StatelessWidget {
     },
     {
       'iconPath': 'assets/icons/split_day_icon.png',
-      'label': 'Splits Counter',
+      'label': 'Splits   Counter',
     },
   ];
 }

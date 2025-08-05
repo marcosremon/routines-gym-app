@@ -17,7 +17,7 @@ class AddRoutineScreen extends StatelessWidget {
       backgroundColor: colorThemes[17],
       appBar: _appBar(context),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
         children: [
           CustomTextField(
             hintText: "Routine name", 
@@ -47,16 +47,19 @@ class AddRoutineScreen extends StatelessWidget {
           const SizedBox(height: 24),
           
           ..._buildExercisesByDay(routineController, context),
-          
-          CustomButton(
-            text: 'Create routine',
-            textColor: colorThemes[9],
-            onPressed: () {
-              routineController.submitRoutine(context);
-            },
-          ),
         ],
-      ) 
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 30),
+        child: CustomButton(
+          text: 'Create routine',
+          textColor: colorThemes[9],
+          onPressed: () {
+        routineController.submitRoutine(context);
+      },
+    ),
+  ),
+
     );
   }
 
@@ -84,7 +87,7 @@ class AddRoutineScreen extends StatelessWidget {
             controller.weekDays[day],
             style: TextStyle(
               color: isSelected ? colorThemes[9] : Colors.black87,
-              fontSize: 13,
+              fontSize: 11.5,
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,

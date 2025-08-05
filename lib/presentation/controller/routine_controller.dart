@@ -14,7 +14,7 @@ class RoutineController extends ChangeNotifier {
   final Map<int, List<Map<String, TextEditingController>>> exercisesByDay = {};
 
   final List<String> weekDays = [
-    'Monday', 'Thuesday', 'Wednes', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+    'Monday', 'Thuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
   ];
 
   void addDay(int day) {
@@ -126,6 +126,9 @@ class RoutineController extends ChangeNotifier {
     CreateRoutineRequest createRoutineRequest = CreateRoutineRequest(
       userEmail: email,
       routineName: name,
+      sets: routine["sets"],
+      reps: routine["reps"],
+      weight: routine["weight"],
       routineDescription: desc,
       splitDays: routine["splitDays"],
     );
