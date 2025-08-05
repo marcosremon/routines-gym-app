@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
+import 'package:routines_gym_app/presentation/controller/routine_controller.dart';
 import 'package:routines_gym_app/presentation/screens/home/home_screen.dart';
 import 'package:routines_gym_app/presentation/screens/welcome/welcome_screen.dart';
 import 'package:routines_gym_app/provider/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -19,12 +19,13 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) {
-            final auth = AuthProvider();
+            final AuthProvider auth = AuthProvider();
             auth.init(); 
             return auth;
           },
         ),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => RoutineController()), 
       ],
       child: Consumer<AuthProvider>(
         builder: (context, authProvider, _) {
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
             theme: AppTheme(selectedColor: 7).theme(),
             home: authProvider.isLoggedIn
                 ? const HomeScreen()
-                : const WelcomeScreen(),
+                : const HomeScreen(),
           );
         },
       ),

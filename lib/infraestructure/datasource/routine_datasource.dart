@@ -22,9 +22,6 @@ class RoutineDatasource {
           'routineName': request.routineName,
           'routineDescription': request.routineDescription,
           'splitDays': request.splitDays,
-          'sets': request.sets,
-          'reps': request.reps,
-          'weight': request.weight,
         },
       );
       data = response.data as Map<String, dynamic>;
