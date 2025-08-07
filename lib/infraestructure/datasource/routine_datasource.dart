@@ -12,16 +12,16 @@ import 'package:routines_gym_app/configuration/constants/app_constants.dart';
 class RoutineDatasource {
   final Dio dio = Dio();
 
-  Future<Map<String, dynamic>> createRoutine(CreateRoutineRequest request) async {
+  Future<Map<String, dynamic>> createRoutine(CreateRoutineRequest createRoutineRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/create-routine',
         data: {
-          'userEmail': request.userEmail,
-          'routineName': request.routineName,
-          'routineDescription': request.routineDescription,
-          'splitDays': request.splitDays,
+          'userEmail': createRoutineRequest.userEmail,
+          'routineName': createRoutineRequest.routineName,
+          'routineDescription': createRoutineRequest.routineDescription,
+          'splitDays': createRoutineRequest.splitDays,
         },
       );
       data = response.data as Map<String, dynamic>;
@@ -32,16 +32,16 @@ class RoutineDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> updateRoutine(UpdateRoutineRequest request) async {
+  Future<Map<String, dynamic>> updateRoutine(UpdateRoutineRequest updateRoutineRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/update-routine',
         data: {
-          'routineId': request.routineId,
-          'routineName': request.routineName,
-          'routineDescription': request.routineDescription,
-          'splitDays': request.splitDays,
+          'routineId': updateRoutineRequest.routineId,
+          'routineName': updateRoutineRequest.routineName,
+          'routineDescription': updateRoutineRequest.routineDescription,
+          'splitDays': updateRoutineRequest.splitDays,
         },
       );
 
@@ -53,14 +53,14 @@ class RoutineDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> deleteRoutine(DeleteRoutineRequest request) async {
+  Future<Map<String, dynamic>> deleteRoutine(DeleteRoutineRequest deleteRoutineRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/delete-routine',
         data: {
-          'userEmail': request.userEmail,
-          'routineId': request.routineId,
+          'userEmail': deleteRoutineRequest.userEmail,
+          'routineId': deleteRoutineRequest.routineId,
         },
       );
     
@@ -72,13 +72,13 @@ class RoutineDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> getAllUserRoutines(GetAllUserRoutinesRequest request) async {
+  Future<Map<String, dynamic>> getAllUserRoutines(GetAllUserRoutinesRequest getAllUserRoutinesRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/get-all-user-routines',
         data: {
-          'userEmail': request.userEmail,
+          'userEmail': getAllUserRoutinesRequest.userEmail,
         },
       );
       
@@ -90,13 +90,13 @@ class RoutineDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> getRoutineStats(GetRoutineStatsRequest request) async {
+  Future<Map<String, dynamic>> getRoutineStats(GetRoutineStatsRequest getRoutineStatsRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/get-routine-stats',
         data: {
-          'userEmail': request.userEmail,
+          'userEmail': getRoutineStatsRequest.userEmail,
         },
       );
       
@@ -108,13 +108,13 @@ class RoutineDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> getRoutineById(GetRoutineByIdRequest request) async {
+  Future<Map<String, dynamic>> getRoutineById(GetRoutineByIdRequest getRoutineByIdRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/get-routine-by-id',
         data: {
-          'routineId': request.routineId,
+          'routineId': getRoutineByIdRequest.routineId,
         },
       );
       

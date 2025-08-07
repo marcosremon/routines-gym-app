@@ -1,0 +1,37 @@
+import 'package:flutter/foundation.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_response.dart';
+import 'package:routines_gym_app/infraestructure/datasource/friend_datasource.dart';
+import 'package:routines_gym_app/transversal/common/response_codes.dart';
+
+class FriendRepository {
+  final FriendDatasource friendDatasource = FriendDatasource();
+
+  Future<GetAllUserFriendsResponse> getAllUserFriends(GetAllUserFriendsRequest getAllUserFriendsRequest) async
+  {
+    GetAllUserFriendsResponse getAllUserFriendsResponse = GetAllUserFriendsResponse();
+    try 
+    {
+      Map<String, dynamic> data = await friendDatasource.getAllUserFriends(getAllUserFriendsRequest);
+       if (data['responseCodeJson'] == 200) {
+        getAllUserFriendsResponse.isSuccess = data['isSuccess'];
+        getAllUserFriendsResponse.message = data['message'];
+        getAllUserFriendsResponse.friends = data['friends'];
+      } else {
+        getAllUserFriendsResponse.isSuccess = false;
+        getAllUserFriendsResponse.message = 'Error: ${data['message']}';
+      }
+      getAllUserFriendsResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
+    }
+    catch (e) {
+      if (kDebugMode) {
+        print("Error fetching friends: $e");
+      }
+      getAllUserFriendsResponse.isSuccess = false;
+      getAllUserFriendsResponse.message = "Failed to fetch friends";
+      getAllUserFriendsResponse.friends = [];
+    }
+
+    return getAllUserFriendsResponse;
+  }
+}

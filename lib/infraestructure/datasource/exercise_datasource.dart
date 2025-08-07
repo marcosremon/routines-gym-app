@@ -11,16 +11,16 @@ import 'package:routines_gym_app/configuration/constants/app_constants.dart';
 class ExerciseDatasource {
   final Dio dio = Dio();
 
-  Future<Map<String, dynamic>> addExerciseProgress(AddExerciseProgressRequest request) async {
+  Future<Map<String, dynamic>> addExerciseProgress(AddExerciseProgressRequest addExerciseProgressRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.exerciseEndpoint}/add-exercise-progress',
         data: {
-          'progressList': request.progressList,
-          'userEmail': request.userEmail,
-          'routineId': request.routineId,
-          'dayName': request.dayName,
+          'progressList': addExerciseProgressRequest.progressList,
+          'userEmail': addExerciseProgressRequest.userEmail,
+          'routineId': addExerciseProgressRequest.routineId,
+          'dayName': addExerciseProgressRequest.dayName,
         },
       );
       
@@ -32,19 +32,19 @@ class ExerciseDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> updateExercise(UpdateExerciseRequest request) async {
+  Future<Map<String, dynamic>> updateExercise(UpdateExerciseRequest updateExerciseRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.exerciseEndpoint}/update-exercise',
         data: {
-          'userId': request.userId,
-          'routineId': request.routineId,
-          'dayName': request.dayName,
-          'exerciseName': request.exerciseName,
-          'sets': request.sets,
-          'reps': request.reps,
-          'weight': request.weight,
+          'userId': updateExerciseRequest.userId,
+          'routineId': updateExerciseRequest.routineId,
+          'dayName': updateExerciseRequest.dayName,
+          'exerciseName': updateExerciseRequest.exerciseName,
+          'sets': updateExerciseRequest.sets,
+          'reps': updateExerciseRequest.reps,
+          'weight': updateExerciseRequest.weight,
         },
       );
       
@@ -56,16 +56,16 @@ class ExerciseDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> deleteExercise(DeleteExerciseRequest request) async {
+  Future<Map<String, dynamic>> deleteExercise(DeleteExerciseRequest deleteExerciseRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.exerciseEndpoint}/delete-exercise',
         data: {
-          'userEmail': request.userEmail,
-          'routineId': request.routineId,
-          'dayName': request.dayName,
-          'exerciseId': request.exerciseId,
+          'userEmail': deleteExerciseRequest.userEmail,
+          'routineId': deleteExerciseRequest.routineId,
+          'dayName': deleteExerciseRequest.dayName,
+          'exerciseId': deleteExerciseRequest.exerciseId,
         },
       );
       
@@ -77,16 +77,16 @@ class ExerciseDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> addExercise(AddExerciseRequest request) async {
+  Future<Map<String, dynamic>> addExercise(AddExerciseRequest addExerciseRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.exerciseEndpoint}/add-exercise',
         data: {
-          'routineId': request.routineId,
-          'exerciseName': request.exerciseName,
-          'dayName': request.dayName,
-          'userEmail': request.userEmail,
+          'routineId': addExerciseRequest.routineId,
+          'exerciseName': addExerciseRequest.exerciseName,
+          'dayName': addExerciseRequest.dayName,
+          'userEmail': addExerciseRequest.userEmail,
         },
       );
       
@@ -98,14 +98,14 @@ class ExerciseDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> getExercisesByDayAndRoutineId(GetExercisesByDayAndRoutineIdRequest request) async {
+  Future<Map<String, dynamic>> getExercisesByDayAndRoutineId(GetExercisesByDayAndRoutineIdRequest getExercisesByDayAndRoutineIdRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.exerciseEndpoint}/get-exercises-by-day-and-routine-id',
         data: {
-          'routineId': request.routineId,
-          'dayName': request.dayName,
+          'routineId': getExercisesByDayAndRoutineIdRequest.routineId,
+          'dayName': getExercisesByDayAndRoutineIdRequest.dayName,
         },
       );
       

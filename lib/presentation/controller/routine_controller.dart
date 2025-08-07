@@ -126,9 +126,6 @@ class RoutineController extends ChangeNotifier {
     CreateRoutineRequest createRoutineRequest = CreateRoutineRequest(
       userEmail: email,
       routineName: name,
-      sets: routine["sets"],
-      reps: routine["reps"],
-      weight: routine["weight"],
       routineDescription: desc,
       splitDays: routine["splitDays"],
     );
@@ -140,10 +137,10 @@ class RoutineController extends ChangeNotifier {
   }
 
   void toggleDay(int day) {
-  if (selectedDays.contains(day)) {
-    removeDay(day);
-  } else {
-    addDay(day);
-  }
-}
+    if (selectedDays.contains(day)) {
+      removeDay(day);
+    } else {
+      addDay(day);
+    }
+  } 
 }

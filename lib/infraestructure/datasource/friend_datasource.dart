@@ -9,13 +9,13 @@ import 'package:routines_gym_app/configuration/constants/app_constants.dart';
 class FriendDatasource {
   final Dio dio = Dio();
 
-  Future<Map<String, dynamic>> getAllUserFriends(GetAllUserFriendsRequest request) async {
+  Future<Map<String, dynamic>> getAllUserFriends(GetAllUserFriendsRequest getAllUserFriendsRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.friendEndpoint}/get-all-user-friends',
         data: {
-          'userEmail': request.userEmail,
+          'userEmail': getAllUserFriendsRequest.userEmail,
         },
       );
 
@@ -27,14 +27,14 @@ class FriendDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> addNewUserFriend(AddNewUserFriendRequest request) async {
+  Future<Map<String, dynamic>> addNewUserFriend(AddNewUserFriendRequest addNewUserFriendRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.friendEndpoint}/add-new-user-friend',
         data: {
-          'userEmail': request.userEmail,
-          'friendCode': request.friendCode,
+          'userEmail': addNewUserFriendRequest.userEmail,
+          'friendCode': addNewUserFriendRequest.friendCode,
         },
       );
 
@@ -46,14 +46,14 @@ class FriendDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> deleteFriend(DeleteFriendRequest request) async {
+  Future<Map<String, dynamic>> deleteFriend(DeleteFriendRequest deleteFriendRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.friendEndpoint}/delete-friend',
         data: {
-          'userEmail': request.userEmail,
-          'friendEmail': request.friendEmail,
+          'userEmail': deleteFriendRequest.userEmail,
+          'friendEmail': deleteFriendRequest.friendEmail,
         },
       );
 

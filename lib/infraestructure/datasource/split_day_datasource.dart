@@ -8,16 +8,16 @@ import 'package:routines_gym_app/configuration/constants/app_constants.dart';
 class SplitDayDatasource {
   final Dio dio = Dio();
 
-  Future<Map<String, dynamic>> updateSplitDay(UpdateSplitDayRequest request) async {
+  Future<Map<String, dynamic>> updateSplitDay(UpdateSplitDayRequest updateSplitDayRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.splitDayEndpoint}/update-split-day',
         data: {
-          'routineId': request.routineId,
-          'userEmail': request.userEmail,
-          'addDays': request.addDays,
-          'deleteDays': request.deleteDays,
+          'routineId': updateSplitDayRequest.routineId,
+          'userEmail': updateSplitDayRequest.userEmail,
+          'addDays': updateSplitDayRequest.addDays,
+          'deleteDays': updateSplitDayRequest.deleteDays,
         },
       );
 
@@ -29,15 +29,15 @@ class SplitDayDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> deleteSplitDay(DeleteSplitDayRequest request) async {
+  Future<Map<String, dynamic>> deleteSplitDay(DeleteSplitDayRequest deleteSplitDayRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.splitDayEndpoint}/delete-split-day',
         data: {
-          'dayName': request.dayName,
-          'routineId': request.routineId,
-          'userId': request.userId,
+          'dayName': deleteSplitDayRequest.dayName,
+          'routineId': deleteSplitDayRequest.routineId,
+          'userId': deleteSplitDayRequest.userId,
         },
       );
 
