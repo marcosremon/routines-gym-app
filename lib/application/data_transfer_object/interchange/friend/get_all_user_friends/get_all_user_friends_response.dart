@@ -5,8 +5,8 @@ class GetAllUserFriendsResponse extends BaseResponse {
   List<UserDTO>? friends;
 
   GetAllUserFriendsResponse({
-    success,
-    message,
+    bool success = false, 
+    String message = '',
     this.friends,
-  }) : super(isSuccess: success);
+  }) : super(isSuccess: success, message: message);
 }

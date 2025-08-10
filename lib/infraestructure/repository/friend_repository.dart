@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:routines_gym_app/application/data_transfer_object/entities/user_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_response.dart';
 import 'package:routines_gym_app/infraestructure/datasource/friend_datasource.dart';
@@ -16,7 +17,9 @@ class FriendRepository {
        if (data['responseCodeJson'] == 200) {
         getAllUserFriendsResponse.isSuccess = data['isSuccess'];
         getAllUserFriendsResponse.message = data['message'];
-        getAllUserFriendsResponse.friends = data['friends'];
+        getAllUserFriendsResponse.friends = (data['friends'] as List)
+          .map((item) => UserDTO.fromJson(item))
+          .toList();
       } else {
         getAllUserFriendsResponse.isSuccess = false;
         getAllUserFriendsResponse.message = 'Error: ${data['message']}';

@@ -10,9 +10,10 @@ class FriendProvider extends ChangeNotifier {
   Future<GetAllUserFriendsResponse> getAllUserFriends() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     GetAllUserFriendsRequest getAllUserFriendsRequest = GetAllUserFriendsRequest(
-      userEmail: prefs.getString("userEmail") ?? "",
+      userEmail: prefs.getString("userEmail") ?? "juan.perez@example.com",
     );
-    return await friendRepository.getAllUserFriends(getAllUserFriendsRequest);
+    GetAllUserFriendsResponse getAllUserFriendsResponse = await friendRepository.getAllUserFriends(getAllUserFriendsRequest);
+    return getAllUserFriendsResponse;
   }
 
 }
