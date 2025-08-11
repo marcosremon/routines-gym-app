@@ -1,8 +1,13 @@
+// ignore_for_file: use_super_parameters
+
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/user_dto.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/provider/friend/friend_provider.dart';
+import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class SocialScreen extends StatelessWidget {
   const SocialScreen({super.key});
@@ -111,6 +116,11 @@ class _FriendsNotFound extends StatelessWidget {
 }
 
 class _SearchFriends extends StatelessWidget {
+  _SearchFriends({Key? key}) : super(key: key);
+
+  final TextEditingController _controller = TextEditingController();
+  final FriendProvider _friendProvider = FriendProvider();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -137,8 +147,8 @@ class _SearchFriends extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
-                padding: EdgeInsets.zero, 
-                constraints: const BoxConstraints(), 
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
                 onPressed: () {
                   // to_do abrir perfil
                 },
@@ -147,6 +157,7 @@ class _SearchFriends extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: TextField(
+                  controller: _controller, 
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: colorThemes[9],
@@ -159,8 +170,13 @@ class _SearchFriends extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 5.0),
                       child: IconButton(
                         icon: Icon(Icons.person_add_alt_1_rounded, color: colorThemes[10]),
-                        onPressed: () {
-                          // to_do agregar amigo
+                        onPressed: () async {
+                          AddNewUserFriendRequest addNewUserFriendRequest = AddNewUserFriendRequest(
+                            friendCode: _controller.text.trim(),
+                          );
+                          
+                          AddNewUserFriendResponse addNewUserFriendResponse = await _friendProvider.addNewUserFriend(addNewUserFriendRequest);
+                          ToastMessage.showToast(addNewUserFriendResponse.message!);
                         },
                       ),
                     ),

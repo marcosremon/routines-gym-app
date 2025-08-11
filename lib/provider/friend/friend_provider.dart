@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_response.dart';
 import 'package:routines_gym_app/infraestructure/repository/friend_repository.dart';
@@ -14,6 +16,13 @@ class FriendProvider extends ChangeNotifier {
     );
     GetAllUserFriendsResponse getAllUserFriendsResponse = await friendRepository.getAllUserFriends(getAllUserFriendsRequest);
     return getAllUserFriendsResponse;
+  }
+
+  Future<AddNewUserFriendResponse> addNewUserFriend(AddNewUserFriendRequest addNewUserFriendRequest) async 
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    addNewUserFriendRequest.userEmail = prefs.getString("userEmail") ?? "";
+    return await friendRepository.addNewUserFriend(addNewUserFriendRequest);
   }
 
 }

@@ -1,9 +1,9 @@
 class AddNewUserFriendRequest {
-  String userEmail;
+  String? userEmail;
   String friendCode;
 
   AddNewUserFriendRequest({
-    required this.userEmail,
+    this.userEmail,
     required this.friendCode,
   });
 
