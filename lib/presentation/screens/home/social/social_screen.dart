@@ -120,6 +120,7 @@ class _FriendsFound extends StatelessWidget {
                 ),
               )
             }
+
           ),
         );
       },
