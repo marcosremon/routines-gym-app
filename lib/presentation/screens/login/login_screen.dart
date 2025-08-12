@@ -122,7 +122,7 @@ class LoginScreen extends StatelessWidget {
 
                                 LoginResponse loginResponse = await authProvider.login(loginRequest);
                                 ToastMessage.showToast(loginResponse.message!);
-                                if (loginResponse.isSuccess) {
+                                if (loginResponse.isSuccess!) {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
                                 }  
                               },

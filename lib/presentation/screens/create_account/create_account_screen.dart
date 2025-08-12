@@ -81,7 +81,7 @@ class CreateAccountScreen extends StatelessWidget {
                                 
                                 CreateUserResponse createUserResponse = await userProvider.createUser(createUserRequest);
                                 ToastMessage.showToast(createUserResponse.message!);
-                                if (createUserResponse.isSuccess) {
+                                if (createUserResponse.isSuccess!) {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
                                 }
                               },

@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => FriendProvider()),
+        ChangeNotifierProvider(create: (_) => RoutineProvider()),
         ChangeNotifierProvider(create: (_) => RoutineController()), 
       ],
       child: Consumer<AuthProvider>(
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
             theme: AppTheme(selectedColor: 7).theme(),
             home: authProvider.isLoggedIn
               ? const HomeScreen()
-              : const HomeScreen(),
+              : const WelcomeScreen(),
           );
         },
       ),

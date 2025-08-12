@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters
-
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/user_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_request.dart';
@@ -9,8 +7,27 @@ import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/provider/friend/friend_provider.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
-class SocialScreen extends StatelessWidget {
+class SocialScreen extends StatefulWidget {
   const SocialScreen({super.key});
+
+  @override
+  State<SocialScreen> createState() => _SocialScreenState();
+}
+
+class _SocialScreenState extends State<SocialScreen> {
+  late Future<GetAllUserFriendsResponse> _friendsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _friendsFuture = _fetchFriends();
+  }
+
+  void _refreshFriends() {
+    setState(() {
+      _friendsFuture = _fetchFriends();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +38,18 @@ class SocialScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            _SearchFriends(),
+            _SearchFriends(onFriendAdded: _refreshFriends),
             const Divider(
               color: Color(0xFFD6CBB8),
               thickness: 1,
             ),
             const SizedBox(height: 20),
             FutureBuilder<GetAllUserFriendsResponse>(
-              future: _fetchFriends(),
+              future: _friendsFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                
                 final friends = snapshot.data?.friends;
                 return (friends != null && friends.isNotEmpty)
                     ? _FriendsFound(friends: friends)
@@ -61,7 +77,6 @@ class SocialScreen extends StatelessWidget {
 
   Future<GetAllUserFriendsResponse> _fetchFriends() async {
     final FriendProvider friendProvider = FriendProvider();
-
     await Future.delayed(const Duration(seconds: 1));
     return await friendProvider.getAllUserFriends();
   }
@@ -116,7 +131,8 @@ class _FriendsNotFound extends StatelessWidget {
 }
 
 class _SearchFriends extends StatelessWidget {
-  _SearchFriends({Key? key}) : super(key: key);
+  final VoidCallback onFriendAdded;
+  _SearchFriends({Key? key, required this.onFriendAdded}) : super(key: key);
 
   final TextEditingController _controller = TextEditingController();
   final FriendProvider _friendProvider = FriendProvider();
@@ -157,7 +173,7 @@ class _SearchFriends extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: TextField(
-                  controller: _controller, 
+                  controller: _controller,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: colorThemes[9],
@@ -174,9 +190,12 @@ class _SearchFriends extends StatelessWidget {
                           AddNewUserFriendRequest addNewUserFriendRequest = AddNewUserFriendRequest(
                             friendCode: _controller.text.trim(),
                           );
-                          
                           AddNewUserFriendResponse addNewUserFriendResponse = await _friendProvider.addNewUserFriend(addNewUserFriendRequest);
                           ToastMessage.showToast(addNewUserFriendResponse.message!);
+
+                          if (addNewUserFriendResponse.isSuccess!) {
+                            onFriendAdded(); 
+                          }
                         },
                       ),
                     ),

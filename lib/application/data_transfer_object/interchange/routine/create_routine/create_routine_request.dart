@@ -15,10 +15,10 @@ class CreateRoutineRequest {
 
   factory CreateRoutineRequest.fromJson(Map<String, dynamic> json) {
     return CreateRoutineRequest(
-      userEmail: json['userEmail'],
-      routineName: json['routineName'],
-      routineDescription: json['routineDescription'],
-      splitDays: (json['splitDays'] as List<dynamic>? ?? [])
+      userEmail: json['UserEmail'],
+      routineName: json['RoutineName'],
+      routineDescription: json['RoutineDescription'],
+      splitDays: (json['SplitDays'] as List<dynamic>? ?? [])
           .map((e) => SplitDayDTO.fromJson(e))
           .toList(),
     );
@@ -26,10 +26,10 @@ class CreateRoutineRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      'userEmail': userEmail,
-      'routineName': routineName,
-      'routineDescription': routineDescription,
-      'splitDays': splitDays.map((e) => e.toJson()).toList(),
+      'UserEmail': userEmail,
+      'RoutineName': routineName,
+      'RoutineDescription': routineDescription,
+      'SplitDays': splitDays.map((e) => e.toJson()).toList(),
     };
   }
 }

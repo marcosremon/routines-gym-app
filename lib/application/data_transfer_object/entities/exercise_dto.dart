@@ -11,17 +11,17 @@ class ExerciseDTO {
 
   factory ExerciseDTO.fromJson(Map<String, dynamic> json) {
     return ExerciseDTO(
-      exerciseName: json['exerciseName'] ?? '',
-      routineId: json['routineId'] ?? 0,
-      splitDayId: json['splitDayId'] ?? 0,
+      exerciseName: json['ExerciseName'] ?? '',
+      routineId: json['RoutineId'] ?? 0,
+      splitDayId: json['SplitDayId'] ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'exerciseName': exerciseName,
-      'routineId': routineId,
-      'splitDayId': splitDayId,
+      'ExerciseName': exerciseName,
+      'RoutineId': routineId,
+      'SplitDayId': splitDayId,
     };
   }
 }

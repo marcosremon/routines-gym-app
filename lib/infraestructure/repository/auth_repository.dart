@@ -22,7 +22,7 @@ class AuthRepository {
         loginResponse.bearerToken = data['bearerToken'];
       } else {
         loginResponse.isSuccess = false;
-        loginResponse.message = 'Error during login';
+        loginResponse.message = data['message'] ?? 'Error during login';
       }   
     }
     catch (ex) 

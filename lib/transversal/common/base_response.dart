@@ -2,7 +2,7 @@ import 'package:routines_gym_app/transversal/common/response_codes.dart';
 
 class BaseResponse {
   ResponseCodes? responseCode;
-  bool isSuccess;
+  bool? isSuccess;
   String? message;
 
   BaseResponse({

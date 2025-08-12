@@ -27,7 +27,7 @@ class AddRoutineScreen extends StatelessWidget {
           const SizedBox(height: 16),
           
           CustomTextField(
-            hintText: "Routine description", 
+            hintText: "Routine description (optional)", 
             controller: routineController.descController,
             icon: Icons.description,
           ),
@@ -55,8 +55,8 @@ class AddRoutineScreen extends StatelessWidget {
           text: 'Create routine',
           textColor: colorThemes[9],
           onPressed: () {
-        routineController.submitRoutine(context);
-      },
+            routineController.submitRoutine(context);
+          },
     ),
   ),
 

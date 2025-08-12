@@ -1,10 +1,14 @@
-// ignore_for_file: use_build_context_synchronously
+
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:routines_gym_app/application/data_transfer_object/entities/exercise_dto.dart';
+import 'package:routines_gym_app/application/data_transfer_object/entities/split_day_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_request.dart';
+import 'package:routines_gym_app/domain/model/enums/week_day.dart';
 import 'package:routines_gym_app/provider/routine/routine_provider.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
-import 'package:shared_preferences/shared_preferences.dart';import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RoutineController extends ChangeNotifier {
   final nameController = TextEditingController();
@@ -14,7 +18,7 @@ class RoutineController extends ChangeNotifier {
   final Map<int, List<Map<String, TextEditingController>>> exercisesByDay = {};
 
   final List<String> weekDays = [
-    'Monday', 'Thuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
   ];
 
   void addDay(int day) {
@@ -57,6 +61,13 @@ class RoutineController extends ChangeNotifier {
     nameController.clear();
     descController.clear();
     selectedDays.clear();
+    for (var day in exercisesByDay.values) {
+      for (var ctrls in day) {
+        for (var c in ctrls.values) {
+          c.dispose();
+        }
+      }
+    }
     exercisesByDay.clear();
     notifyListeners();
   }
@@ -81,59 +92,81 @@ class RoutineController extends ChangeNotifier {
 
     if (name.isEmpty) {
       if (context.mounted) {
-        ToastMessage.showToast('Rellena todos los campos');
+        ToastMessage.showToast('Please enter a routine name');
       }
       return;
     }
+
     if (selectedDays.isEmpty) {
       if (context.mounted) {
-        ToastMessage.showToast('Selecciona al menos un día');
+        ToastMessage.showToast('Select at least one day');
       }
       return;
+    }
+
+    // Validar que todos los ejercicios tengan nombre
+    for (var day in selectedDays) {
+      final exercises = exercisesByDay[day];
+      if (exercises == null || exercises.isEmpty) {
+        if (context.mounted) {
+          ToastMessage.showToast('Add at least one exercise for ${weekDays[day]}');
+        }
+        return;
+      }
+
+      for (var ctrls in exercises) {
+        final name = ctrls["exerciseName"]?.text.trim() ?? '';
+        if (name.isEmpty) {
+          if (context.mounted) {
+            ToastMessage.showToast('Exercise name missing on ${weekDays[day]}');
+          }
+          return;
+        }
+      }
     }
 
     final prefs = await SharedPreferences.getInstance();
-    final email = prefs.getString('email');
+    final email = prefs.getString('userEmail');
 
     if (email == null) {
       if (context.mounted) {
-        ToastMessage.showToast('No se encontró el email del usuario');
+        ToastMessage.showToast('User email not found');
       }
       return;
     }
 
-    Map<String, dynamic> routine = {
-      "userEmail": email,
-      "routineName": name,
-      "routineDescription": desc,
-      "splitDays": selectedDays.map((day) {
-        return {
-          "dayName": day,
-          "exercises": exercisesByDay[day]!.map((exerciseCtrls) {
-            return {
-              "exerciseId": 0,
-              "exerciseName": exerciseCtrls["exerciseName"]!.text.trim(),
-              "sets": int.tryParse(exerciseCtrls["sets"]!.text) ?? 0,
-              "reps": int.tryParse(exerciseCtrls["reps"]!.text) ?? 0,
-              "weight": double.tryParse(exerciseCtrls["weight"]!.text) ?? 0,
-              "dayName": day + 1
-            };
-          }).toList()
-        };
-      }).toList()
-    };
+    final splitDaysList = selectedDays.map((dayIndex) {
+      final dayName = WeekDay.values[dayIndex];
+      final exercises = exercisesByDay[dayIndex]!.map((ctrls) {
+        return ExerciseDTO(
+          exerciseName: ctrls["exerciseName"]!.text.trim(),
+          routineId: 0,
+          splitDayId: 0,
+        );
+      }).toList();
 
-    CreateRoutineRequest createRoutineRequest = CreateRoutineRequest(
+      return SplitDayDTO(
+        dayName: dayName,
+        routineId: 0,
+        dayExercisesDescription: "",
+        exercises: exercises,
+      );
+    }).toList();
+
+    final request = CreateRoutineRequest(
       userEmail: email,
       routineName: name,
       routineDescription: desc,
-      splitDays: routine["splitDays"],
+      splitDays: splitDaysList,
     );
 
-    await context.read<RoutineProvider>().createRoutine(createRoutineRequest);
+    await context.read<RoutineProvider>().createRoutine(request);
     clear();
 
-    if (context.mounted) Navigator.of(context).pop();
+    if (context.mounted) {
+      ToastMessage.showToast('Routine created successfully');
+      Navigator.of(context).pop();
+    }
   }
 
   void toggleDay(int day) {
@@ -142,5 +175,5 @@ class RoutineController extends ChangeNotifier {
     } else {
       addDay(day);
     }
-  } 
+  }
 }

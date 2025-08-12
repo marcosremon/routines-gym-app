@@ -1,42 +1,22 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 
-class TrainingStatCard extends StatefulWidget {
+class TrainingStatCard extends StatelessWidget {
   final Widget icon;
   final String label;
-  final int initialCount;
+  final int count;
 
   const TrainingStatCard({
     super.key,
     required this.icon,
     required this.label,
-    this.initialCount = 0,
+    required this.count,
   });
 
   @override
-  State<TrainingStatCard> createState() => _TrainingStatCardState();
-}
-
-class _TrainingStatCardState extends State<TrainingStatCard> {
-  late int count;
-  final Color generalColor = colorThemes[10];
-
-  @override
-  void initState() {
-    super.initState();
-    count = widget.initialCount;
-  }
-
-  void updateCount(int newValue) {
-    setState(() {
-      count = newValue;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final Color generalColor = colorThemes[10];
+
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -58,11 +38,11 @@ class _TrainingStatCardState extends State<TrainingStatCard> {
       ),
       child: Row(
         children: [
-          SizedBox(width: 40, height: 40, child: widget.icon),
+          SizedBox(width: 40, height: 40, child: icon),
           const SizedBox(width: 16),
           Expanded(
             child: Text(
-              widget.label,
+              label,
               style: TextStyle(
                 fontSize: 18,
                 color: generalColor,

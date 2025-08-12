@@ -45,7 +45,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       loginResponse = await _authRepository.login(loginRequest);
 
-      if (loginResponse.isSuccess) {
+      if (loginResponse.isSuccess!) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', loginResponse.bearerToken);
         await prefs.setString('userEmail', loginRequest.userEmail);

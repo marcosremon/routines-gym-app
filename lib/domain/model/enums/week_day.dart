@@ -2,7 +2,7 @@ enum WeekDay {
   monday,
   tuesday,
   wednesday,
-  thursday, 
+  thursday,
   friday,
   saturday,
   sunday

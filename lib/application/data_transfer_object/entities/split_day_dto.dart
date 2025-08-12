@@ -10,30 +10,28 @@ class SplitDayDTO {
   SplitDayDTO({
     required this.dayName,
     required this.routineId,
-    required this.dayExercisesDescription,
-    required this.exercises,
-  });
-
-  factory SplitDayDTO.fromJson(Map<String, dynamic> json) {
-    return SplitDayDTO(
-      dayName: WeekDay.values.firstWhere(
-        (e) => e.name.toLowerCase() == (json['dayName'] ?? '').toLowerCase(),
-        orElse: () => WeekDay.monday,
-      ),
-      routineId: json['routineId'] ?? 0,
-      dayExercisesDescription: json['dayExercisesDescription'] ?? '',
-      exercises: (json['exercises'] as List<dynamic>? ?? [])
-          .map((e) => ExerciseDTO.fromJson(e))
-          .toList(),
-    );
-  }
+    this.dayExercisesDescription = '',
+    List<ExerciseDTO>? exercises,
+  }) : exercises = exercises ?? [];
 
   Map<String, dynamic> toJson() {
     return {
-      'dayName': dayName.name,
-      'routineId': routineId,
-      'dayExercisesDescription': dayExercisesDescription,
-      'exercises': exercises.map((e) => e.toJson()).toList(),
+      'DayName': dayName.index + 1, 
+      'RoutineId': routineId,
+      'DayExercisesDescription': dayExercisesDescription,
+      'Exercises': exercises.map((e) => e.toJson()).toList(),
     };
+  }
+
+  factory SplitDayDTO.fromJson(Map<String, dynamic> json) {
+    return SplitDayDTO(
+      dayName: WeekDay.values[(json['DayName'] ?? 1) - 1],
+      routineId: json['RoutineId'] ?? 0,
+      dayExercisesDescription: json['DayExercisesDescription'] ?? '',
+      exercises: (json['Exercises'] as List<dynamic>?)
+              ?.map((e) => ExerciseDTO.fromJson(e))
+              .toList() ??
+          [],
+    );
   }
 }
