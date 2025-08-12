@@ -4,6 +4,7 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/fr
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
+import 'package:routines_gym_app/presentation/screens/home/profile/friend_profile_screen.dart';
 import 'package:routines_gym_app/provider/friend/friend_provider.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
@@ -50,7 +51,7 @@ class _SocialScreenState extends State<SocialScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                final friends = snapshot.data?.friends;
+                final List<UserDTO>? friends = snapshot.data?.friends;
                 return (friends != null && friends.isNotEmpty)
                     ? _FriendsFound(friends: friends)
                     : _FriendsNotFound();
@@ -92,10 +93,36 @@ class _FriendsFound extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: friends.length,
-      itemBuilder: (context, index) => ListTile(
-        leading: const Icon(Icons.person),
-        title: Text(friends[index].username),
-      ),
+      itemBuilder: (context, index) {
+        final friend = friends[index];
+        return Container(
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: colorThemes[17], 
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFFD6CBB8), width: 1),
+          ),
+          child: ListTile(
+            leading: const Icon(Icons.person, size: 30, color: Colors.black87),
+            title: Text(
+              friend.username,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                color: Colors.black87,
+              ),
+            ),
+            onTap: () =>  {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FriendProfileScreen(friend: friend),
+                ),
+              )
+            }
+          ),
+        );
+      },
     );
   }
 }
