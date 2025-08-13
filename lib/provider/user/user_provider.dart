@@ -20,19 +20,12 @@ class UserProvider extends ChangeNotifier {
   Future<void> createNewPassword(CreateNewPasswordRequest createNewPasswordRequest) async 
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    try 
-    {
-      CreateNewPasswordRequest createNewPasswordRequest = CreateNewPasswordRequest(
+    CreateNewPasswordRequest createNewPasswordRequest = CreateNewPasswordRequest(
         userEmail: prefs.getString("userEmail") ?? ""
       );
 
       CreateNewPasswordResponse createNewPasswordResponse = await userRepository.createNewPassword(createNewPasswordRequest);
       ToastMessage.showToast(createNewPasswordResponse.message!);
-    }
-    catch (ex)
-    {
-      ToastMessage.showToast("unexpected error");
-    }
   }
 
   Future<GetUserProfileDetilesResponse> getUserProfileDetails(GetUserProfileDetilesRequest getUserProfileDetilesRequest) async 
@@ -40,9 +33,6 @@ class UserProvider extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     getUserProfileDetilesRequest.userEmail ??= prefs.getString("userEmail");
     
-    GetUserProfileDetilesResponse getUserProfileDetilesResponse = await userRepository.getUserProfileDetails(getUserProfileDetilesRequest);
-    ToastMessage.showToast(getUserProfileDetilesResponse.message!);
-
-    return getUserProfileDetilesResponse;
+    return await userRepository.getUserProfileDetails(getUserProfileDetilesRequest);
   }  
 }

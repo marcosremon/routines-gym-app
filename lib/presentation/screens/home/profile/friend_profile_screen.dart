@@ -8,6 +8,7 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/ro
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
+import 'package:routines_gym_app/presentation/widgets/list_views/routines_list_views/routine_list_view.dart';
 import 'package:routines_gym_app/provider/provider.dart';
 
 class FriendProfileScreen extends StatefulWidget {
@@ -90,7 +91,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                         final List<RoutineDTO>? routines = snapshot.data?.routines;
 
                         return (routines != null && routines.isNotEmpty)
-                            ? _FriendRoutinesListView(routines: routines)
+                            ? RoutinesListView(routines: routines)
                             : const _FriendRoutinesNotFound();
                       },
                     ),
@@ -207,46 +208,6 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _FriendRoutinesListView extends StatelessWidget {
-  final List<RoutineDTO> routines;
-
-  const _FriendRoutinesListView({required this.routines});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: routines.length,
-      itemBuilder: (context, index) {
-        final routine = routines[index];
-        return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: colorThemes[10],
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              Icon(Icons.fitness_center, color: colorThemes[0], size: 24),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  routine.routineName,
-                  style: TextStyle(
-                    color: colorThemes[0],
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

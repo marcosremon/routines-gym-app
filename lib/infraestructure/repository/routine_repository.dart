@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:routines_gym_app/application/data_transfer_object/entities/routine_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_request.dart';
@@ -75,7 +76,12 @@ class RoutineRepository {
       if (data['responseCodeJson'] == 200) {
         getAllUserRoutinesResponse.isSuccess = data['isSuccess'];
         getAllUserRoutinesResponse.message = data['message'];
-        getAllUserRoutinesResponse.routines = data['routines'] ?? [];
+        data['routines'] != null 
+          ? getAllUserRoutinesResponse.routines = 
+            (data['routines'] as List)
+                .map((item) => RoutineDTO.fromJson(item))
+                .toList()
+          : getAllUserRoutinesResponse.routines = []; 
       } else {
         getAllUserRoutinesResponse.isSuccess = false;
         getAllUserRoutinesResponse.message = data['message'] ?? 'Error getting user routines';

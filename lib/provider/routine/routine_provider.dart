@@ -30,10 +30,7 @@ class RoutineProvider extends ChangeNotifier {
 
   Future<GetAllUserRoutinesResponse> getAllUserRoutines(GetAllUserRoutinesRequest getAllUserRoutinesRequest) async 
   {
-    GetAllUserRoutinesResponse getAllUserRoutinesResponse = await routineRepository.getAllUserRoutines(getAllUserRoutinesRequest);
-    ToastMessage.showToast(getAllUserRoutinesResponse.message!);
-    
-    return getAllUserRoutinesResponse;
+    return await routineRepository.getAllUserRoutines(getAllUserRoutinesRequest);
   }
   
   
