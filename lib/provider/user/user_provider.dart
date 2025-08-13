@@ -3,6 +3,8 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/us
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_new_password/create_new_password_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_response.dart';
 import 'package:routines_gym_app/infraestructure/repository/user_repository.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,5 +33,16 @@ class UserProvider extends ChangeNotifier {
     {
       ToastMessage.showToast("unexpected error");
     }
+  }
+
+  Future<GetUserProfileDetilesResponse> getUserProfileDetails(GetUserProfileDetilesRequest getUserProfileDetilesRequest) async 
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    getUserProfileDetilesRequest.userEmail ??= prefs.getString("userEmail");
+    
+    GetUserProfileDetilesResponse getUserProfileDetilesResponse = await userRepository.getUserProfileDetails(getUserProfileDetilesRequest);
+    ToastMessage.showToast(getUserProfileDetilesResponse.message!);
+
+    return getUserProfileDetilesResponse;
   }  
 }

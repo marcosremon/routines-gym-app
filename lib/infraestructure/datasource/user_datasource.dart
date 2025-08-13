@@ -8,6 +8,7 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/us
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/delete_user/delete_user_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_request.dart';
 import 'package:routines_gym_app/configuration/constants/app_constants.dart';
 
@@ -187,6 +188,25 @@ class UserDatasource {
           'oldPassword': changePasswordWithPasswordAndEmailRequest.oldPassword,
           'newPassword': changePasswordWithPasswordAndEmailRequest.newPassword,
           'confirmNewPassword': changePasswordWithPasswordAndEmailRequest.confirmNewPassword,
+        },
+      );
+
+      data = response.data as Map<String, dynamic>;
+    } catch (ex) {
+      print("unexpected error");
+    }
+    
+    return data;
+  }
+
+  Future<Map<String, dynamic>> getUserProfileDetails(GetUserProfileDetilesRequest getUserProfilDetilesRequest) async 
+  {
+    Map<String, dynamic> data = {};
+    try {
+      dynamic response = await dio.post(
+        '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/get-user-profile-details',
+        data: {
+          'userEmail': getUserProfilDetilesRequest.userEmail,
         },
       );
 

@@ -1,11 +1,13 @@
-class GetUserProfileDetilesResponse {
-  final String friendCode;
-  final DateTime inscriptionDate;
-  final int routineCount;
+import 'package:routines_gym_app/transversal/common/base_response.dart';
+
+class GetUserProfileDetilesResponse extends BaseResponse {
+  String? username;
+  DateTime? inscriptionDate;
+  int? routineCount;
 
   GetUserProfileDetilesResponse({
-    required this.friendCode,
-    required this.inscriptionDate,
-    required this.routineCount,
+    this.username,
+    this.inscriptionDate,
+    this.routineCount,
   });
 }

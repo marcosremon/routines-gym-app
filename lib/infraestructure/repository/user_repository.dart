@@ -13,6 +13,8 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/us
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/delete_user/delete_user_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_users/get_users_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_response.dart';
@@ -197,5 +199,31 @@ class UserRepository {
       changePasswordWithPasswordAndEmailResponse.message = 'Unexpected error on UserRepository -> changePasswordWithPasswordAndEmail';
     }
     return changePasswordWithPasswordAndEmailResponse;
+  }
+
+  Future<GetUserProfileDetilesResponse> getUserProfileDetails(GetUserProfileDetilesRequest getUserProfileDetilesRequest) async 
+  {
+    GetUserProfileDetilesResponse getUserProfileDetilesResponse = GetUserProfileDetilesResponse();
+    try {
+      Map<String, dynamic> data = await userDatasource.getUserProfileDetails(getUserProfileDetilesRequest);
+      if (data['responseCodeJson'] == 200) {
+        getUserProfileDetilesResponse.isSuccess = data['isSuccess'];
+        getUserProfileDetilesResponse.message = data['message'];
+        getUserProfileDetilesResponse.username = data['username'];
+        getUserProfileDetilesResponse.inscriptionDate = data['inscriptionDate'] != null
+            ? DateTime.parse(data['inscriptionDate'])
+            : null;
+        getUserProfileDetilesResponse.routineCount = data['routineCount'];
+      } else {
+        getUserProfileDetilesResponse.isSuccess = false;
+        getUserProfileDetilesResponse.message = 'Error: ${data['message']}';
+      }
+      getUserProfileDetilesResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
+    } catch (ex) {
+      getUserProfileDetilesResponse.isSuccess = false;
+      getUserProfileDetilesResponse.message = 'Unexpected error on UserRepository -> changePasswordWithPasswordAndEmail';
+    }
+
+    return getUserProfileDetilesResponse;
   }
 }

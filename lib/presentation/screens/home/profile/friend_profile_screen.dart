@@ -3,9 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/user_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/routine_dto.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
+import 'package:routines_gym_app/provider/provider.dart';
 
 class FriendProfileScreen extends StatefulWidget {
   final UserDTO friend;
@@ -18,39 +21,39 @@ class FriendProfileScreen extends StatefulWidget {
 
 class _FriendProfileScreenState extends State<FriendProfileScreen> {
   bool isLoading = true;
-  late GetUserProfileDetilesResponse friendDetails;
+  GetUserProfileDetilesResponse? friendDetails;
   late Future<GetAllUserRoutinesResponse> _routinesFuture;
 
   @override
   void initState() {
     super.initState();
-    _fetchFriendDetails();
+    _fetchFriendDetails(widget.friend);
     _routinesFuture = _fetchFriendRoutines();
   }
 
-  Future<void> _fetchFriendDetails() async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<void> _fetchFriendDetails(UserDTO friend) async {
+    final UserProvider userProvider = UserProvider();
+
+    GetUserProfileDetilesRequest getUserProfileDetilesRequest = GetUserProfileDetilesRequest(
+      userEmail: friend.email,
+    );
+    
+    final GetUserProfileDetilesResponse getUserProfileDetilesResponse = await userProvider.getUserProfileDetails(getUserProfileDetilesRequest);
 
     setState(() {
-      friendDetails = GetUserProfileDetilesResponse(
-        friendCode: widget.friend.friendCode,
-        inscriptionDate: DateTime(2023, 6, 15),
-        routineCount: 7,
-      );
+      friendDetails = getUserProfileDetilesResponse;
       isLoading = false;
     });
   }
 
   Future<GetAllUserRoutinesResponse> _fetchFriendRoutines() async {
+    final RoutineProvider routineProvider = RoutineProvider();
     await Future.delayed(const Duration(seconds: 2));
 
-    // to_do: call provider to get friend's routines
-
-    return GetAllUserRoutinesResponse(
-      success: true,
-      message: "OK",
-      routines: [],
+    GetAllUserRoutinesRequest getAllUserRoutinesRequest = GetAllUserRoutinesRequest(
+      userEmail: widget.friend.email,
     );
+    return await routineProvider.getAllUserRoutines(getAllUserRoutinesRequest);
   }
 
   @override
@@ -65,7 +68,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _profileCard(friendDetails),
+                  _profileCard(),
                   const SizedBox(height: 20),
                   Text(
                     'Shared Routines',
@@ -84,7 +87,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                           return const Center(child: CircularProgressIndicator());
                         }
 
-                        final routines = snapshot.data?.routines;
+                        final List<RoutineDTO>? routines = snapshot.data?.routines;
 
                         return (routines != null && routines.isNotEmpty)
                             ? _FriendRoutinesListView(routines: routines)
@@ -100,7 +103,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
 
   AppBar _appBar() {
     return AppBar(
-      title: Text("${widget.friend.username}'s Profile"),
+      title: const Text("Friend Profile"),
       titleTextStyle: TextStyle(
         color: colorThemes[10],
         fontSize: 27,
@@ -111,9 +114,10 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
     );
   }
 
-  Widget _profileCard(GetUserProfileDetilesResponse friend) {
-    final String formattedDate =
-        "${friend.inscriptionDate.day}/${friend.inscriptionDate.month}/${friend.inscriptionDate.year}";
+  Widget _profileCard() {
+    if (friendDetails == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return Container(
       width: double.infinity,
@@ -124,7 +128,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
         border: Border.all(color: colorThemes[10], width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.07),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -134,21 +138,22 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _infoRow(
-            icon: Icons.vpn_key,
-            label: 'Friend Code',
-            value: friend.friendCode,
+            icon: Icons.vpn_key_rounded,
+            label: 'Username',
+            value: friendDetails!.username ?? 'Unknown',
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 14),
           _infoRow(
-            icon: Icons.calendar_today,
+            icon: Icons.calendar_month_rounded,
             label: 'Registered since',
-            value: formattedDate,
-          ),
-          const SizedBox(height: 12),
+            value: friendDetails!.inscriptionDate != null
+                ? '${friendDetails!.inscriptionDate!.day}/${friendDetails!.inscriptionDate!.month}/${friendDetails!.inscriptionDate!.year}'
+                : 'Unknown',),
+          const SizedBox(height: 14),
           _infoRow(
-            icon: Icons.fitness_center,
+            icon: Icons.fitness_center_rounded,
             label: 'Created routines',
-            value: '${friend.routineCount}',
+            value: '${friendDetails!.routineCount}',
           ),
         ],
       ),
@@ -161,28 +166,37 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
     required String value,
   }) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(icon, color: Colors.grey.shade400, size: 22),
+        Container(
+          padding: const EdgeInsets.all(6),
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            icon,
+            color: colorThemes[10],
+            size: 20,
+          ),
+        ),
         const SizedBox(width: 12),
         Expanded(
           child: RichText(
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: '$label: ',
+                  text: '$label:  ',
                   style: TextStyle(
-                    color: Colors.grey.shade400,
+                    color: Colors.grey.shade500,
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'RobotoMono',
                   ),
                 ),
                 TextSpan(
-                  text: " $value", // espacio aproposito
+                  text: value,
                   style: TextStyle(
-                    color: colorThemes[10], 
+                    color: colorThemes[10],
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'RobotoMono',
@@ -243,7 +257,7 @@ class _FriendRoutinesNotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: const FractionalOffset(0.5, 0.35), 
+      alignment: const FractionalOffset(0.5, 0.35),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: const [

@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_stats/get_routine_stats_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_stats/get_routine_stats_response.dart';
 import 'package:routines_gym_app/infraestructure/datasource/routine_datasource.dart';
@@ -62,5 +64,32 @@ class RoutineRepository {
     }
 
     return createRoutineResponse;
+  }
+
+  Future<GetAllUserRoutinesResponse> getAllUserRoutines(GetAllUserRoutinesRequest getAllUserRoutinesRequest) async 
+  {
+    GetAllUserRoutinesResponse getAllUserRoutinesResponse = GetAllUserRoutinesResponse();
+    try 
+    {
+      Map<String, dynamic> data = await routineDatasource.getAllUserRoutines(getAllUserRoutinesRequest);
+      if (data['responseCodeJson'] == 200) {
+        getAllUserRoutinesResponse.isSuccess = data['isSuccess'];
+        getAllUserRoutinesResponse.message = data['message'];
+        getAllUserRoutinesResponse.routines = data['routines'] ?? [];
+      } else {
+        getAllUserRoutinesResponse.isSuccess = false;
+        getAllUserRoutinesResponse.message = data['message'] ?? 'Error getting user routines';
+      }
+      getAllUserRoutinesResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
+    } 
+    catch (e) {
+      if (kDebugMode) {
+        print("Error getting user routines: $e");
+      }
+      getAllUserRoutinesResponse.isSuccess = false;
+      getAllUserRoutinesResponse.message = "Failed to getting user routines";
+    }
+
+    return getAllUserRoutinesResponse;
   }
 }
