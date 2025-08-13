@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_underscores
+// ignore_for_file: deprecated_member_use
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +63,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorThemes[17],
+      backgroundColor: Colors.white,
       appBar: _appBar(),
       body: SafeArea(
         child: ListView(
@@ -71,13 +71,8 @@ class _TrainingScreenState extends State<TrainingScreen> {
           children: [
             _DecorationInitialIconBox(),
             const SizedBox(height: 25),
-
-            _ScrollCards(
-              trainingStats: _trainingStats,
-              counts: counts,
-            ),
+            _ScrollCards(trainingStats: _trainingStats, counts: counts),
             const SizedBox(height: 25),
-
             CustomFilledButton(
               onPressed: () async {
                 await Navigator.push(
@@ -86,14 +81,13 @@ class _TrainingScreenState extends State<TrainingScreen> {
                     builder: (context) => const AddRoutineScreen(),
                   ),
                 );
-                _fetchCounts(); 
+                _fetchCounts();
               },
-              backgroundColor: colorThemes[16],
-              textColor: colorThemes[9],
+              backgroundColor: Colors.grey.shade800,
+              textColor: Colors.white,
               label: "+ Add New Routine",
             ),
             const SizedBox(height: 25),
-
             _DecorationEndIconBox(),
           ],
         ),
@@ -104,12 +98,12 @@ class _TrainingScreenState extends State<TrainingScreen> {
   AppBar _appBar() {
     return AppBar(
       title: const Text('Training'),
-      titleTextStyle: TextStyle(
-        color: colorThemes[10],
+      titleTextStyle: const TextStyle(
+        color: Colors.black,
         fontSize: 27,
         fontWeight: FontWeight.bold,
       ),
-      backgroundColor: colorThemes[17],
+      backgroundColor: Colors.white,
       elevation: 0,
     );
   }
@@ -121,13 +115,14 @@ class _DecorationInitialIconBox extends StatelessWidget {
     return Container(
       height: 180,
       decoration: BoxDecoration(
-        color: colorThemes[16],
+        color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade300),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -135,6 +130,7 @@ class _DecorationInitialIconBox extends StatelessWidget {
         child: ImageIcon(
           AssetImage('assets/icons/training_icon.png'),
           size: 130,
+          color: Colors.black,
         ),
       ),
     );
@@ -189,21 +185,29 @@ class _DecorationEndIconBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: colorThemes[16],
+        color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade300),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         children: [
           Icon(
             Icons.lightbulb_outline,
             size: 40,
-            color: colorThemes[9],
+            color: Colors.grey.shade800,
           ),
           const SizedBox(height: 12),
           Text(
             'Did you know that you can customize your routines and add your own exercises?',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, color: colorThemes[9]),
+            style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
           ),
         ],
       ),
