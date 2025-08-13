@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_underscores
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/screens/home/training/add_routine_screen.dart';
@@ -50,7 +51,9 @@ class _TrainingScreenState extends State<TrainingScreen> {
         ];
       });
     } catch (ex) {
-      print('Error fetching stats: $ex');
+      if (kDebugMode) {
+        print('Error fetching stats: $ex');
+      }
       setState(() {
         counts = List.filled(_trainingStats.length, 0);
       });

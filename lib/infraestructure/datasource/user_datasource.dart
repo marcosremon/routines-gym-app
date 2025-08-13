@@ -49,12 +49,6 @@ class UserDatasource {
   Future<Map<String, dynamic>> createUser(CreateUserRequest createUserRequest) async {
     Map<String, dynamic> data = {};
     try {
-      createUserRequest.dni = "12345678A";
-      createUserRequest.username = "a";
-      createUserRequest.email = "a@a.a";
-      createUserRequest.password = "123456Aa!";
-      createUserRequest.confirmPassword = "123456Aa!";
-
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/create-user',
         data: {
