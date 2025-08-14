@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
-import 'package:routines_gym_app/presentation/controller/routine_controller.dart';
+import 'package:routines_gym_app/presentation/controller/routine/routine_controller.dart';
 import 'package:routines_gym_app/presentation/widgets/buttons/custom_button.dart';
 import 'package:routines_gym_app/presentation/widgets/cards/exercise/exercise_card.dart';
 import 'package:routines_gym_app/presentation/widgets/text_fields/custom_text_field.dart';

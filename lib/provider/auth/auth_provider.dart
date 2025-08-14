@@ -50,6 +50,7 @@ class AuthProvider extends ChangeNotifier {
         await prefs.setString('token', loginResponse.bearerToken);
         await prefs.setString('userEmail', loginRequest.userEmail);
         await prefs.setBool('isAdmin', loginResponse.isAdmin!);
+        await prefs.setInt('dailyGoal', 10000);
 
         isLoggedIn = true;
         notifyListeners();
