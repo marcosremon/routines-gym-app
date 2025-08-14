@@ -2,15 +2,12 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/stats/set_daily_steps/set_daily_steps_request.dart';
-import 'package:routines_gym_app/application/data_transfer_object/interchange/stats/set_daily_steps/set_daily_steps_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/controller/routine/routine_controller.dart';
 import 'package:routines_gym_app/presentation/controller/stats/steps_tracker.dart';
 import 'package:routines_gym_app/presentation/screens/home/home_screen.dart';
 import 'package:routines_gym_app/presentation/screens/welcome/welcome_screen.dart';
 import 'package:routines_gym_app/provider/provider.dart';
-import 'package:routines_gym_app/provider/stats/stats_provider.dart';
-import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -73,19 +70,23 @@ void scheduleDailyReset() async {
   );
 }
 
-void dailyResetCallback() async {
-  final StatsProvider statsProvider = StatsProvider();
+@pragma('vm:entry-point') 
+Future<void> dailyResetCallback() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   final prefs = await SharedPreferences.getInstance();
   final stepsToday = prefs.getInt('stepsToday') ?? 0;
 
-  SetDailyStepsRequest setDailyStepsRequest = SetDailyStepsRequest(
+  final statsProvider = StatsProvider();
+  final request = SetDailyStepsRequest(
     steps: stepsToday,
-    limitStepsPerDay: prefs.getInt('dailyGoal') ?? 10001,
-    date: DateTime.now().subtract(Duration(days: 1)),
+    limitStepsPerDay: prefs.getInt('dailyGoal') ?? 10000,
+    date: DateTime.now().subtract(const Duration(days: 1)),
   );
 
-  SetDailyStepsResponse setDailyStepsResponse = await statsProvider.setDailySteps(setDailyStepsRequest);
-  ToastMessage.showToast(setDailyStepsResponse.message!);  
+  final response = await statsProvider.setDailySteps(request);
+  
+  debugPrint("Daily reset: ${response.message}");
 
   prefs.setInt('stepsToday', 0);
   prefs.setString('lastResetDate', DateTime.now().toIso8601String());

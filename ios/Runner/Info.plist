@@ -4,6 +4,22 @@
 <dict>
 	<key>NSMotionUsageDescription</key>
 	<string>Esta app necesita acceder a tus pasos y actividad física para mostrar estadísticas de salud.</string>
+	<!-- Permiso para mostrar notificaciones -->
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Esta app usa notificaciones para ayudarte a seguir tus rutinas y progreso físico.</string>
+
+	<!-- Permisos para notificaciones locales -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
+	</array>
+
+	<!-- Permiso para mostrar alertas, sonidos y badges -->
+	<key>UNNotificationAlertStyle</key>
+	<string>alert</string>
+
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

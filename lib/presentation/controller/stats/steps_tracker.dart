@@ -2,15 +2,20 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:pedometer/pedometer.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/stats/get_stats/get_stats_response.dart';
+import 'package:routines_gym_app/domain/model/entities/stat.dart';
+import 'package:routines_gym_app/provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StepTracker extends ChangeNotifier {
   int _stepsToday = 0;
   int _initialSteps = 0;
-  int _dailyGoal = 10000; // coge 10k default pero en el initialize usa el prefs
+  int _dailyGoal = 10000;
 
   int get stepsToday => _stepsToday;
   int get dailyGoal => _dailyGoal;
+
+  List<Stats> completeDays = [];
 
   late Stream<StepCount> _stepCountStream;
 
@@ -19,9 +24,7 @@ class StepTracker extends ChangeNotifier {
   }
 
   Future<void> _initialize() async {
-    final SharedPreferences prefs;
-
-    prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     _dailyGoal = prefs.getInt('dailyGoal') ?? 10000;
 
     await _checkResetNeeded();
@@ -36,6 +39,9 @@ class StepTracker extends ChangeNotifier {
     final today = DateTime(now.year, now.month, now.day);
 
     if (lastReset == null || DateTime.parse(lastReset).isBefore(today)) {
+      if (_stepsToday > 0) {
+        completeDays.add(Stats(date: today.subtract(const Duration(days: 1)), steps: _stepsToday));
+      }
       _resetSteps();
       await prefs.setString('lastResetDate', today.toIso8601String());
     } else {
@@ -57,7 +63,7 @@ class StepTracker extends ChangeNotifier {
     }
   }
 
-  void _resetSteps() async {
+  Future<void> _resetSteps() async {
     _initialSteps = 0;
     _stepsToday = 0;
     final prefs = await SharedPreferences.getInstance();
@@ -68,5 +74,18 @@ class StepTracker extends ChangeNotifier {
   void setDailyGoal(int goal) {
     _dailyGoal = goal;
     notifyListeners();
+  }
+
+  Future<void> updateFromApiResponse() async {
+    final StatsProvider statsProvider = StatsProvider();
+    GetStatsResponse getStatsResponse = await statsProvider.getStats();
+    if (getStatsResponse.isSuccess!) {
+      completeDays = getStatsResponse.stats ?? [];
+      notifyListeners();
+    } else {
+      if (kDebugMode) {
+        print("Error al cargar datos: ${getStatsResponse.message}");
+      }
+    }
   }
 }

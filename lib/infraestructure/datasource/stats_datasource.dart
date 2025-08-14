@@ -11,7 +11,7 @@ class StatsDatasource {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}/set-daily-steps',
+        '${ApiConstants.baseUrl}${ApiConstants.statsEndpoint}/set-daily-steps',
         data: {
           'steps': setDailyStepsRequest.steps,
           'limitStepsPerDay': setDailyStepsRequest.limitStepsPerDay,
@@ -26,6 +26,22 @@ class StatsDatasource {
       }
     }
 
+    return data;
+  }
+
+  Future<Map<String, dynamic>> getStats() async 
+  {
+    Map<String, dynamic> data = {};
+    try {
+      dynamic response = await dio.post(
+        '${ApiConstants.baseUrl}${ApiConstants.statsEndpoint}/get-stats',
+      );
+      data = response.data as Map<String, dynamic>;
+    } catch (ex) {
+      if (kDebugMode) {
+        print("unexpected error");
+      }
+    }
     return data;
   } 
 }
