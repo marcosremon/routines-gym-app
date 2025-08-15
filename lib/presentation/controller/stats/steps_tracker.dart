@@ -26,8 +26,10 @@ class StepTracker extends ChangeNotifier {
   Future<void> _initialize() async {
     final prefs = await SharedPreferences.getInstance();
     _dailyGoal = prefs.getInt('dailyGoal') ?? 10000;
+    _initialSteps = prefs.getInt('initialSteps') ?? 0;
 
     await _checkResetNeeded();
+
     _stepCountStream = Pedometer.stepCountStream;
     _stepCountStream.listen(_onStepCount).onError(_onStepCountError);
   }
@@ -42,18 +44,23 @@ class StepTracker extends ChangeNotifier {
       if (_stepsToday > 0) {
         completeDays.add(Stats(date: today.subtract(const Duration(days: 1)), steps: _stepsToday));
       }
-      _resetSteps();
+      await _resetSteps();
       await prefs.setString('lastResetDate', today.toIso8601String());
     } else {
       _stepsToday = prefs.getInt('stepsToday') ?? 0;
     }
   }
 
-  void _onStepCount(StepCount event) {
+  void _onStepCount(StepCount event) async {
+    final prefs = await SharedPreferences.getInstance();
+
     if (_initialSteps == 0) {
       _initialSteps = event.steps;
+      await prefs.setInt('initialSteps', _initialSteps);
     }
+
     _stepsToday = event.steps - _initialSteps;
+    await prefs.setInt('stepsToday', _stepsToday);
     notifyListeners();
   }
 
@@ -68,11 +75,14 @@ class StepTracker extends ChangeNotifier {
     _stepsToday = 0;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('stepsToday', 0);
+    await prefs.setInt('initialSteps', 0);
     notifyListeners();
   }
 
-  void setDailyGoal(int goal) {
+  void setDailyGoal(int goal) async {
     _dailyGoal = goal;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('dailyGoal', goal);
     notifyListeners();
   }
 

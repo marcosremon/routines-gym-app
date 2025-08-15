@@ -9,11 +9,12 @@ import 'package:routines_gym_app/presentation/screens/home/home_screen.dart';
 import 'package:routines_gym_app/presentation/screens/welcome/welcome_screen.dart';
 import 'package:routines_gym_app/provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AndroidAlarmManager.initialize();
-
+  await requestPermissions(); 
   runApp(const MyApp());
   scheduleDailyReset();
 }
@@ -52,6 +53,14 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+
+Future<void> requestPermissions() async {
+  var status = await Permission.activityRecognition.status;
+  if (!status.isGranted) {
+    await Permission.activityRecognition.request();
   }
 }
 
