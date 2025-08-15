@@ -56,29 +56,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-Future<void> requestPermissions() async {
-  var status = await Permission.activityRecognition.status;
-  if (!status.isGranted) {
-    await Permission.activityRecognition.request();
-  }
-}
-
-void scheduleDailyReset() async {
-  final now = DateTime.now();
-  final nextMidnight = DateTime(now.year, now.month, now.day + 1);
-  final durationUntilMidnight = nextMidnight.difference(now);
-
-  await AndroidAlarmManager.oneShot(
-    durationUntilMidnight,
-    0,
-    dailyResetCallback,
-    exact: true,
-    wakeup: true,
-    rescheduleOnReboot: true,
-  );
-}
-
 @pragma('vm:entry-point') 
 Future<void> dailyResetCallback() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -101,4 +78,26 @@ Future<void> dailyResetCallback() async {
   prefs.setString('lastResetDate', DateTime.now().toIso8601String());
 
   scheduleDailyReset();
+}
+
+Future<void> requestPermissions() async {
+  var status = await Permission.activityRecognition.status;
+  if (!status.isGranted) {
+    await Permission.activityRecognition.request();
+  }
+}
+
+void scheduleDailyReset() async {
+  final now = DateTime.now();
+  final nextMidnight = DateTime(now.year, now.month, now.day + 1);
+  final durationUntilMidnight = nextMidnight.difference(now);
+
+  await AndroidAlarmManager.oneShot(
+    durationUntilMidnight,
+    0,
+    dailyResetCallback,
+    exact: true,
+    wakeup: true,
+    rescheduleOnReboot: true,
+  );
 }
