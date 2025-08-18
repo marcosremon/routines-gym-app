@@ -1,8 +1,10 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/routine_dto.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
+import 'package:routines_gym_app/presentation/screens/home/profile/user_routine_details_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RoutinesListView extends StatelessWidget {
   final List<RoutineDTO> routines;
@@ -61,8 +63,15 @@ class RoutinesListView extends StatelessWidget {
                     ),
                   )
                 : null,
-            onTap: () {
-              // to_do redirigir to routine details screen
+            onTap: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              Navigator.pushReplacement(
+                context, 
+                MaterialPageRoute(builder: (context) => UserRoutineDetailsScreen(
+                  routine: routine,
+                  userEmail: prefs.getString("userEmail") ?? "" 
+                ))
+              );
             },
           ),
         );

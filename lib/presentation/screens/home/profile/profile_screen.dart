@@ -6,8 +6,8 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/ro
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/routine_dto.dart';
-import 'package:routines_gym_app/presentation/screens/home/profile/setting_screen.dart';
 import 'package:routines_gym_app/presentation/screens/home/profile/user_routine_details_screen.dart';
+import 'package:routines_gym_app/presentation/widgets/bottom_sheets/profile_settings_bottom_sheet.dart';
 import 'package:routines_gym_app/provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -71,32 +71,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   AppBar _appBar() {
-    return AppBar(
-      title: const Text("Profile"),
-      titleTextStyle: TextStyle(
-        color: colorThemes[10],
-        fontSize: 27,
-        fontWeight: FontWeight.bold,
-      ),
-      backgroundColor: colorThemes[17],
-      elevation: 0,
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: IconButton(
-            icon: const Icon(Icons.settings),
-            color: colorThemes[10],
-            onPressed: () {
-              Navigator.pushReplacement(
-                context, 
-                MaterialPageRoute(builder: (context) => const SettingScreen())
-              );
-            },
-          ),
+  return AppBar(
+    title: const Text("Profile"),
+    titleTextStyle: TextStyle(
+      color: colorThemes[10],
+      fontSize: 27,
+      fontWeight: FontWeight.bold,
+    ),
+    backgroundColor: colorThemes[17],
+    elevation: 0,
+    actions: [
+      Padding(
+        padding: const EdgeInsets.only(right: 16.0),
+        child: IconButton(
+          icon: const Icon(Icons.settings),
+          color: colorThemes[10],
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: colorThemes[17],
+              builder: (context) => ProfileSettingsBottomSheet(
+                onSelected: (value) {
+                  debugPrint('Seleccionaste: $value');
+                },
+              ),
+            );
+          },
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
+
 }
 
 class _RoutinesListView extends StatelessWidget {
