@@ -46,5 +46,5 @@ class UserProvider extends ChangeNotifier {
     );
 
     return await userRepository.getUsersByEmail(getUserByEmailRequest);
-  }  
+  }
 }
