@@ -3,6 +3,8 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/us
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_new_password/create_new_password_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_response.dart';
 import 'package:routines_gym_app/infraestructure/repository/user_repository.dart';
@@ -34,5 +36,15 @@ class UserProvider extends ChangeNotifier {
     getUserProfileDetilesRequest.userEmail ??= prefs.getString("userEmail");
     
     return await userRepository.getUserProfileDetails(getUserProfileDetilesRequest);
+  }
+
+  Future<GetUserByEmailResponse> getUserByEmail() async
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    GetUserByEmailRequest getUserByEmailRequest = GetUserByEmailRequest(
+      email: prefs.getString("userEmail") ?? ""
+    );
+
+    return await userRepository.getUsersByEmail(getUserByEmailRequest);
   }  
 }

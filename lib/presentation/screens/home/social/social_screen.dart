@@ -6,7 +6,7 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/fr
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
-import 'package:routines_gym_app/presentation/screens/home/profile/friend_profile_screen.dart';
+import 'package:routines_gym_app/presentation/screens/home/social/friend_profile_screen.dart';
 import 'package:routines_gym_app/provider/friend/friend_provider.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
