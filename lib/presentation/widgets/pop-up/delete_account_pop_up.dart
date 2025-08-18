@@ -8,31 +8,62 @@ class DeleteAccountDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
-        '¿Estás seguro?',
-        style: TextStyle(color: Colors.black),
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      titlePadding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+      contentPadding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+      title: Row(
+        children: const [
+          Icon(Icons.warning_amber_rounded, color: Colors.red),
+          SizedBox(width: 8),
+          Text(
+            'Delete Account',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ],
       ),
       content: const Text(
-        'Esta acción eliminará tu cuenta permanentemente. No podrás recuperar tus datos.',
-        style: TextStyle(color: Colors.black87),
+        'This action will permanently delete your account. All your data will be lost and cannot be recovered.',
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 16,
+        ),
       ),
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      actionsAlignment: MainAxisAlignment.end,
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancelar'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 16,
+            ),
+          ),
         ),
-        ElevatedButton(
+        ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
           onPressed: () {
             Navigator.pop(context);
             onConfirm();
           },
-          child: const Text('Eliminar cuenta'),
+          icon: const Icon(Icons.delete_forever),
+          label: const Text(
+            'Delete',
+            style: TextStyle(fontSize: 16),
+          ),
         ),
       ],
     );

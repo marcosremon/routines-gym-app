@@ -1,11 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/delete_user/delete_user_response.dart';
 import 'package:routines_gym_app/presentation/screens/login/login_screen.dart';
 import 'package:routines_gym_app/presentation/widgets/bottom_sheets/show_my_friend_code_bottom_sheet.dart';
 import 'package:routines_gym_app/presentation/widgets/pop-up/delete_account_pop_up.dart';
 import 'package:routines_gym_app/provider/auth/auth_provider.dart';
-import 'package:routines_gym_app/provider/provider.dart'; 
+import 'package:routines_gym_app/provider/provider.dart';
+import 'package:routines_gym_app/transversal/utils/toast_message.dart'; 
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileSettingsBottomSheet extends StatelessWidget {
@@ -81,7 +83,16 @@ Widget _buildOption(BuildContext context, String text, IconData icon, String val
             builder: (context) => DeleteAccountDialog(
               onConfirm: () async {
                 final UserProvider userProvider = UserProvider();
-                await userProvider.deleteAccount();
+                DeleteUserResponse deleteUserResponse =await userProvider.deleteAccount();
+                if (deleteUserResponse.isSuccess!) {
+                  final AuthProvider authProvider = AuthProvider();
+                  await authProvider.logout();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                }
+                ToastMessage.showToast(deleteUserResponse.message!);
               },
             ),
           );
