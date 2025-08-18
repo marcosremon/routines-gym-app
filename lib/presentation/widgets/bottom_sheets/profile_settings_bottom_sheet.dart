@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/presentation/screens/login/login_screen.dart';
 import 'package:routines_gym_app/presentation/widgets/bottom_sheets/show_my_friend_code_bottom_sheet.dart';
-import 'package:routines_gym_app/provider/auth/auth_provider.dart'; 
+import 'package:routines_gym_app/presentation/widgets/pop-up/delete_account_pop_up.dart';
+import 'package:routines_gym_app/provider/auth/auth_provider.dart';
+import 'package:routines_gym_app/provider/provider.dart'; 
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileSettingsBottomSheet extends StatelessWidget {
@@ -73,7 +75,16 @@ Widget _buildOption(BuildContext context, String text, IconData icon, String val
           debugPrint('Abrir formulario de cambio de contraseña');
           break;
         case 'delete':
-          debugPrint('Mostrar confirmación de borrado');
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => DeleteAccountDialog(
+              onConfirm: () async {
+                final UserProvider userProvider = UserProvider();
+                await userProvider.deleteAccount();
+              },
+            ),
+          );
           break;
         case 'logout':
           final AuthProvider authProvider = AuthProvider();
