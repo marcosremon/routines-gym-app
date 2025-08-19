@@ -20,6 +20,12 @@
 	<key>UNNotificationAlertStyle</key>
 	<string>alert</string>
 
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Necesitamos acceso a tu galería para seleccionar una foto de perfil.</string>
+
+	<key>NSCameraUsageDescription</key>
+	<string>Necesitamos acceso a la cámara para tomar una foto de perfil.</string>
+
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

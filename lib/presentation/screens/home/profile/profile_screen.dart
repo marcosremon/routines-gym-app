@@ -1,6 +1,9 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_response.dart';
@@ -71,38 +74,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   AppBar _appBar() {
-  return AppBar(
-    title: const Text("Profile"),
-    titleTextStyle: TextStyle(
-      color: colorThemes[10],
-      fontSize: 27,
-      fontWeight: FontWeight.bold,
-    ),
-    backgroundColor: colorThemes[17],
-    elevation: 0,
-    actions: [
-      Padding(
-        padding: const EdgeInsets.only(right: 16.0),
-        child: IconButton(
-          icon: const Icon(Icons.settings),
-          color: colorThemes[10],
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              backgroundColor: colorThemes[17],
-              builder: (context) => ProfileSettingsBottomSheet(
-                onSelected: (value) {
-                  debugPrint('Seleccionaste: $value');
-                },
-              ),
-            );
-          },
-        ),
+    return AppBar(
+      title: const Text("Profile"),
+      titleTextStyle: TextStyle(
+        color: colorThemes[10],
+        fontSize: 27,
+        fontWeight: FontWeight.bold,
       ),
-    ],
-  );
-}
-
+      backgroundColor: colorThemes[17],
+      elevation: 0,
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: IconButton(
+            icon: const Icon(Icons.settings),
+            color: colorThemes[10],
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: colorThemes[17],
+                builder: (context) => ProfileSettingsBottomSheet(
+                  onSelected: (value) {
+                    debugPrint('Seleccionaste: $value');
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class _RoutinesListView extends StatelessWidget {
@@ -153,13 +155,51 @@ class _RoutinesListView extends StatelessWidget {
   }
 }
 
-class _UserDataSection extends StatelessWidget {
+class _UserDataSection extends StatefulWidget {
+  @override
+  State<_UserDataSection> createState() => _UserDataSectionState();
+}
+
+class _UserDataSectionState extends State<_UserDataSection> {
+  File? _profileImage;
+  final ImagePicker _picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedImage(); 
+  }
+
+  Future<void> _loadSavedImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedPath = prefs.getString("profile_image_path");
+    if (savedPath != null && File(savedPath).existsSync()) {
+      setState(() {
+        _profileImage = File(savedPath);
+      });
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      final imageFile = File(pickedFile.path);
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString("profile_image_path", imageFile.path);
+
+      setState(() {
+        _profileImage = imageFile;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final UserProvider userProvider = UserProvider();
 
     return FutureBuilder<GetUserByEmailResponse>(
-      future: userProvider.getUserByEmail(), 
+      future: userProvider.getUserByEmail(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(
@@ -168,7 +208,9 @@ class _UserDataSection extends StatelessWidget {
           );
         }
 
-        if (snapshot.hasError || !snapshot.hasData || !(snapshot.data?.isSuccess ?? false)) {
+        if (snapshot.hasError ||
+            !snapshot.hasData ||
+            !(snapshot.data?.isSuccess ?? false)) {
           return Container(
             padding: const EdgeInsets.all(20),
             child: const Text(
@@ -196,10 +238,38 @@ class _UserDataSection extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const CircleAvatar(
-                radius: 35,
-                backgroundColor: Colors.grey,
-                child: Icon(Icons.person, size: 40, color: Colors.white),
+              GestureDetector(
+                onTap: _pickImage,
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 35,
+                      backgroundColor: Colors.grey,
+                      backgroundImage:
+                          _profileImage != null ? FileImage(_profileImage!) : null,
+                      child: _profileImage == null
+                          ? const Icon(Icons.person,
+                              size: 40, color: Colors.white)
+                          : null,
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.blue,
+                          shape: BoxShape.circle,
+                        ),
+                        padding: const EdgeInsets.all(6),
+                        child: const Icon(
+                          Icons.camera_alt,
+                          size: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(width: 20),
               Column(
