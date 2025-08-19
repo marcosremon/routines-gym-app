@@ -62,7 +62,7 @@ class StatsScreen extends StatelessWidget {
             ),
           ),
           trailing: Text(
-            "${stat.steps} pasos",
+            "${stat.steps} steps",
             style: TextStyle(
               color: colorThemes[10],
               fontSize: 16,

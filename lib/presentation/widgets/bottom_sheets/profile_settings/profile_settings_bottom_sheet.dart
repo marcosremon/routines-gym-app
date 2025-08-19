@@ -3,10 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/delete_user/delete_user_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_response.dart';
+import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/screens/login/login_screen.dart';
-import 'package:routines_gym_app/presentation/widgets/bottom_sheets/settings_bottom_sheet/change_password_bottom_sheet.dart';
-import 'package:routines_gym_app/presentation/widgets/bottom_sheets/settings_bottom_sheet/edit_profile_bottom_sheet.dart';
-import 'package:routines_gym_app/presentation/widgets/bottom_sheets/settings_bottom_sheet/show_my_friend_code_bottom_sheet.dart';
+import 'package:routines_gym_app/presentation/widgets/bottom_sheets/profile_settings/change_password_bottom_sheet.dart';
+import 'package:routines_gym_app/presentation/widgets/bottom_sheets/profile_settings/edit_profile_bottom_sheet.dart';
+import 'package:routines_gym_app/presentation/widgets/bottom_sheets/profile_settings/show_my_friend_code_bottom_sheet.dart';
 import 'package:routines_gym_app/presentation/widgets/pop-up/delete_account_pop_up.dart';
 import 'package:routines_gym_app/provider/provider.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart'; 
@@ -55,10 +56,10 @@ class ProfileSettingsBottomSheet extends StatelessWidget {
 
   Widget _buildOption(BuildContext context, String text, IconData icon, String value) {
     return ListTile(
-      leading: Icon(icon, color: Colors.black),
+      leading: Icon(icon, color: colorThemes[14]),
       title: Text(
         text,
-        style: const TextStyle(color: Colors.black),
+        style: TextStyle(color: colorThemes[14]),
       ),
       onTap: () async {
         Navigator.pop(context);

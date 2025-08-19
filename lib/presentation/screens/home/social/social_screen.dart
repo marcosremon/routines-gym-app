@@ -192,15 +192,13 @@ class _SearchFriends extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                onPressed: () {
-                  // to_do abrir perfil
-                },
-                icon: Icon(Icons.account_circle, size: 50),
+              Icon(
+                Icons.account_circle,
+                size: 50,
+                color: colorThemes[13],
               ),
               const SizedBox(width: 10),
+
               Expanded(
                 child: TextField(
                   controller: _controller,

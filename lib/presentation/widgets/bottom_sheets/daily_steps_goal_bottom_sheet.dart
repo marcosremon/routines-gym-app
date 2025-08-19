@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/controller/stats/steps_tracker.dart';
 
-class DailyGoalBottomSheet extends StatelessWidget {
+class DailyStepsGoalBottomSheet extends StatelessWidget {
   final StepTracker stepTracker;
 
-  const DailyGoalBottomSheet({super.key, required this.stepTracker});
+  const DailyStepsGoalBottomSheet({super.key, required this.stepTracker});
 
   @override
   Widget build(BuildContext context) {
