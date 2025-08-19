@@ -172,7 +172,7 @@ class UserDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> changePasswordWithPasswordAndEmail(ChangePasswordWithPasswordAndEmailRequest changePasswordWithPasswordAndEmailRequest) async {
+  Future<Map<String, dynamic>> changePassword(ChangePasswordWithPasswordAndEmailRequest changePasswordWithPasswordAndEmailRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(

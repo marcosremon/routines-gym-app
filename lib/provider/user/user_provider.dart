@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/change_password_with_password_and_email/change_password_with_password_and_email_reqeust.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/change_password_with_password_and_email/change_password_with_password_and_email_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_new_password/create_new_password_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_new_password/create_new_password_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/create/create_user/create_user_request.dart';
@@ -9,6 +11,8 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/us
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_profile_detials/get_user_profile_details_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_response.dart';
 import 'package:routines_gym_app/infraestructure/repository/user_repository.dart';
 import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,5 +62,21 @@ class UserProvider extends ChangeNotifier {
     );
 
     return await userRepository.deleteUser(deleteUserRequest);    
+  }
+
+  Future<ChangePasswordWithPasswordAndEmailResponse> changePassword(ChangePasswordWithPasswordAndEmailRequest changePasswordRequest) async 
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    changePasswordRequest.userEmail ??= prefs.getString("userEmail");
+
+    return await userRepository.changePassword(changePasswordRequest);
+  }
+
+  Future<UpdateUserResponse> updateUser(UpdateUserRequest updateUserRequest) async 
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    updateUserRequest.originalEmail ??= prefs.getString("userEmail");
+
+    return await userRepository.updateUser(updateUserRequest);
   }
 }

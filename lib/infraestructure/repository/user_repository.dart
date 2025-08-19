@@ -131,7 +131,7 @@ class UserRepository {
       if (data['responseCodeJson'] == 200) {
         updateUserResponse.isSuccess = data['isSuccess'];
         updateUserResponse.message = data['message'];
-        updateUserResponse.userDTO = data['userDTO'];
+        updateUserResponse.userDTO = UserDTO.fromJson(data['userDTO']);
       } else {
         updateUserResponse.isSuccess = false;
         updateUserResponse.message = 'Error: ${data['message']}';
@@ -182,10 +182,10 @@ class UserRepository {
     return createNewPasswordResponse;
   }
 
-  Future<ChangePasswordWithPasswordAndEmailResponse> changePasswordWithPasswordAndEmail(ChangePasswordWithPasswordAndEmailRequest changePasswordWithPasswordAndEmailRequest) async {
+  Future<ChangePasswordWithPasswordAndEmailResponse> changePassword(ChangePasswordWithPasswordAndEmailRequest changePasswordWithPasswordAndEmailRequest) async {
     ChangePasswordWithPasswordAndEmailResponse changePasswordWithPasswordAndEmailResponse = ChangePasswordWithPasswordAndEmailResponse();
     try {
-      Map<String, dynamic> data = await userDatasource.changePasswordWithPasswordAndEmail(changePasswordWithPasswordAndEmailRequest);
+      Map<String, dynamic> data = await userDatasource.changePassword(changePasswordWithPasswordAndEmailRequest);
       if (data['responseCodeJson'] == 200) {
         changePasswordWithPasswordAndEmailResponse.isSuccess = data['isSuccess'];
         changePasswordWithPasswordAndEmailResponse.message = data['message'];
