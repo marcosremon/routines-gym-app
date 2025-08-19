@@ -127,7 +127,7 @@ class ProfileSettingsBottomSheet extends StatelessWidget {
             );
             break;
           case 'admin':
-            debugPrint('Acción exclusiva de admin');
+            // to_do hacer la opcion admin
             break;
         }
 

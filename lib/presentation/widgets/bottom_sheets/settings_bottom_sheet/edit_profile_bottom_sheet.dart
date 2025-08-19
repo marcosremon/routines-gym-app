@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/update_user/update_user_response.dart';
+import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/widgets/buttons/custom_button.dart';
 import 'package:routines_gym_app/presentation/widgets/text_fields/custom_text_field.dart';
 import 'package:routines_gym_app/provider/user/user_provider.dart';
@@ -62,12 +63,12 @@ class _EditProfileBottomSheetState extends State<EditProfileBottomSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.edit, color: Colors.blueAccent, size: 48),
+          Icon(Icons.edit, color: colorThemes[16], size: 48),
           const SizedBox(height: 12),
-          const Text(
+          Text(
             'Edit your profile',
             style: TextStyle(
-              color: Colors.black87,
+              color: colorThemes[16],
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
