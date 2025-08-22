@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/routine_dto.dart';
-import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/get_exercises_by_day_and_routine_id/get_exercises_by_day_and_routine_id_request.dart';
-import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/get_exercises_by_day_and_routine_id/get_exercises_by_day_and_routine_id_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/entities/split_day_dto.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
-import 'package:routines_gym_app/provider/exercise/exercise_provider.dart';
-import 'package:routines_gym_app/transversal/utils/app_utils.dart';
-import 'package:routines_gym_app/transversal/utils/toast_message.dart';
+import 'package:routines_gym_app/presentation/widgets/cards/exercise/exercise_card.dart';
+import 'package:routines_gym_app/provider/routine/routine_provider.dart';
 
 class RoutineDetailScreen extends StatefulWidget {
-  final RoutineDTO routine;
+  final String routineName;
   final String userEmail;
 
   const RoutineDetailScreen({
     super.key,
-    required this.routine,
+    required this.routineName,
     required this.userEmail,
   });
 
@@ -23,58 +23,99 @@ class RoutineDetailScreen extends StatefulWidget {
 }
 
 class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
-  late ExerciseProvider exerciseProvider;
+  late RoutineProvider routineProvider;
+  RoutineDTO? routine;
   int? selectedDayIndex;
+  Map<int, List<ExerciseCard>> exercisesByDay = {};
 
   @override
   void initState() {
     super.initState();
-    exerciseProvider = Provider.of<ExerciseProvider>(context, listen: false);
+    routineProvider = Provider.of<RoutineProvider>(context, listen: false);
+    _loadRoutine();
   }
 
-  Future<void> _loadExercisesForDay(int dayIndex) async {
-    selectedDayIndex = dayIndex;
-    GetExercisesByDayAndRoutineIdRequest request = GetExercisesByDayAndRoutineIdRequest(
-      routineName: widget.routine.routineName, 
-      dayName: AppUtils.getDayName(dayIndex),
+  Future<void> _loadRoutine() async {
+    final request = GetRoutineByRoutineNameRequest(
+      routineName: widget.routineName,
     );
 
-    GetExercisesByDayAndRoutineIdResponse response =
-        await exerciseProvider.getExercisesByDayAndRoutineId(request);
+    final GetRoutineByRoutineNameResponse response = await routineProvider.getRoutineByRoutineName(request);
 
-    ToastMessage.showToast(response.message ?? "");
+    if (response.routineDTO != null) {
+      routine = response.routineDTO;
+
+      for (var day in routine!.splitDays) {
+        debugPrint('Day: ${day.name}, Enum: ${day.dayName}');
+        final dayIndex = day.dayName.index;
+        exercisesByDay[dayIndex] = [];
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("No se pudo cargar la rutina")),
+      );
+    }
+
     setState(() {});
+  }
+
+  void _onDaySelected(int index) {
+    setState(() {
+      selectedDayIndex = selectedDayIndex == index ? null : index;
+    });
+  }
+
+  void _addExercise(int dayIndex) {
+    final newCard = ExerciseCard(
+      ctrls: {},
+      showRemove: true,
+      onRemove: () => _removeExercise(dayIndex, exercisesByDay[dayIndex]!.length),
+    );
+
+    setState(() {
+      exercisesByDay[dayIndex]!.add(newCard);
+    });
+  }
+
+  void _removeExercise(int dayIndex, int index) {
+    setState(() {
+      exercisesByDay[dayIndex]!.removeAt(index);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final routine = widget.routine;
-
     return Scaffold(
+      backgroundColor: colorThemes[17],
       appBar: AppBar(
-        title: Text(routine.routineName),
+        title: Text(routine?.routineName ?? "Routine"),
         backgroundColor: colorThemes[17],
         elevation: 0,
       ),
-      backgroundColor: colorThemes[17],
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _buildDaySelector(
-              routine.splitDays
-                      .map((day) => day.dayName.index) 
-                      .toList(),
+      body: routine == null
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+              children: [
+                Text(
+                  'Select the day',
+                  style: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                _buildDaySelector(routine!.splitDays),
+                const SizedBox(height: 24),
+                if (selectedDayIndex != null)
+                  _buildExercisesByDay(routine!.splitDays[selectedDayIndex!]),
+              ],
             ),
-            const SizedBox(height: 16),
-            if (selectedDayIndex != null) _buildProgressSection(),
-          ],
-        ),
-      ),
     );
   }
 
-  Widget _buildDaySelector(List<int> splitDays) {
+  Widget _buildDaySelector(List<SplitDayDTO> splitDays) {
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -82,80 +123,105 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
       childAspectRatio: 2.6,
       mainAxisSpacing: 8,
       crossAxisSpacing: 8,
-      children: splitDays.map((dayIndex) {
-        final isSelected = selectedDayIndex == dayIndex;
-        return FilterChip(
-          label: Text(
-            AppUtils.getDayName(dayIndex),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: isSelected ? colorThemes[9] : Colors.black87,
-              fontWeight: FontWeight.w500,
-              fontSize: 11.5,
+      children: splitDays.asMap().entries.map((entry) {
+        final index = entry.key;
+        final day = entry.value;
+        final isSelected = selectedDayIndex == index;
+        
+        // Usamos el nombre del día directamente desde el DTO
+        final dayName = day.name;
+        
+        // Para debugging, imprimimos el nombre
+        debugPrint('Day $index: $dayName');
+
+        return SizedBox(
+          width: 120,
+          height: 48,
+          child: FilterChip(
+            label: SizedBox(
+              width: 102,
+              child: Text(
+                dayName,
+                style: TextStyle(
+                  color: isSelected ? colorThemes[9] : Colors.black87,
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.clip,
+              ),
             ),
-          ),
-          selected: isSelected,
-          onSelected: (_) => _loadExercisesForDay(dayIndex),
-          backgroundColor: colorThemes[9],
-          selectedColor: colorThemes[7],
-          checkmarkColor: colorThemes[9],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: BorderSide(
-              color: isSelected ? colorThemes[7] : Colors.grey.shade300,
-              width: 1,
+            selected: isSelected,
+            onSelected: (_) => _onDaySelected(index),
+            backgroundColor: colorThemes[9],
+            selectedColor: colorThemes[7],
+            checkmarkColor: colorThemes[9],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: BorderSide(
+                color: isSelected ? colorThemes[7] : Colors.grey.shade300,
+                width: 1,
+              ),
             ),
+            padding: EdgeInsets.zero,
+            labelPadding: const EdgeInsets.symmetric(horizontal: 0),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
-          padding: EdgeInsets.zero,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 0),
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         );
       }).toList(),
     );
   }
 
-  Widget _buildProgressSection() {
-    final response = exerciseProvider.exerciseProgressResponse;
-
-    if (response == null || response.exercises.isEmpty) {
-      return const Text("No exercises found for this day.");
-    }
-
-    final exercises = response.exercises;
-    final progressMap = response.pastProgress;
+  Widget _buildExercisesByDay(SplitDayDTO day) {
+    final dayIndex = day.dayName.index;
+    final exercises = exercisesByDay[dayIndex]!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: exercises.asMap().entries.map((entry) {
-        final index = entry.key;
-        final exercise = entry.value;
-
-        final progress = progressMap.values.elementAt(index);
-
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  exercise.exerciseName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                ...progress.asMap().entries.map((e) => Text(
-                      "Week ${e.key + 1}: ${e.value}",
-                      style: const TextStyle(fontSize: 14),
-                    )),
-              ],
-            ),
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: colorThemes[17],
+            borderRadius: BorderRadius.circular(12),
           ),
-        );
-      }).toList(),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Text(
+                  day.name, 
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                        fontSize: 16,
+                      ),
+                ),
+              ),
+              const Spacer(),
+              IconButton(
+                icon: Icon(
+                  Icons.add,
+                  color: colorThemes[7],
+                  size: 28,
+                ),
+                tooltip: 'Add exercise',
+                onPressed: () => _addExercise(dayIndex),
+              ),
+            ],
+          ),
+        ),
+        ...exercises.asMap().entries.map((entry) => Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: ExerciseCard(
+                ctrls: entry.value.ctrls,
+                showRemove: exercises.length > 1,
+                onRemove: () => _removeExercise(dayIndex, entry.key),
+              ),
+            )),
+      ],
     );
   }
 }

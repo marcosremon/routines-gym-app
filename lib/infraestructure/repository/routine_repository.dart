@@ -101,30 +101,30 @@ class RoutineRepository {
     return getAllUserRoutinesResponse;
   }
 
-  Future<GetRoutineByIdResponse> getRoutineById(GetRoutineByIdRequest getRoutineByIdRequest) async 
+  Future<GetRoutineByRoutineNameResponse> getRoutineByRoutineName(GetRoutineByRoutineNameRequest getRoutineByRoutineNameRequest) async 
   {
-    GetRoutineByIdResponse getRoutineByIdResponse = GetRoutineByIdResponse();
+    GetRoutineByRoutineNameResponse getRoutineByRoutineNameResponse = GetRoutineByRoutineNameResponse();
     try 
     {
-      Map<String, dynamic> data = await routineDatasource.getRoutineById(getRoutineByIdRequest);
+      Map<String, dynamic> data = await routineDatasource.getRoutineByRoutineName(getRoutineByRoutineNameRequest);
       if (data['responseCodeJson'] == 200) {
-        getRoutineByIdResponse.isSuccess = data['isSuccess'];
-        getRoutineByIdResponse.message = data['message'];
-        getRoutineByIdResponse.routineDTO = RoutineDTO.fromJson(data['routineDTO']);
+        getRoutineByRoutineNameResponse.isSuccess = data['isSuccess'];
+        getRoutineByRoutineNameResponse.message = data['message'];
+        getRoutineByRoutineNameResponse.routineDTO = RoutineDTO.fromJson(data['routineDTO']);
       } else {
-        getRoutineByIdResponse.isSuccess = false;
-        getRoutineByIdResponse.message = data['message'] ?? 'Error getting user routines';
+        getRoutineByRoutineNameResponse.isSuccess = false;
+        getRoutineByRoutineNameResponse.message = data['message'] ?? 'Error getting user routines';
       }
-      getRoutineByIdResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
+      getRoutineByRoutineNameResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } 
     catch (e) {
       if (kDebugMode) {
         print("Error getting user routines: $e");
       }
-      getRoutineByIdResponse.isSuccess = false;
-      getRoutineByIdResponse.message = "Failed to getting user routines";
+      getRoutineByRoutineNameResponse.isSuccess = false;
+      getRoutineByRoutineNameResponse.message = "Failed to getting user routines";
     }
 
-    return getRoutineByIdResponse;
+    return getRoutineByRoutineNameResponse;
   }
 }

@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/exercise_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/split_day_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_request.dart';
-import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_response.dart';
 import 'package:routines_gym_app/domain/model/enums/week_day.dart';
 import 'package:routines_gym_app/provider/routine/routine_provider.dart';
@@ -15,8 +14,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class RoutineController extends ChangeNotifier {
   final nameController = TextEditingController();
   final descController = TextEditingController();
-  GetRoutineByIdResponse? _selectedRoutineResponse;
-  GetRoutineByIdResponse? get selectedRoutine => _selectedRoutineResponse;
+  GetRoutineByRoutineNameResponse? _selectedRoutineResponse;
+  GetRoutineByRoutineNameResponse? get selectedRoutine => _selectedRoutineResponse;
 
   final List<int> selectedDays = [];
   final Map<int, List<Map<String, TextEditingController>>> exercisesByDay = {};
@@ -152,6 +151,7 @@ class RoutineController extends ChangeNotifier {
       return SplitDayDTO(
         dayName: dayName,
         routineId: 0,
+        name: "",
         dayExercisesDescription: "",
         exercises: exercises,
       );
@@ -181,14 +181,14 @@ class RoutineController extends ChangeNotifier {
     }
   }
   
-  Future<void> getRoutineById(int routineId, BuildContext context) async {
-    final request = GetRoutineByIdRequest(routineId: routineId);
-    final provider = context.read<RoutineProvider>();
+  // Future<void> getRoutineById(int routineId, BuildContext context) async {
+  //   final request = GetRoutineByRoutineNameRequest(routineName: routineName);
+  //   final provider = context.read<RoutineProvider>();
 
-    final response = await provider.getRoutineById(request);
-    _selectedRoutineResponse = response;
+  //   final response = await provider.getRoutineByRoutineName(request);
+  //   _selectedRoutineResponse = response;
 
-    ToastMessage.showToast(response.message ?? 'Routine loaded');
-    notifyListeners();
-  }
+  //   ToastMessage.showToast(response.message ?? 'Routine loaded');
+  //   notifyListeners();
+  // }
 }

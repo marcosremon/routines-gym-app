@@ -338,7 +338,7 @@ class _RoutineCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => RoutineDetailScreen(
-              routine: routine,
+              routineName: routine.routineName,
               userEmail: email,
             ),
           ),

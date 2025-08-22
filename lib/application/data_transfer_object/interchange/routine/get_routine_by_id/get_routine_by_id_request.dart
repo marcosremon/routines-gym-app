@@ -1,19 +1,9 @@
-class GetRoutineByIdRequest {
-  int? routineId;
+class GetRoutineByRoutineNameRequest {
+  String? routineName;
+  String? userEmil;
 
-  GetRoutineByIdRequest({
-    this.routineId,
+  GetRoutineByRoutineNameRequest({
+    this.routineName,
+    this.userEmil
   });
-
-  factory GetRoutineByIdRequest.fromJson(Map<String, dynamic> json) {
-    return GetRoutineByIdRequest(
-      routineId: json['routineId'] != null ? (json['routineId'] as num).toInt() : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'routineId': routineId,
-    };
-  }
 }

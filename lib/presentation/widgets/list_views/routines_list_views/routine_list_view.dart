@@ -68,7 +68,7 @@ class RoutinesListView extends StatelessWidget {
               Navigator.pushReplacement(
                 context, 
                 MaterialPageRoute(builder: (context) => RoutineDetailScreen(
-                  routine: routine,
+                  routineName: routine.routineName,
                   userEmail: prefs.getString("userEmail") ?? "" 
                 ))
               );

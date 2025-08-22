@@ -108,13 +108,14 @@ class RoutineDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> getRoutineById(GetRoutineByIdRequest getRoutineByIdRequest) async {
+  Future<Map<String, dynamic>> getRoutineByRoutineName(GetRoutineByRoutineNameRequest getRoutineByRoutineNameRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/get-routine-by-id',
+        '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/get-routine-by-routine-name',
         data: {
-          'routineId': getRoutineByIdRequest.routineId,
+          'routineName': getRoutineByRoutineNameRequest.routineName,
+          'userEmail': getRoutineByRoutineNameRequest.userEmil
         },
       );
       

@@ -35,9 +35,11 @@ class RoutineProvider extends ChangeNotifier {
     return await routineRepository.getAllUserRoutines(getAllUserRoutinesRequest);
   }
 
-  Future<GetRoutineByIdResponse> getRoutineById(GetRoutineByIdRequest getRoutineByIdRequest) async 
+  Future<GetRoutineByRoutineNameResponse> getRoutineByRoutineName(GetRoutineByRoutineNameRequest getRoutineByRoutineNameRequest) async 
   {
-    return await routineRepository.getRoutineById(getRoutineByIdRequest);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    getRoutineByRoutineNameRequest.userEmil ??= prefs.getString("userEmail");
+    return await routineRepository.getRoutineByRoutineName(getRoutineByRoutineNameRequest);
   }
   
   
