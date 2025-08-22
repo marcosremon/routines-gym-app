@@ -3,6 +3,8 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/ro
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_stats/get_routine_stats_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_stats/get_routine_stats_response.dart';
 import 'package:routines_gym_app/infraestructure/repository/routine_repository.dart';
@@ -31,6 +33,11 @@ class RoutineProvider extends ChangeNotifier {
   Future<GetAllUserRoutinesResponse> getAllUserRoutines(GetAllUserRoutinesRequest getAllUserRoutinesRequest) async 
   {
     return await routineRepository.getAllUserRoutines(getAllUserRoutinesRequest);
+  }
+
+  Future<GetRoutineByIdResponse> getRoutineById(GetRoutineByIdRequest getRoutineByIdRequest) async 
+  {
+    return await routineRepository.getRoutineById(getRoutineByIdRequest);
   }
   
   

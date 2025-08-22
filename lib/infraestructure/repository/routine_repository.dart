@@ -4,6 +4,8 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/ro
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_stats/get_routine_stats_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_stats/get_routine_stats_response.dart';
 import 'package:routines_gym_app/infraestructure/datasource/routine_datasource.dart';
@@ -97,5 +99,32 @@ class RoutineRepository {
     }
 
     return getAllUserRoutinesResponse;
+  }
+
+  Future<GetRoutineByIdResponse> getRoutineById(GetRoutineByIdRequest getRoutineByIdRequest) async 
+  {
+    GetRoutineByIdResponse getRoutineByIdResponse = GetRoutineByIdResponse();
+    try 
+    {
+      Map<String, dynamic> data = await routineDatasource.getRoutineById(getRoutineByIdRequest);
+      if (data['responseCodeJson'] == 200) {
+        getRoutineByIdResponse.isSuccess = data['isSuccess'];
+        getRoutineByIdResponse.message = data['message'];
+        getRoutineByIdResponse.routineDTO = RoutineDTO.fromJson(data['routineDTO']);
+      } else {
+        getRoutineByIdResponse.isSuccess = false;
+        getRoutineByIdResponse.message = data['message'] ?? 'Error getting user routines';
+      }
+      getRoutineByIdResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
+    } 
+    catch (e) {
+      if (kDebugMode) {
+        print("Error getting user routines: $e");
+      }
+      getRoutineByIdResponse.isSuccess = false;
+      getRoutineByIdResponse.message = "Failed to getting user routines";
+    }
+
+    return getRoutineByIdResponse;
   }
 }

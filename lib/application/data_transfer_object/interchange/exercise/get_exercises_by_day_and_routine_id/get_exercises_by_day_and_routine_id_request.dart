@@ -1,21 +1,21 @@
 class GetExercisesByDayAndRoutineIdRequest {
-  int? routineId;
+  String? routineName;
   String? dayName;
 
   GetExercisesByDayAndRoutineIdRequest({
-    this.routineId,
+    this.routineName,
     this.dayName,
   });
 
   factory GetExercisesByDayAndRoutineIdRequest.fromJson(Map<String, dynamic> json) {
     return GetExercisesByDayAndRoutineIdRequest(
-      routineId: json['routineId'],
+      routineName: json['routineId'],
       dayName: json['dayName'],
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'routineId': routineId,
+        'routineId': routineName,
         'dayName': dayName,
       };
 }

@@ -7,6 +7,7 @@ import 'package:routines_gym_app/presentation/controller/routine/routine_control
 import 'package:routines_gym_app/presentation/controller/stats/steps_tracker.dart';
 import 'package:routines_gym_app/presentation/screens/home/home_screen.dart';
 import 'package:routines_gym_app/presentation/screens/welcome/welcome_screen.dart';
+import 'package:routines_gym_app/provider/exercise/exercise_provider.dart';
 import 'package:routines_gym_app/provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => StatsProvider()),
         ChangeNotifierProvider(create: (_) => FriendProvider()),
         ChangeNotifierProvider(create: (_) => RoutineProvider()),
+        ChangeNotifierProvider(create: (_) => ExerciseProvider()),
         ChangeNotifierProvider(create: (_) => RoutineController()), 
         ChangeNotifierProvider(create: (_) => StepTracker()),
       ],
