@@ -20,10 +20,11 @@ class ExerciseDatasource {
           'progressList': addExerciseProgressRequest.progressList,
           'userEmail': addExerciseProgressRequest.userEmail,
           'routineId': addExerciseProgressRequest.routineId,
-          'dayName': addExerciseProgressRequest.dayName,
+          'splitDayId': addExerciseProgressRequest.splitDayId,
+          'exerciseName': addExerciseProgressRequest.exerciseName
         },
       );
-      
+
       data = response.data as Map<String, dynamic>;
     } catch (ex) {
       print("unexpected error");

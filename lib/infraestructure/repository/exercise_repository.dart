@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/exercise_dto.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/add_exercise_progress/add_exercise_progress_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/add_exercise_progress/add_exercise_progress_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/get_exercises_by_day_and_routine_id/get_exercises_by_day_and_routine_id_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/get_exercises_by_day_and_routine_id/get_exercises_by_day_and_routine_id_response.dart';
 import 'package:routines_gym_app/infraestructure/datasource/exercise_datasource.dart';
@@ -43,5 +45,26 @@ class ExerciseRepository {
     }
 
     return getExercisesByDayAndRoutineNameResponse;
+  }
+
+  Future<AddExerciseProgressResponse> addExerciseProgress(AddExerciseProgressRequest addExerciseProgressRequest) async 
+  {
+    AddExerciseProgressResponse addExerciseProgressResponse = AddExerciseProgressResponse();
+    try {
+      Map<String, dynamic> data = await exerciseDatasource.addExerciseProgress(addExerciseProgressRequest);
+      if (data['responseCodeJson'] == 200) {
+        addExerciseProgressResponse.isSuccess = data['isSuccess'];
+        addExerciseProgressResponse.message = data['message'];
+      } else {
+        addExerciseProgressResponse.isSuccess = false;
+        addExerciseProgressResponse.message = 'Error: ${data['message']}';
+      }
+      addExerciseProgressResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
+    } catch (ex) {
+      addExerciseProgressResponse.isSuccess = false;
+      addExerciseProgressResponse.message = 'Unexpected error on UserRepository -> updateUser';
+    }
+    
+    return addExerciseProgressResponse;
   }
 }

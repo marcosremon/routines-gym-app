@@ -1,14 +1,16 @@
 class AddExerciseProgressRequest {
   List<String> progressList;
-  String userEmail;
+  String? userEmail;
   int? routineId;
-  String dayName;
+  int? splitDayId;
+  String? exerciseName;
 
   AddExerciseProgressRequest({
     this.progressList = const [],
-    this.userEmail = '',
+    this.userEmail,
     this.routineId,
-    this.dayName = '',
+    this.splitDayId,
+    this.exerciseName,
   });
 
   factory AddExerciseProgressRequest.fromJson(Map<String, dynamic> json) {
@@ -17,9 +19,10 @@ class AddExerciseProgressRequest {
               ?.map((e) => e.toString())
               .toList() ??
           [],
-      userEmail: json['userEmail'] ?? '',
+      userEmail: json['userEmail'],
       routineId: json['routineId'],
-      dayName: json['dayName'] ?? '',
+      splitDayId: json['splitDayId'],
+      exerciseName: json['exerciseName'],
     );
   }
 
@@ -27,6 +30,7 @@ class AddExerciseProgressRequest {
         'progressList': progressList,
         'userEmail': userEmail,
         'routineId': routineId,
-        'dayName': dayName,
+        'splitDayId': splitDayId,
+        'exerciseName': exerciseName,
       };
 }

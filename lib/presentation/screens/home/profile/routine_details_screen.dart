@@ -311,21 +311,30 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.add_circle_outline,
-                              color: colorThemes[6], size: 28),
-                              onPressed: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                            icon: Icon(
+                              Icons.add_circle_outline,
+                              color: colorThemes[6],
+                              size: 28,
+                            ),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).viewInsets.bottom,
                                   ),
-                                  builder: (context) => AddProgressBottomSheet(
+                                  child: AddProgressBottomSheet(
                                     exercise: exercise,
                                     routine: routine,
+                                    onProgressAdded: () async {
+                                      await _onDaySelected(selectedDayIndex!);
+                                    },
                                   ),
-                                );
-                              },
+                                ),
+                              );
+                            },
                           )
                         ],
                       ),
