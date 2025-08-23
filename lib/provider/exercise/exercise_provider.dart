@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/get_exercises_by_day_and_routine_id/get_exercises_by_day_and_routine_id_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/get_exercises_by_day_and_routine_id/get_exercises_by_day_and_routine_id_response.dart';
 import 'package:routines_gym_app/infraestructure/repository/exercise_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExerciseProvider extends ChangeNotifier {
   final ExerciseRepository exerciseRepository = ExerciseRepository();
 
-  GetExercisesByDayAndRoutineIdResponse? _exerciseProgressResponse;
+  GetExercisesByDayAndRoutineNameResponse? _exerciseProgressResponse;
 
-  GetExercisesByDayAndRoutineIdResponse? get exerciseProgressResponse => _exerciseProgressResponse;
+  GetExercisesByDayAndRoutineNameResponse? get exerciseProgressResponse => _exerciseProgressResponse;
 
-  Future<GetExercisesByDayAndRoutineIdResponse> getExercisesByDayAndRoutineId(
-    GetExercisesByDayAndRoutineIdRequest request
-  ) async {
-    final response = await exerciseRepository.getExercisesByDayAndRoutineId(request);
-    _exerciseProgressResponse = response;
-    notifyListeners();
-    return response;
+  Future<GetExercisesByDayAndRoutineNameResponse> getExercisesByDayAndRoutineName(GetExercisesByDayAndRoutineNameRequest getExercisesByDayAndRoutineNameRequest) async 
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    getExercisesByDayAndRoutineNameRequest.userEmail ??= prefs.getString("userEmail");
+    return await exerciseRepository.getExercisesByDayAndRoutineName(getExercisesByDayAndRoutineNameRequest);
   }
 
   void clearProgress() {

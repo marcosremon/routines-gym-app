@@ -40,7 +40,5 @@ class RoutineProvider extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     getRoutineByRoutineNameRequest.userEmil ??= prefs.getString("userEmail");
     return await routineRepository.getRoutineByRoutineName(getRoutineByRoutineNameRequest);
-  }
-  
-  
+  }  
 }

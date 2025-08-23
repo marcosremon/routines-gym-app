@@ -15,10 +15,10 @@ class RoutineDTO {
 
   factory RoutineDTO.fromJson(Map<String, dynamic> json) {
     return RoutineDTO(
-      routineName: json['routineName'] ?? '', // camelCase
-      routineDescription: json['routineDescription'] ?? '', // camelCase
-      userId: json['userId'] ?? 0, // camelCase
-      splitDays: (json['splitDays'] as List<dynamic>? ?? []) // camelCase
+      routineName: json['routineName'] ?? '', 
+      routineDescription: json['routineDescription'] ?? '', 
+      userId: json['userId'] ?? 0, 
+      splitDays: (json['splitDays'] as List<dynamic>? ?? [])
           .map((e) => SplitDayDTO.fromJson(e))
           .toList(),
     );
@@ -26,10 +26,10 @@ class RoutineDTO {
 
   Map<String, dynamic> toJson() {
     return {
-      'routineName': routineName, // camelCase
-      'routineDescription': routineDescription, // camelCase
-      'userId': userId, // camelCase
-      'splitDays': splitDays.map((e) => e.toJson()).toList(), // camelCase
+      'routineName': routineName,
+      'routineDescription': routineDescription,
+      'userId': userId,
+      'splitDays': splitDays.map((e) => e.toJson()).toList(),
     };
   }
 }

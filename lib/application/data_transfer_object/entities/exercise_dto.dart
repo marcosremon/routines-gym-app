@@ -11,9 +11,9 @@ class ExerciseDTO {
 
   factory ExerciseDTO.fromJson(Map<String, dynamic> json) {
     return ExerciseDTO(
-      exerciseName: json['ExerciseName'] ?? '',
-      routineId: json['RoutineId'] ?? 0,
-      splitDayId: json['SplitDayId'] ?? 0,
+      exerciseName: json['exerciseName'] ?? '',
+      routineId: json['routineId'] ?? 0,
+      splitDayId: json['splitDayId'] ?? 0,
     );
   }
 

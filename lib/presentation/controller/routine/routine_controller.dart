@@ -1,5 +1,7 @@
 
 
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/exercise_dto.dart';
@@ -180,15 +182,4 @@ class RoutineController extends ChangeNotifier {
       addDay(day);
     }
   }
-  
-  // Future<void> getRoutineById(int routineId, BuildContext context) async {
-  //   final request = GetRoutineByRoutineNameRequest(routineName: routineName);
-  //   final provider = context.read<RoutineProvider>();
-
-  //   final response = await provider.getRoutineByRoutineName(request);
-  //   _selectedRoutineResponse = response;
-
-  //   ToastMessage.showToast(response.message ?? 'Routine loaded');
-  //   notifyListeners();
-  // }
 }

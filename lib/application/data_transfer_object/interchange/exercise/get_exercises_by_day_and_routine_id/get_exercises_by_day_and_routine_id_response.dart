@@ -2,11 +2,11 @@ import 'package:routines_gym_app/application/data_transfer_object/entities/exerc
 import 'package:routines_gym_app/transversal/common/base_response.dart';
 import 'package:routines_gym_app/transversal/common/response_codes.dart';
 
-class GetExercisesByDayAndRoutineIdResponse extends BaseResponse {
+class GetExercisesByDayAndRoutineNameResponse extends BaseResponse {
   List<ExerciseDTO> exercises;
   Map<int, List<String>> pastProgress;
 
-  GetExercisesByDayAndRoutineIdResponse({
+  GetExercisesByDayAndRoutineNameResponse({
     this.exercises = const [],
     this.pastProgress = const {},
     super.responseCode,
@@ -14,8 +14,8 @@ class GetExercisesByDayAndRoutineIdResponse extends BaseResponse {
     super.message,
   });
 
-  factory GetExercisesByDayAndRoutineIdResponse.fromJson(Map<String, dynamic> json) {
-    return GetExercisesByDayAndRoutineIdResponse(
+  factory GetExercisesByDayAndRoutineNameResponse.fromJson(Map<String, dynamic> json) {
+    return GetExercisesByDayAndRoutineNameResponse(
       exercises: (json['exercises'] as List<dynamic>?)
               ?.map((e) => ExerciseDTO.fromJson(e))
               .toList() ??

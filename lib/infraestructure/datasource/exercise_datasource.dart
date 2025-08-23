@@ -98,14 +98,16 @@ class ExerciseDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> getExercisesByDayAndRoutineId(GetExercisesByDayAndRoutineIdRequest getExercisesByDayAndRoutineIdRequest) async {
+  Future<Map<String, dynamic>> getExercisesByDayAndRoutineName(GetExercisesByDayAndRoutineNameRequest getExercisesByDayAndRoutineNameRequest) async 
+  {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(
-        '${ApiConstants.baseUrl}${ApiConstants.exerciseEndpoint}/get-exercises-by-day-and-routine-id',
+        '${ApiConstants.baseUrl}${ApiConstants.exerciseEndpoint}/get-exercises-by-day-and-routine-name',
         data: {
-          'routineId': getExercisesByDayAndRoutineIdRequest.routineName,
-          'dayName': getExercisesByDayAndRoutineIdRequest.dayName,
+          'routineName': getExercisesByDayAndRoutineNameRequest.routineName,
+          'dayName': getExercisesByDayAndRoutineNameRequest.dayName,
+          'userEmail': getExercisesByDayAndRoutineNameRequest.userEmail
         },
       );
       

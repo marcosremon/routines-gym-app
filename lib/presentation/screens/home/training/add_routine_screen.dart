@@ -57,9 +57,8 @@ class AddRoutineScreen extends StatelessWidget {
           onPressed: () {
             routineController.submitRoutine(context);
           },
-    ),
-  ),
-
+        ),
+      ),
     );
   }
 
