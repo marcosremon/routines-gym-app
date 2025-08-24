@@ -5,14 +5,18 @@ import 'package:provider/provider.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/routine_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/split_day_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/exercise_dto.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/delete_exercise/delete_exercise_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/delete_exercise/delete_exercise_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/get_exercises_by_day_and_routine_id/get_exercises_by_day_and_routine_id_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/widgets/bottom_sheets/exercise_details/add_new_exercise_bottom_sheet.dart';
 import 'package:routines_gym_app/presentation/widgets/bottom_sheets/exercise_details/add_progress_bottom_sheet.dart';
+import 'package:routines_gym_app/presentation/widgets/pop-up/delete_exercise_pop_up.dart';
 import 'package:routines_gym_app/provider/exercise/exercise_provider.dart';
 import 'package:routines_gym_app/provider/routine/routine_provider.dart';
+import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 
 class RoutineDetailScreen extends StatefulWidget {
   final String routineName;
@@ -49,18 +53,14 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
       routineName: widget.routineName,
     );
 
-    final GetRoutineByRoutineNameResponse response =
-        await routineProvider.getRoutineByRoutineName(request);
-
+    final GetRoutineByRoutineNameResponse response = await routineProvider.getRoutineByRoutineName(request);
     if (response.routineDTO != null) {
       routine = response.routineDTO;
       for (var day in routine!.splitDays) {
         exercisesByDay[day.dayName.index] = [];
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("No se pudo cargar la rutina")),
-      );
+      ToastMessage.showToast("The routine could not be loaded");
     }
 
     setState(() {});
@@ -108,14 +108,10 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
           selectedDayIndex = index;
           exercisesByDay[index] = [];
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(response.message ?? 'No se encontraron ejercicios')),
-        );
+        ToastMessage.showToast(response.message ?? "No routines were found");
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error al cargar los ejercicios')),
-      );
+      ToastMessage.showToast("Error loading the exercises");
     }
   }
 
@@ -226,7 +222,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
             selected: isSelected,
             onSelected: (_) => _onDaySelected(index),
             backgroundColor: colorThemes[9],
-            selectedColor: colorThemes[7],
+            selectedColor: colorThemes[6],
             checkmarkColor: colorThemes[9],
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
@@ -263,15 +259,16 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.add_circle_outline, 
-              color: colorThemes[6], size: 28),
-             onPressed: () {
+              icon: Icon(Icons.add_circle_outline,
+                  color: colorThemes[6], size: 28),
+              onPressed: () {
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
                   backgroundColor: Colors.transparent,
                   builder: (context) {
-                    final TextEditingController controller = TextEditingController();
+                    final TextEditingController controller =
+                        TextEditingController();
                     return AddExerciseBottomSheet(
                       controller: controller,
                       routineName: routine!.routineName,
@@ -282,7 +279,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                     );
                   },
                 );
-              }
+              },
             ),
           ],
         ),
@@ -290,7 +287,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
         Expanded(
           child: ListView.separated(
             itemCount: exercises.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 16),
+            separatorBuilder: (context, index) =>
+                const SizedBox(height: 16),
             itemBuilder: (context, index) {
               final exerciseData = exercises[index];
               final ExerciseDTO exercise = exerciseData['exercise'];
@@ -311,6 +309,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center, 
                         children: [
                           Expanded(
                             child: Text(
@@ -325,36 +324,70 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.add_circle_outline,
-                              color: colorThemes[6],
-                              size: 28,
-                            ),
-                            onPressed: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                builder: (context) => Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context).viewInsets.bottom,
-                                  ),
-                                  child: AddProgressBottomSheet(
-                                    exercise: exercise,
-                                    routine: routine,
-                                    onProgressAdded: () async {
-                                      await _onDaySelected(selectedDayIndex!);
-                                    },
-                                  ),
+                          Row( 
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.add_circle_outline,
+                                  color: colorThemes[6],
+                                  size: 28,
                                 ),
-                              );
-                            },
-                          )
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (context) => Padding(
+                                      padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                                      ),
+                                      child: AddProgressBottomSheet(
+                                        exercise: exercise,
+                                        routine: routine,
+                                        onProgressAdded: () async {
+                                          await _onDaySelected(selectedDayIndex!);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Colors.red,
+                                  size: 28,
+                                ),
+                                onPressed: () async {
+                                  await showDialog<bool>(
+                                    context: context,
+                                    builder: (context) => DeleteExercisePopUp(
+                                      title: "Remove exercise",
+                                      content: "Do you want to remove this exercise?",
+                                      onConfirm: () async {
+                                        DeleteExerciseRequest deleteExerciseRequest = DeleteExerciseRequest(
+                                          routineId: exercise.routineId,
+                                          dayName: day.name,
+                                          exerciseName: exercise.exerciseName,
+                                        );
+
+                                        DeleteExerciseResponse deleteExerciseResponse = await exerciseProvider.deleteExercise(deleteExerciseRequest);
+                                        ToastMessage.showToast(deleteExerciseResponse.message ?? "Exercise deleted");
+
+                                        if (deleteExerciseResponse.isSuccess == true) {
+                                          await _onDaySelected(selectedDayIndex!); 
+                                        }
+                                      },
+                                    ),
+                                  );
+                                }
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
-                      
+
                       const Text(
                         'Recent Progress:',
                         style: TextStyle(
@@ -364,7 +397,7 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      
+
                       if (progress.isEmpty)
                         Text(
                           'No progress recorded yet',
@@ -379,10 +412,8 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
                           children: [
                             if (lastThree.isNotEmpty)
                               _buildProgressItem('Latest', lastThree[0], true),
-                            
                             if (lastThree.length > 1)
                               _buildProgressItem('Second', lastThree[1], false),
-                            
                             if (lastThree.length > 2)
                               _buildProgressItem('Third', lastThree[2], false),
                           ],

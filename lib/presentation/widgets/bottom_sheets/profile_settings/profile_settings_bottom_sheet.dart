@@ -20,7 +20,7 @@ class ProfileSettingsBottomSheet extends StatelessWidget {
 
   Future<bool> _isAdmin() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('role') == 'admin';
+    return prefs.getBool('isAdmin') ?? false;
   }
 
   @override

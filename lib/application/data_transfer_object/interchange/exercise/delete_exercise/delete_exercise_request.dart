@@ -1,14 +1,14 @@
 class DeleteExerciseRequest {
-  String userEmail;
+  String? userEmail;
   int? routineId;
   String? dayName;
-  int? exerciseId;
+  String? exerciseName;
 
   DeleteExerciseRequest({
-    this.userEmail = '',
+    this.userEmail,
     this.routineId,
     this.dayName,
-    this.exerciseId,
+    this.exerciseName,
   });
 
   factory DeleteExerciseRequest.fromJson(Map<String, dynamic> json) {
@@ -16,7 +16,7 @@ class DeleteExerciseRequest {
       userEmail: json['userEmail'] ?? '',
       routineId: json['routineId'],
       dayName: json['dayName'],
-      exerciseId: json['exerciseId'],
+      exerciseName: json['exerciseName'],
     );
   }
 
@@ -24,6 +24,6 @@ class DeleteExerciseRequest {
         'userEmail': userEmail,
         'routineId': routineId,
         'dayName': dayName,
-        'exerciseId': exerciseId,
+        'exerciseName': exerciseName,
       };
 }

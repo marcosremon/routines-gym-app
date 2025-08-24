@@ -89,7 +89,6 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                         }
 
                         final List<RoutineDTO>? routines = snapshot.data?.routines;
-
                         return (routines != null && routines.isNotEmpty)
                             ? RoutinesListView(routines: routines)
                             : const _FriendRoutinesNotFound();

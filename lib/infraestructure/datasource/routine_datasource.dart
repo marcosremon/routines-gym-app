@@ -60,7 +60,7 @@ class RoutineDatasource {
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/delete-routine',
         data: {
           'userEmail': deleteRoutineRequest.userEmail,
-          'routineId': deleteRoutineRequest.routineId,
+          'routineName': deleteRoutineRequest.routineName,
         },
       );
     
@@ -115,7 +115,7 @@ class RoutineDatasource {
         '${ApiConstants.baseUrl}${ApiConstants.routineEndpoint}/get-routine-by-routine-name',
         data: {
           'routineName': getRoutineByRoutineNameRequest.routineName,
-          'userEmail': getRoutineByRoutineNameRequest.userEmil
+          'userEmail': getRoutineByRoutineNameRequest.userEmail
         },
       );
       

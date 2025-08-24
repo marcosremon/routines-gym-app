@@ -12,14 +12,14 @@ class AddExerciseBottomSheet extends StatelessWidget {
   final TextEditingController controller;
   final String routineName;
   final String dayName;
-  final VoidCallback onExerciseAdded; // Callback para actualizar la pantalla
+  final VoidCallback onExerciseAdded; 
 
   const AddExerciseBottomSheet({
     super.key,
     required this.controller,
     required this.routineName,
     required this.dayName,
-    required this.onExerciseAdded, // Añadir el callback requerido
+    required this.onExerciseAdded, 
   });
 
   @override
@@ -57,56 +57,62 @@ class AddExerciseBottomSheet extends StatelessWidget {
             const SizedBox(height: 20),
             CustomTextField(
               hintText: 'Exercise name',
-              icon: Icons.fitness_center,
+              icon: Icons.drive_file_rename_outline, 
               controller: controller,
             ),
             const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                onPressed: () async {
-                  final ExerciseProvider exerciseProvider = ExerciseProvider();
+            GestureDetector(
+              onTap: () async {
+                final ExerciseProvider exerciseProvider = ExerciseProvider();
+                String exerciseName = controller.text.trim();
 
-                  String exerciseName = controller.text.trim();
-                  if (exerciseName.isNotEmpty) {
-                    AddExerciseRequest addExerciseRequest = AddExerciseRequest(
-                      routineName: routineName,
-                      exerciseName: exerciseName,
-                      dayName: dayName,
-                    );
+                if (exerciseName.isNotEmpty) {
+                  AddExerciseRequest addExerciseRequest = AddExerciseRequest(
+                    routineName: routineName,
+                    exerciseName: exerciseName,
+                    dayName: dayName,
+                  );
 
-                    AddExerciseResponse addExerciseResponse = await exerciseProvider.addExercise(addExerciseRequest);
-                    
-                    if (addExerciseResponse.isSuccess!) {
-                      // Llamar al callback para actualizar la pantalla
-                      onExerciseAdded();
-                      
-                      // Cerrar el bottom sheet
-                      Navigator.pop(context);
-                      
-                      // Mostrar mensaje de éxito
-                      ToastMessage.showToast('Exercise added successfully!');
-                    } else {
-                      // Mostrar mensaje de error
-                      ToastMessage.showToast(addExerciseResponse.message!);
-                    }
-                  } else {
-                    ToastMessage.showToast('Please enter an exercise name');
+                  AddExerciseResponse addExerciseResponse =
+                      await exerciseProvider.addExercise(addExerciseRequest);
+
+                  if (addExerciseResponse.isSuccess!) {
+                    onExerciseAdded();
+                    Navigator.pop(context);
                   }
-                },
-                child: const Text(
-                  'Save Exercise',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
+
+                  ToastMessage.showToast(addExerciseResponse.message!);
+                } else {
+                  ToastMessage.showToast('Please enter an exercise name');
+                }
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [primaryColor, primaryColor.withOpacity(0.8)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: primaryColor.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: const Center(
+                  child: Text(
+                    'Save Exercise',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 1.1,
+                    ),
                   ),
                 ),
               ),

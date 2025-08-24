@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/routine_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/delete_routine/delete_routine_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/delete_routine/delete_routine_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_request.dart';
@@ -126,5 +128,31 @@ class RoutineRepository {
     }
 
     return getRoutineByRoutineNameResponse;
+  }
+
+  Future<DeleteRoutineResponse> deleteRoutine(DeleteRoutineRequest deleteRoutineRequest) async 
+  {
+    DeleteRoutineResponse deleteRoutineResponse = DeleteRoutineResponse();
+    try 
+    {
+      Map<String, dynamic> data = await routineDatasource.deleteRoutine(deleteRoutineRequest);
+      if (data['responseCodeJson'] == 200) {
+        deleteRoutineResponse.isSuccess = data['isSuccess'];
+        deleteRoutineResponse.message = data['message'];
+      } else {
+        deleteRoutineResponse.isSuccess = false;
+        deleteRoutineResponse.message = data['message'] ?? 'Error getting user routines';
+      }
+      deleteRoutineResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
+    } 
+    catch (e) {
+      if (kDebugMode) {
+        print("Error getting user routines: $e");
+      }
+      deleteRoutineResponse.isSuccess = false;
+      deleteRoutineResponse.message = "Failed to deleting user routine";
+    }
+
+    return deleteRoutineResponse;
   }
 }

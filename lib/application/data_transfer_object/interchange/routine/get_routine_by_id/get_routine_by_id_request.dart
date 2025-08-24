@@ -1,9 +1,9 @@
 class GetRoutineByRoutineNameRequest {
   String? routineName;
-  String? userEmil;
+  String? userEmail;
 
   GetRoutineByRoutineNameRequest({
     this.routineName,
-    this.userEmil
+    this.userEmail
   });
 }

@@ -66,7 +66,7 @@ class ExerciseDatasource {
           'userEmail': deleteExerciseRequest.userEmail,
           'routineId': deleteExerciseRequest.routineId,
           'dayName': deleteExerciseRequest.dayName,
-          'exerciseId': deleteExerciseRequest.exerciseId,
+          'exerciseName': deleteExerciseRequest.exerciseName,
         },
       );
       

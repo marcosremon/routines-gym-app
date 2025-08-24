@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+
+class DeleteExercisePopUp extends StatelessWidget {
+  final String title;
+  final String content;
+  final VoidCallback onConfirm;
+
+  const DeleteExercisePopUp({
+    super.key,
+    required this.title,
+    required this.content,
+    required this.onConfirm,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(title),
+      content: Text(content),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text("Cancel"),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context, true);
+            onConfirm();
+          },
+          child: const Text(
+            "Remove",
+            style: TextStyle(color: Colors.red),
+          ),
+        ),
+      ],
+    );
+  }
+}

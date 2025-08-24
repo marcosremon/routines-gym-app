@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/create_routine/create_routine_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/delete_routine/delete_routine_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/delete_routine/delete_routine_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_request.dart';
@@ -38,7 +40,14 @@ class RoutineProvider extends ChangeNotifier {
   Future<GetRoutineByRoutineNameResponse> getRoutineByRoutineName(GetRoutineByRoutineNameRequest getRoutineByRoutineNameRequest) async 
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    getRoutineByRoutineNameRequest.userEmil ??= prefs.getString("userEmail");
+    getRoutineByRoutineNameRequest.userEmail ??= prefs.getString("userEmail");
     return await routineRepository.getRoutineByRoutineName(getRoutineByRoutineNameRequest);
+  }
+
+  Future<DeleteRoutineResponse> deleteRoutine(DeleteRoutineRequest deleteRoutineRequest) async 
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    deleteRoutineRequest.userEmail ??= prefs.getString("userEmail");
+    return await routineRepository.deleteRoutine(deleteRoutineRequest);
   }  
 }

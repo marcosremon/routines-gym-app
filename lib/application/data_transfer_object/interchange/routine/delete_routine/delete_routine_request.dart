@@ -1,23 +1,23 @@
 class DeleteRoutineRequest {
   String? userEmail;
-  int? routineId;
+  String? routineName;
 
   DeleteRoutineRequest({
     this.userEmail,
-    this.routineId,
+    this.routineName,
   });
 
   factory DeleteRoutineRequest.fromJson(Map<String, dynamic> json) {
     return DeleteRoutineRequest(
       userEmail: json['userEmail'],
-      routineId: json['routineId'] != null ? (json['routineId'] as num).toInt() : null,
+      routineName: json['routineName'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'userEmail': userEmail,
-      'routineId': routineId,
+      'routineName': routineName,
     };
   }
 }

@@ -1,9 +1,10 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/delete_routine/delete_routine_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/delete_routine/delete_routine_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_all_user_routines/get_all_user_routines_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/user/get/get_user_by_email/get_user_by_email_response.dart';
@@ -12,6 +13,7 @@ import 'package:routines_gym_app/application/data_transfer_object/entities/routi
 import 'package:routines_gym_app/presentation/screens/home/profile/routine_details_screen.dart';
 import 'package:routines_gym_app/presentation/widgets/bottom_sheets/profile_settings/profile_settings_bottom_sheet.dart';
 import 'package:routines_gym_app/provider/provider.dart';
+import 'package:routines_gym_app/transversal/utils/toast_message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -107,12 +109,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-class _RoutinesListView extends StatelessWidget {
-  const _RoutinesListView({
-    required Future<List<RoutineDTO>> routinesFuture,
-  }) : _routinesFuture = routinesFuture;
+class _RoutinesListView extends StatefulWidget {
+  const _RoutinesListView({required this.routinesFuture});
 
-  final Future<List<RoutineDTO>> _routinesFuture;
+  final Future<List<RoutineDTO>> routinesFuture;
+
+  @override
+  State<_RoutinesListView> createState() => _RoutinesListViewState();
+}
+
+class _RoutinesListViewState extends State<_RoutinesListView> {
+  late Future<List<RoutineDTO>> _routinesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _routinesFuture = widget.routinesFuture;
+  }
+
+  Future<void> _deleteRoutine(String routineName) async {
+    final RoutineProvider routineProvider = RoutineProvider();
+    DeleteRoutineRequest deleteRoutineRequest = DeleteRoutineRequest(
+      routineName: routineName,
+    );
+    DeleteRoutineResponse deleteRoutineResponse =
+        await routineProvider.deleteRoutine(deleteRoutineRequest);
+
+    if (deleteRoutineResponse.isSuccess!) {
+      setState(() {
+        _routinesFuture = widget.routinesFuture.then((routines) =>
+            routines.where((r) => r.routineName != routineName).toList());
+      });
+    }
+
+    ToastMessage.showToast(deleteRoutineResponse.message!);
+  }
+
+  Future<String> _getUserEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("userEmail") ?? "no-email";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +166,7 @@ class _RoutinesListView extends StatelessWidget {
             ),
           );
         }
+
         final routines = snapshot.data ?? [];
         if (routines.isEmpty) {
           return Center(
@@ -138,18 +175,11 @@ class _RoutinesListView extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.public,
-                    size: 60,
-                    color: Colors.grey,
-                  ),
+                  Icon(Icons.public, size: 60, color: Colors.grey),
                   const SizedBox(height: 16),
                   const Text(
                     "You haven't created any routines yet.",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -162,10 +192,35 @@ class _RoutinesListView extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: routines.length,
-          separatorBuilder: (_, _) => const SizedBox(height: 12),
+          separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
             final routine = routines[index];
-            return _RoutineCard(routine: routine);
+            return _RoutineCard(
+              routine: routine,
+              onDelete: () async {
+                final confirm = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text("Delete Routine"),
+                    content:
+                        const Text("Are you sure you want to delete this routine?"),
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: const Text("Cancel")),
+                      TextButton(
+                          onPressed: () => Navigator.pop(context, true),
+                          child: const Text("Delete", style: TextStyle(color: Colors.red))),
+                    ],
+                  ),
+                );
+
+                if (confirm == true) {
+                  await _deleteRoutine(routine.routineName);
+                }
+              },
+              getUserEmail: _getUserEmail,
+            );
           },
         );
       },
@@ -321,29 +376,19 @@ class _UserDataSectionState extends State<_UserDataSection> {
 
 class _RoutineCard extends StatelessWidget {
   final RoutineDTO routine;
-  const _RoutineCard({required this.routine});
+  final VoidCallback onDelete;
+  final Future<String> Function() getUserEmail;
 
-  Future<String> _getUserEmail() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("userEmail") ?? "no-email";
-  }
+  const _RoutineCard({
+    required this.routine,
+    required this.onDelete,
+    required this.getUserEmail,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(12),
-      onTap: () async {
-        final email = await _getUserEmail();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => RoutineDetailScreen(
-              routineName: routine.routineName,
-              userEmail: email,
-            ),
-          ),
-        );
-      },
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -358,31 +403,53 @@ class _RoutineCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Text(
-              routine.routineName,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    routine.routineName,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (routine.routineDescription.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(
+                        routine.routineDescription,
+                        style: const TextStyle(
+                          color: Colors.black54,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
-            if (routine.routineDescription.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Text(
-                  routine.routineDescription,
-                  style: const TextStyle(
-                    color: Colors.black54,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: onDelete,
+            ),
           ],
         ),
       ),
+      onTap: () async {
+        final email = await getUserEmail();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RoutineDetailScreen(
+              routineName: routine.routineName,
+              userEmail: email,
+            ),
+          ),
+        );
+      },
     );
   }
 }

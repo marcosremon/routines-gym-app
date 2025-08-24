@@ -3,6 +3,8 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/ex
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/add_exercise/add_exercise_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/add_exercise_progress/add_exercise_progress_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/add_exercise_progress/add_exercise_progress_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/delete_exercise/delete_exercise_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/delete_exercise/delete_exercise_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/get_exercises_by_day_and_routine_id/get_exercises_by_day_and_routine_id_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/exercise/get_exercises_by_day_and_routine_id/get_exercises_by_day_and_routine_id_response.dart';
 import 'package:routines_gym_app/infraestructure/repository/exercise_repository.dart';
@@ -34,6 +36,13 @@ class ExerciseProvider extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     addExerciseRequest.userEmail ??= prefs.getString("userEmail");
     return await exerciseRepository.addExercise(addExerciseRequest);
+  }
+
+  Future<DeleteExerciseResponse> deleteExercise(DeleteExerciseRequest deleteExerciseRequest) async 
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    deleteExerciseRequest.userEmail ??= prefs.getString("userEmail");
+    return await exerciseRepository.deleteExercise(deleteExerciseRequest);
   }
 
   void clearProgress() {
