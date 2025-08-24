@@ -84,7 +84,7 @@ class ExerciseDatasource {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.exerciseEndpoint}/add-exercise',
         data: {
-          'routineId': addExerciseRequest.routineId,
+          'routineName': addExerciseRequest.routineName,
           'exerciseName': addExerciseRequest.exerciseName,
           'dayName': addExerciseRequest.dayName,
           'userEmail': addExerciseRequest.userEmail,

@@ -9,7 +9,8 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/ex
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/routine/get_routine_by_id/get_routine_by_id_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
-import 'package:routines_gym_app/presentation/widgets/bottom_sheets/add_progress_bottom_sheet.dart';
+import 'package:routines_gym_app/presentation/widgets/bottom_sheets/exercise_details/add_new_exercise_bottom_sheet.dart';
+import 'package:routines_gym_app/presentation/widgets/bottom_sheets/exercise_details/add_progress_bottom_sheet.dart';
 import 'package:routines_gym_app/provider/exercise/exercise_provider.dart';
 import 'package:routines_gym_app/provider/routine/routine_provider.dart';
 
@@ -86,12 +87,10 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
       if (response.isSuccess! && response.exercises.isNotEmpty) {
         selectedDayIndex = index;
 
-        // ✅ CORRECCIÓN: Mapear cada ejercicio con su progress correspondiente por índice
         exercisesByDay[index] = response.exercises.asMap().entries.map((entry) {
           final exerciseIndex = entry.key;
           final exercise = entry.value;
           
-          // Obtener el progress correspondiente por índice
           final progressKeys = response.pastProgress.keys.toList();
           final progressList = exerciseIndex < progressKeys.length 
               ? response.pastProgress[progressKeys[exerciseIndex]] ?? []
@@ -265,9 +264,25 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
             ),
             IconButton(
               icon: Icon(Icons.add_circle_outline, 
-                  color: colorThemes[6], size: 28),
-              tooltip: 'add exercise',
-              onPressed: () {} // to_do
+              color: colorThemes[6], size: 28),
+             onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) {
+                    final TextEditingController controller = TextEditingController();
+                    return AddExerciseBottomSheet(
+                      controller: controller,
+                      routineName: routine!.routineName,
+                      dayName: day.dayName.toString(),
+                      onExerciseAdded: () async {
+                        await _onDaySelected(selectedDayIndex!);
+                      },
+                    );
+                  },
+                );
+              }
             ),
           ],
         ),
