@@ -1,9 +1,9 @@
 class DeleteFriendRequest {
-  String userEmail;
+  String? userEmail;
   String friendEmail;
 
   DeleteFriendRequest({
-    required this.userEmail,
+    this.userEmail,
     required this.friendEmail,
   });
 

@@ -46,7 +46,7 @@ class FriendDatasource {
     return data;
   }
 
-  Future<Map<String, dynamic>> deleteFriend(DeleteFriendRequest deleteFriendRequest) async {
+  Future<Map<String, dynamic>> removeFriend(DeleteFriendRequest deleteFriendRequest) async {
     Map<String, dynamic> data = {};
     try {
       dynamic response = await dio.post(

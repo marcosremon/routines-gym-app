@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:routines_gym_app/application/data_transfer_object/entities/user_dto.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/delete_friend/delete_friend_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/delete_friend/delete_friend_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_response.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/screens/home/social/friend_profile_screen.dart';
@@ -55,7 +57,10 @@ class _SocialScreenState extends State<SocialScreen> {
                 }
                 final List<UserDTO>? friends = snapshot.data?.friends;
                 return (friends != null && friends.isNotEmpty)
-                    ? _FriendsFound(friends: friends)
+                    ? _FriendsFound(
+                        friends: friends,
+                        onFriendRemoved: _refreshFriends,
+                      )
                     : _FriendsNotFound();
               },
             ),
@@ -87,7 +92,42 @@ class _SocialScreenState extends State<SocialScreen> {
 
 class _FriendsFound extends StatelessWidget {
   final List<UserDTO> friends;
-  const _FriendsFound({required this.friends});
+  final VoidCallback onFriendRemoved;
+
+  const _FriendsFound({required this.friends, required this.onFriendRemoved});
+
+  Future<void> _removeFriend(BuildContext context, UserDTO friend) async {
+    final FriendProvider friendProvider = FriendProvider();
+
+    final bool confirm = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Remove Friend"),
+        content: Text(
+            "Are you sure you want to remove ${friend.username.isNotEmpty ? friend.username : friend.email}?"),
+        actions: [
+          TextButton(
+            child: const Text("Cancel"),
+            onPressed: () => Navigator.pop(context, false),
+          ),
+          TextButton(
+            child: const Text("Remove", style: TextStyle(color: Colors.red)),
+            onPressed: () => Navigator.pop(context, true),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm) {
+      DeleteFriendRequest deleteFriendRequest = DeleteFriendRequest(
+        friendEmail: friend.email
+      );
+
+      DeleteFriendResponse deleteFriendResponse = await friendProvider.removeFriend(deleteFriendRequest);
+      ToastMessage.showToast(deleteFriendResponse.message!);
+      onFriendRemoved();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +140,7 @@ class _FriendsFound extends StatelessWidget {
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
-            color: colorThemes[17], 
+            color: colorThemes[17],
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: const Color(0xFFD6CBB8), width: 1),
           ),
@@ -114,15 +154,18 @@ class _FriendsFound extends StatelessWidget {
                 color: Colors.black87,
               ),
             ),
-            onTap: () =>  {
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => FriendProfileScreen(friend: friend),
                 ),
-              )
-            }
-
+              );
+            },
+            trailing: IconButton(
+              icon: const Icon(Icons.person_remove, color: Colors.red),
+              onPressed: () => _removeFriend(context, friend),
+            ),
           ),
         );
       },
@@ -198,7 +241,6 @@ class _SearchFriends extends StatelessWidget {
                 color: colorThemes[13],
               ),
               const SizedBox(width: 10),
-
               Expanded(
                 child: TextField(
                   controller: _controller,
@@ -209,20 +251,27 @@ class _SearchFriends extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                     suffixIcon: Padding(
                       padding: const EdgeInsets.only(right: 5.0),
                       child: IconButton(
-                        icon: Icon(Icons.person_add_alt_1_rounded, color: colorThemes[10]),
+                        icon: Icon(Icons.person_add_alt_1_rounded,
+                            color: colorThemes[10]),
                         onPressed: () async {
-                          AddNewUserFriendRequest addNewUserFriendRequest = AddNewUserFriendRequest(
+                          AddNewUserFriendRequest addNewUserFriendRequest =
+                              AddNewUserFriendRequest(
                             friendCode: _controller.text.trim(),
                           );
-                          AddNewUserFriendResponse addNewUserFriendResponse = await _friendProvider.addNewUserFriend(addNewUserFriendRequest);
-                          ToastMessage.showToast(addNewUserFriendResponse.message!);
+                          AddNewUserFriendResponse
+                              addNewUserFriendResponse =
+                              await _friendProvider.addNewUserFriend(
+                                  addNewUserFriendRequest);
+                          ToastMessage.showToast(
+                              addNewUserFriendResponse.message!);
 
                           if (addNewUserFriendResponse.isSuccess!) {
-                            onFriendAdded(); 
+                            onFriendAdded();
                           }
                         },
                       ),

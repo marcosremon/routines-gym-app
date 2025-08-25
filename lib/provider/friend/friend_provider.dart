@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/add_new_user_friend/add_new_user_friend_response.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/delete_friend/delete_friend_request.dart';
+import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/delete_friend/delete_friend_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/friend/get_all_user_friends/get_all_user_friends_response.dart';
 import 'package:routines_gym_app/infraestructure/repository/friend_repository.dart';
@@ -25,4 +27,10 @@ class FriendProvider extends ChangeNotifier {
     return await friendRepository.addNewUserFriend(addNewUserFriendRequest);
   }
 
+  Future<DeleteFriendResponse> removeFriend(DeleteFriendRequest deleteFriendRequest) async 
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    deleteFriendRequest.userEmail = prefs.getString("userEmail") ?? "";
+    return await friendRepository.removeFriend(deleteFriendRequest);
+  }
 }
