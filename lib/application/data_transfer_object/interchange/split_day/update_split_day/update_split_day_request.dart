@@ -1,11 +1,11 @@
 class UpdateSplitDayRequest {
-  int? routineId;
+  String? routineName;
   String userEmail;
   List<String> addDays;
   List<String> deleteDays;
 
   UpdateSplitDayRequest({
-    this.routineId,
+    this.routineName,
     required this.userEmail,
     required this.addDays,
     required this.deleteDays,
@@ -13,7 +13,7 @@ class UpdateSplitDayRequest {
 
   factory UpdateSplitDayRequest.fromJson(Map<String, dynamic> json) {
     return UpdateSplitDayRequest(
-      routineId: json['routineId'] != null ? (json['routineId'] as num).toInt() : null,
+      routineName: json['routineName'],
       userEmail: json['userEmail'] ?? '',
       addDays: List<String>.from(json['addDays'] ?? []),
       deleteDays: List<String>.from(json['deleteDays'] ?? []),
@@ -22,7 +22,7 @@ class UpdateSplitDayRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      'routineId': routineId,
+      'routineName': routineName,
       'userEmail': userEmail,
       'addDays': addDays,
       'deleteDays': deleteDays,

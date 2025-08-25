@@ -9,6 +9,7 @@ import 'package:routines_gym_app/presentation/screens/home/home_screen.dart';
 import 'package:routines_gym_app/presentation/screens/welcome/welcome_screen.dart';
 import 'package:routines_gym_app/provider/exercise/exercise_provider.dart';
 import 'package:routines_gym_app/provider/provider.dart';
+import 'package:routines_gym_app/provider/split_day/split_day_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FriendProvider()),
         ChangeNotifierProvider(create: (_) => RoutineProvider()),
         ChangeNotifierProvider(create: (_) => ExerciseProvider()),
+        ChangeNotifierProvider(create: (_) => SplitDayProvider()),
         ChangeNotifierProvider(create: (_) => RoutineController()), 
         ChangeNotifierProvider(create: (_) => StepTracker()),
       ],
@@ -90,12 +92,8 @@ Future<void> requestPermissions() async {
 }
 
 void scheduleDailyReset() async {
-  final now = DateTime.now();
-  final nextMidnight = DateTime(now.year, now.month, now.day + 1);
-  final durationUntilMidnight = nextMidnight.difference(now);
-
   await AndroidAlarmManager.oneShot(
-    durationUntilMidnight,
+    const Duration(minutes: 2), // <--- cambio aquí para pruebas
     0,
     dailyResetCallback,
     exact: true,

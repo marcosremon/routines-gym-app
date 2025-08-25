@@ -14,7 +14,7 @@ class SplitDayDatasource {
       dynamic response = await dio.post(
         '${ApiConstants.baseUrl}${ApiConstants.splitDayEndpoint}/update-split-day',
         data: {
-          'routineId': updateSplitDayRequest.routineId,
+          'routineName': updateSplitDayRequest.routineName,
           'userEmail': updateSplitDayRequest.userEmail,
           'addDays': updateSplitDayRequest.addDays,
           'deleteDays': updateSplitDayRequest.deleteDays,

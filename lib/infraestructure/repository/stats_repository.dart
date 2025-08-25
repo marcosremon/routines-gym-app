@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/stats/get_stats/get_stats_response.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/stats/set_daily_steps/set_daily_steps_request.dart';
 import 'package:routines_gym_app/application/data_transfer_object/interchange/stats/set_daily_steps/set_daily_steps_response.dart';
@@ -48,9 +47,8 @@ class StatsRepository {
       getStatsResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
       return getStatsResponse;
     } catch (ex) {
-      if (kDebugMode) {
-        print('Unexpected error on StatsRepository -> getStats: ${ex.toString()}');
-      }
+      getStatsResponse.isSuccess = false;
+      getStatsResponse.message = 'Unexpected error on StatsRepository -> getStats';
     }
     return getStatsResponse;
   }

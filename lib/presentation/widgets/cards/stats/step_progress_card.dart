@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/controller/stats/steps_tracker.dart';
-import 'package:routines_gym_app/presentation/widgets/bottom_sheets/daily_steps_goal_bottom_sheet.dart';
+import 'package:routines_gym_app/presentation/widgets/bottom_sheets/steps/daily_steps_goal_bottom_sheet.dart';
 
 class StepProgressCard extends StatelessWidget {
   final int currentSteps;

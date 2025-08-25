@@ -13,6 +13,7 @@ import 'package:routines_gym_app/application/data_transfer_object/interchange/ro
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/widgets/bottom_sheets/exercise_details/add_new_exercise_bottom_sheet.dart';
 import 'package:routines_gym_app/presentation/widgets/bottom_sheets/exercise_details/add_progress_bottom_sheet.dart';
+import 'package:routines_gym_app/presentation/widgets/bottom_sheets/profile/edit_split_day_bottom_sheet.dart';
 import 'package:routines_gym_app/presentation/widgets/pop-up/delete_exercise_pop_up.dart';
 import 'package:routines_gym_app/provider/exercise/exercise_provider.dart';
 import 'package:routines_gym_app/provider/routine/routine_provider.dart';
@@ -125,18 +126,42 @@ class _RoutineDetailScreenState extends State<RoutineDetailScreen> {
           : Column(
               children: [
                 Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Select the day',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Select the day',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.edit_calendar, color: colorThemes[6]),
+                            tooltip: "Edit split days",
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) {
+                                  return EditSplitDaysBottomSheet(
+                                    routine: routine!,
+                                    userEmail: widget.userEmail, 
+                                    onSplitDaysUpdated: () async {
+                                      await _loadRoutine(); 
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 12),
                       _buildDaySelector(routine!.splitDays),

@@ -61,7 +61,7 @@ class UserRepository {
       getUserByEmailResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       getUserByEmailResponse.isSuccess = false;
-      getUserByEmailResponse.message = 'Unexpected error on UserRepository -> createUser';
+      getUserByEmailResponse.message = 'Unexpected error on UserRepository -> getUsersByEmail';
     }
     
     return getUserByEmailResponse;
@@ -196,7 +196,7 @@ class UserRepository {
       changePasswordWithPasswordAndEmailResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       changePasswordWithPasswordAndEmailResponse.isSuccess = false;
-      changePasswordWithPasswordAndEmailResponse.message = 'Unexpected error on UserRepository -> changePasswordWithPasswordAndEmail';
+      changePasswordWithPasswordAndEmailResponse.message = 'Unexpected error on UserRepository -> createNewPassword';
     }
     return changePasswordWithPasswordAndEmailResponse;
   }
@@ -221,7 +221,7 @@ class UserRepository {
       getUserProfileDetilesResponse.responseCode = ResponseCodes.fromValue(data['responseCodeJson']);
     } catch (ex) {
       getUserProfileDetilesResponse.isSuccess = false;
-      getUserProfileDetilesResponse.message = 'Unexpected error on UserRepository -> changePasswordWithPasswordAndEmail';
+      getUserProfileDetilesResponse.message = 'Unexpected error on UserRepository -> getUserProfileDetails';
     }
 
     return getUserProfileDetilesResponse;
