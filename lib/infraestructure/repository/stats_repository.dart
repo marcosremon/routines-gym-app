@@ -8,11 +8,11 @@ import 'package:routines_gym_app/transversal/common/response_codes.dart';
 class StatsRepository {
   final StatsDatasource statsDatasource = StatsDatasource();
 
-  Future<SetDailyStepsResponse> setDailySteps(SetDailyStepsRequest setDailyStepsRequest) async 
+  Future<SaveDailyStepsResponse> saveDailySteps(SaveDailyStepsRequest setDailyStepsRequest) async 
   {
-    SetDailyStepsResponse setDailyStepsResponse = SetDailyStepsResponse();
+    SaveDailyStepsResponse setDailyStepsResponse = SaveDailyStepsResponse();
     try {
-      Map<String, dynamic> data = await statsDatasource.setDailySteps(setDailyStepsRequest);
+      Map<String, dynamic> data = await statsDatasource.saveDailySteps(setDailyStepsRequest);
       if (data['responseCodeJson'] == 200) {
         setDailyStepsResponse.isSuccess = data['isSuccess'];
         setDailyStepsResponse.message = data['message'];

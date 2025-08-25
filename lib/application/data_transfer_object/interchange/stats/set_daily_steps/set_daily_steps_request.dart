@@ -1,7 +1,9 @@
-class SetDailyStepsRequest {
+class SaveDailyStepsRequest {
   final int steps;
-  final int limitStepsPerDay;
-  final DateTime date;
+  String? userEmail;
 
-  SetDailyStepsRequest({required this.steps, required this.limitStepsPerDay, required this.date});
+  SaveDailyStepsRequest({
+    required this.steps,
+    this.userEmail,
+  });
 }

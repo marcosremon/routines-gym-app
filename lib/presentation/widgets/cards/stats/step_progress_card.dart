@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
-import 'package:routines_gym_app/presentation/controller/stats/steps_tracker.dart';
-import 'package:routines_gym_app/presentation/widgets/bottom_sheets/steps/daily_steps_goal_bottom_sheet.dart';
 
 class StepProgressCard extends StatelessWidget {
   final int currentSteps;
   final int dailyGoal;
-  final StepTracker stepTracker;
 
   const StepProgressCard({
     super.key,
     required this.currentSteps,
     required this.dailyGoal,
-    required this.stepTracker,
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -55,23 +50,11 @@ class StepProgressCard extends StatelessWidget {
                   color: colorThemes[10],
                 ),
               ),
-             TextButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.white, 
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                    ),
-                    builder: (context) => DailyStepsGoalBottomSheet(stepTracker: stepTracker),
-                  );
-                },
-                child: Text(
-                  '$dailyGoal steps goal',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: colorThemes[10],
-                  ),
+              Text(
+                '$dailyGoal steps goal',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: colorThemes[10],
                 ),
               ),
             ],

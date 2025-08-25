@@ -1,7 +1,5 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:routines_gym_app/application/data_transfer_object/interchange/stats/set_daily_steps/set_daily_steps_request.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/presentation/controller/routine/routine_controller.dart';
 import 'package:routines_gym_app/presentation/controller/stats/steps_tracker.dart';
@@ -10,38 +8,40 @@ import 'package:routines_gym_app/presentation/screens/welcome/welcome_screen.dar
 import 'package:routines_gym_app/provider/exercise/exercise_provider.dart';
 import 'package:routines_gym_app/provider/provider.dart';
 import 'package:routines_gym_app/provider/split_day/split_day_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await AndroidAlarmManager.initialize();
-  await requestPermissions(); 
+  await requestPermissions();
   runApp(const MyApp());
-  scheduleDailyReset();
+}
+
+Future<void> requestPermissions() async {
+  var status = await Permission.activityRecognition.status;
+  if (!status.isGranted) {
+    await Permission.activityRecognition.request();
+  }
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) {
-            final AuthProvider auth = AuthProvider();
-            auth.init(); 
-            return auth;
-          },
-        ),
+        ChangeNotifierProvider(create: (_) {
+          final auth = AuthProvider();
+          auth.init();
+          return auth;
+        }),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => StatsProvider()),
         ChangeNotifierProvider(create: (_) => FriendProvider()),
         ChangeNotifierProvider(create: (_) => RoutineProvider()),
         ChangeNotifierProvider(create: (_) => ExerciseProvider()),
         ChangeNotifierProvider(create: (_) => SplitDayProvider()),
-        ChangeNotifierProvider(create: (_) => RoutineController()), 
+        ChangeNotifierProvider(create: (_) => RoutineController()),
         ChangeNotifierProvider(create: (_) => StepTracker()),
       ],
       child: Consumer<AuthProvider>(
@@ -58,46 +58,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
-
-@pragma('vm:entry-point') 
-Future<void> dailyResetCallback() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  final prefs = await SharedPreferences.getInstance();
-  final stepsToday = prefs.getInt('stepsToday') ?? 0;
-
-  final statsProvider = StatsProvider();
-  final request = SetDailyStepsRequest(
-    steps: stepsToday,
-    limitStepsPerDay: prefs.getInt('dailyGoal') ?? 10000,
-    date: DateTime.now().subtract(const Duration(days: 1)),
-  );
-
-  final response = await statsProvider.setDailySteps(request);
-  
-  debugPrint("Daily reset: ${response.message}");
-
-  prefs.setInt('stepsToday', 0);
-  prefs.setString('lastResetDate', DateTime.now().toIso8601String());
-
-  scheduleDailyReset();
-}
-
-Future<void> requestPermissions() async {
-  var status = await Permission.activityRecognition.status;
-  if (!status.isGranted) {
-    await Permission.activityRecognition.request();
-  }
-}
-
-void scheduleDailyReset() async {
-  await AndroidAlarmManager.oneShot(
-    const Duration(minutes: 2), // <--- cambio aquí para pruebas
-    0,
-    dailyResetCallback,
-    exact: true,
-    wakeup: true,
-    rescheduleOnReboot: true,
-  );
 }

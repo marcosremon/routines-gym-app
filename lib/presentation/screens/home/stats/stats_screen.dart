@@ -1,71 +1,121 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:routines_gym_app/configuration/theme/app_theme.dart';
 import 'package:routines_gym_app/domain/model/entities/stat.dart';
 import 'package:routines_gym_app/presentation/controller/stats/steps_tracker.dart';
 import 'package:routines_gym_app/presentation/widgets/cards/stats/step_progress_card.dart';
 
+import 'package:provider/provider.dart'; // Asegúrate de importar esto
+
 class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final StepTracker stepTracker = Provider.of<StepTracker>(context);
-
     return Scaffold(
       backgroundColor: colorThemes[17],
       appBar: _appBar(),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          StepProgressCard(
-            currentSteps: stepTracker.stepsToday,
-            dailyGoal: stepTracker.dailyGoal,
-            stepTracker: stepTracker,
-          ),
-          const SizedBox(height: 30),
+      body: Consumer<StepTracker>(
+        builder: (context, stepTracker, _) {
+          final statsList = stepTracker.completeDays;
 
-          _buildStatsList(stepTracker),
-        ],
+          return ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              StepProgressCard(
+                currentSteps: stepTracker.stepsToday,
+                dailyGoal: stepTracker.dailyGoal,
+              ),
+              const SizedBox(height: 30),
+              Text(
+                "Daily History",
+                style: TextStyle(
+                  color: colorThemes[10],
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              _buildStatsList(statsList),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildStatsList(StepTracker stepTracker) {
-    final List<Stats> completeDays = stepTracker.completeDays;
-
-    if (completeDays.isEmpty) {
-      return const Center(
-        child: Text(
-          "No data available",
-          style: TextStyle(color: Colors.grey, fontSize: 16),
+  Widget _buildStatsList(List<Stats> statsList) {
+    if (statsList.isEmpty) {
+      return const Padding(
+        padding: EdgeInsets.only(top: 40),
+        child: Center(
+          child: Text(
+            "No data available yet",
+            style: TextStyle(color: Colors.grey, fontSize: 16),
+          ),
         ),
       );
     }
 
-    return ListView.separated(
+    return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: completeDays.length,
-      separatorBuilder: (_, _) => const Divider(color: Colors.grey),
+      itemCount: statsList.length,
       itemBuilder: (context, index) {
-        final stat = completeDays[index];
-        return ListTile(
-          leading: const Icon(Icons.calendar_today, color: Colors.white),
-          title: Text(
-            DateFormat('dd/MM/yyyy').format(stat.date),
-            style: TextStyle(
-              color: colorThemes[10],
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          trailing: Text(
-            "${stat.steps} steps",
-            style: TextStyle(
-              color: colorThemes[10],
-              fontSize: 16,
+        final stat = statsList[index];
+        return Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          color: colorThemes[16],
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.calendar_month, color: Colors.white, size: 28),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          DateFormat('EEEE').format(stat.date),
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          DateFormat('dd MMMM yyyy').format(stat.date),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Icon(Icons.directions_walk, color: Colors.white, size: 24),
+                    const SizedBox(height: 4),
+                    Text(
+                      "${stat.steps} steps",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         );

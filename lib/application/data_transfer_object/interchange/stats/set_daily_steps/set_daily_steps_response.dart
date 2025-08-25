@@ -1,7 +1,7 @@
 import 'package:routines_gym_app/transversal/common/base_response.dart';
 
-class SetDailyStepsResponse extends BaseResponse {
-  SetDailyStepsResponse({
+class SaveDailyStepsResponse extends BaseResponse {
+  SaveDailyStepsResponse({
     super.message,
     bool super.isSuccess = true,
   });
